@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, Paper } from "@mui/material";
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
+  BarChart, Bar, XAxis, YAxis, Tooltip,
   Legend, ResponsiveContainer,
 } from "recharts";
 
