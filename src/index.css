@@ -1,0 +1,20 @@
+:root {
+  --primary: #0EA5E9;
+  --success: #8AC642;
+  --warning: #FFA500;
+  --gray: #84919A;
+  --dark: #0D0F12;
+  --white: #FFFFFF;
+  --bgLight:#8AC6421A;  
+  --font-xs:   0.75rem;   /* 12px */
+  --font-base: 0.875rem;  /* 14px */
+  --font-sm:   1rem;      /* 16px */
+  --font-xl:   2.25rem;   /* 36px */
+  --font-h3: 2rem; /* 32px */
+
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+}
