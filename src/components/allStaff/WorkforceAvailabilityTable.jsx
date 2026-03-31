@@ -1,11 +1,27 @@
 import React, { useState } from "react";
 import {
-  Box, Typography, Avatar, Button, Paper,
-  InputAdornment, TextField,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Box,
+  Typography,
+  Avatar,
+  Button,
+  Paper,
+  InputAdornment,
+  TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { ROW_BORDER, HEADER_BORDER, TABLE_BG } from "./StaffTableStyles";
+import {
+  ROW_BORDER,
+  HEADER_BORDER,
+  TABLE_BG,
+  searchFieldSx,
+  tableHeaderSx,
+} from "./StaffTableStyles";
 
 const staffRows = [
   {
@@ -50,16 +66,16 @@ const staffRows = [
   },
 ];
 
-const AVATAR_COLORS = {
-  1: "linear-gradient(135deg,#7c3aed,#a78bfa)",
-  2: "linear-gradient(135deg,#059669,#34d399)",
-  3: "linear-gradient(135deg,#ea580c,#fb923c)",
-  4: "linear-gradient(135deg,#2563eb,#60a5fa)",
-};
 
 const TODAY_STATUS_STYLES = {
-  "FULLY OCCUPIED": { color: "#0EA5E9", fontWeight: 700 },
-  "AVAILABLE":      { color: "#22c55e", fontWeight: 700 },
+  "FULLY OCCUPIED": { 
+    color: "primary.main", 
+    bgcolor: "background.default", 
+  },
+  AVAILABLE: { 
+    color: "#528910", 
+    bgcolor: "#DCFCE7" 
+  },
 };
 
 const DAY_LABELS = ["M", "T", "W", "T", "F", "S", "S"];
@@ -71,13 +87,25 @@ function WeeklyCoverage({ days }) {
         <Box
           key={i}
           sx={{
-            width: 22, height: 22, borderRadius: "5px",
-            bgcolor: active ? "rgba(14,165,233,0.18)" : "rgba(0,0,0,0.05)",
-            border: active ? "1.5px solid rgba(14,165,233,0.5)" : "1.5px solid rgba(0,0,0,0.08)",
-            display: "flex", alignItems: "center", justifyContent: "center",
+            width: 20,
+            height: 20,
+            borderRadius: "4px",
+            bgcolor: active ? "rgba(14,165,233,0.18)" : "background.default",
+            border: active
+              ? "1.5px solid rgba(14,165,233,0.5)"
+              : "1.5px solid background.default",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <Typography sx={{ fontSize: "0.55rem", fontWeight: 700, color: active ? "#0EA5E9" : "#94a3b8" }}>
+          <Typography
+            sx={{
+              fontSize: "8px",
+              fontWeight: 700,
+              color: active ? "#0EA5E9" : "#CBD5E1",
+            }}
+          >
             {DAY_LABELS[i]}
           </Typography>
         </Box>
@@ -89,11 +117,36 @@ function WeeklyCoverage({ days }) {
 function WorkloadBar({ hours, max }) {
   const pct = Math.min(hours / max, 1) * 100;
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: 1.2, minWidth: 120 }}>
-      <Box sx={{ flex: 1, height: 7, borderRadius: 4, bgcolor: "rgba(0,0,0,0.07)", overflow: "hidden" }}>
-        <Box sx={{ width: `${pct}%`, height: "100%", borderRadius: 4, bgcolor: "#f97316", transition: "width 0.4s ease" }} />
+    <Box
+      sx={{ display: "flex", alignItems: "center", gap: 1.2, minWidth: 90 }}
+    >
+      <Box
+        sx={{
+          flex: 1,
+          height: 6,
+          borderRadius: 4,
+          bgcolor: "background.default",
+          overflow: "hidden",
+        }}
+      >
+        <Box
+          sx={{
+            width: `${pct}%`,
+            height: 6,
+            borderRadius: 4,
+            bgcolor: "#FB923C",
+            transition: "width 0.4s ease",
+          }}
+        />
       </Box>
-      <Typography sx={{ fontSize: "0.72rem", fontWeight: 700, color: "#64748b", minWidth: 28 }}>
+      <Typography
+        sx={{
+          fontSize: "10px",
+          fontWeight: 700,
+          color: "text.primary",
+          minWidth: 28,
+        }}
+      >
         {hours}h
       </Typography>
     </Box>
@@ -113,18 +166,36 @@ export default function WorkforceAvailabilityTable() {
   });
 
   return (
-    <Paper elevation={0} sx={{ border: HEADER_BORDER, borderRadius: 4, overflow: "hidden" }}>
-      <Box sx={{
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        px: 2.5, py: 1.6, bgcolor: TABLE_BG, flexWrap: "wrap", gap: 1.5,
-      }}>
+    <Paper
+      elevation={0}
+      sx={{ border: HEADER_BORDER, borderRadius: 4, overflow: "hidden" }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          px: 2.5,
+          py: 1.6,
+          bgcolor: TABLE_BG,
+          flexWrap: "wrap",
+          gap: 1.5,
+        }}
+      >
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Typography sx={{ fontWeight: 700, fontSize: "0.95rem", color: "text.primary", whiteSpace: "nowrap" }}>
+          <Typography
+            sx={{
+              fontWeight: 700,
+              fontSize: "14px",
+              color: "text.primary",
+              whiteSpace: "nowrap",
+            }}
+          >
             Workforce Availability
           </Typography>
           <TextField
             size="small"
-            placeholder="Search staff..."
+            placeholder="Search staff"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             InputProps={{
@@ -135,11 +206,8 @@ export default function WorkforceAvailabilityTable() {
               ),
             }}
             sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: 3, fontSize: "0.78rem",
-                bgcolor: "background.paper", height: 32,
-              },
-              width: 200,
+              ...searchFieldSx,
+              width: 256,
             }}
           />
         </Box>
@@ -150,12 +218,27 @@ export default function WorkforceAvailabilityTable() {
             variant={showAvailableOnly ? "contained" : "outlined"}
             onClick={() => setShowAvailableOnly((v) => !v)}
             sx={{
-              borderRadius: 2, textTransform: "none", fontSize: "0.72rem", fontWeight: 700,
-              py: 0.5, px: 1.6, height: 32,
+              borderRadius: 2,
+              textTransform: "none",
+              fontSize: "12px",
+              fontWeight: 700,
+              px: 1.97,
+              height: 29.6,
               ...(showAvailableOnly
-                ? { bgcolor: "#0EA5E9", color: "#fff", "&:hover": { bgcolor: "#0284c7" } }
-                : { borderColor: "rgba(14,165,233,0.4)", color: "#0EA5E9",
-                    "&:hover": { borderColor: "#0EA5E9", bgcolor: "rgba(14,165,233,0.06)" } }),
+                ? {
+                    bgcolor: "#0EA5E9",
+                    color: "#fff",
+                    "&:hover": { bgcolor: "#0284c7" },
+                  }
+                : {
+                    borderColor: "#E2E8F0",
+                    color: "text.primary",
+                    bgcolor: "background.default",
+                    "&:hover": {
+                      borderColor: "#0EA5E9",
+                      bgcolor: "rgba(14,165,233,0.06)",
+                    },
+                  }),
             }}
           >
             Show Available Only
@@ -164,10 +247,19 @@ export default function WorkforceAvailabilityTable() {
             size="small"
             variant="outlined"
             sx={{
-              borderRadius: 2, textTransform: "none", fontSize: "0.72rem", fontWeight: 700,
-              py: 0.5, px: 1.6, height: 32,
-              borderColor: "rgba(14,165,233,0.4)", color: "#0EA5E9",
-              "&:hover": { borderColor: "#0EA5E9", bgcolor: "rgba(14,165,233,0.06)" },
+              borderRadius: 2,
+              textTransform: "none",
+              fontSize: "12px",
+              fontWeight: 700,
+              px: 1.97,
+              height: 29.6,
+              borderColor: "#E2E8F0",
+              color: "text.primary",
+              bgcolor: "background.default",
+              "&:hover": {
+                borderColor: "#0EA5E9",
+                bgcolor: "rgba(14,165,233,0.06)",
+              },
             }}
           >
             Select Date Range
@@ -179,12 +271,15 @@ export default function WorkforceAvailabilityTable() {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              {["Staff Member", "Today's Status", "Weekly Coverage", "Workload", "Next Available", ""].map((h) => (
-                <TableCell key={h} sx={{
-                  bgcolor: "background.paper", fontSize: "0.65rem", fontWeight: 700,
-                  color: "text.secondary", textTransform: "uppercase", letterSpacing: 0.5,
-                  borderBottom: ROW_BORDER, whiteSpace: "nowrap", py: 1.5,
-                }}>
+              {[
+                "Staff Member",
+                "Today's Status",
+                "Weekly Coverage",
+                "Workload",
+                "Next Available",
+                "",
+              ].map((h) => (
+                <TableCell key={h} sx={tableHeaderSx}>
                   {h}
                 </TableCell>
               ))}
@@ -194,53 +289,118 @@ export default function WorkforceAvailabilityTable() {
           <TableBody sx={{ backgroundColor: TABLE_BG }}>
             {filtered.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} align="center" sx={{ py: 5, border: "none" }}>
-                  <Typography color="text.secondary" fontSize="0.88rem">No staff members found.</Typography>
+                <TableCell
+                  colSpan={6}
+                  align="center"
+                  sx={{ py: 5, border: "none" }}
+                >
+                  <Typography color="text.secondary" fontSize="0.88rem">
+                    No staff members found.
+                  </Typography>
                 </TableCell>
               </TableRow>
-            ) : filtered.map((row) => (
-              <TableRow key={row.id} sx={{
-                "&:hover": { bgcolor: "rgba(115,211,255,0.08)" },
-                transition: "background 0.15s ease",
-                "&:last-child td, &:last-child th": { border: "none" },
-              }}>
-                <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1.4 }}>
-                    <Avatar sx={{ width: 36, height: 36, fontSize: "0.82rem", backgroundImage: AVATAR_COLORS[row.id] }}>
-                      {row.name[0]}
-                    </Avatar>
-                    <Box>
-                      <Typography fontWeight={700} fontSize="0.85rem" color="text.primary">{row.name}</Typography>
-                      <Typography fontSize="0.68rem" color="text.secondary">{row.role}</Typography>
+            ) : (
+              filtered.map((row) => (
+                <TableRow
+                  key={row.id}
+                  sx={{
+                    "&:hover": { bgcolor: "rgba(115,211,255,0.08)" },
+                    transition: "background 0.15s ease",
+                    "&:last-child td, &:last-child th": { border: "none" },
+                  }}
+                >
+                  <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
+                    <Box
+                      sx={{ display: "flex", alignItems: "center", gap: 1.5 }}
+                    >
+                      <Avatar
+                        sx={{
+                          width: 32,
+                          height: 32,
+                          fontSize: "12px",
+                          bgcolor: "text.paper",
+                          fontWeight: 700,
+                          color: "text.primary",
+                        }}
+                      >
+                        {row.name[0]}
+                      </Avatar>
+                      <Box>
+                        <Typography
+                          fontWeight={600}
+                          fontSize="body1"
+                          color="text.primary"
+                        >
+                          {row.name}
+                        </Typography>
+                        <Typography
+                          fontSize="10px"
+                          fontWeight="400"
+                          color="text.light"
+                        >
+                          {row.role}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                </TableCell>
-                <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
-                  <Typography sx={{ fontSize: "0.72rem", ...(TODAY_STATUS_STYLES[row.todayStatus] ?? { color: "#64748b", fontWeight: 600 }) }}>
-                    {row.todayStatus}
-                  </Typography>
-                </TableCell>
-                <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
-                  <WeeklyCoverage days={row.weeklyDays} />
-                </TableCell>
-                <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
-                  <WorkloadBar hours={row.workloadHours} max={row.workloadMax} />
-                </TableCell>
-                <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
-                  <Typography fontSize="0.78rem" color="text.secondary" whiteSpace="nowrap">
-                    {row.nextAvailable}
-                  </Typography>
-                </TableCell>
-                <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
-                  <Button size="small" variant="text" sx={{
-                    borderRadius: 1.5, textTransform: "none", fontSize: "0.7rem", fontWeight: 700,
-                    py: 0.3, px: 1.2, color: "#0EA5E9",
-                    "&:hover": { bgcolor: "rgba(14,165,233,0.08)" },
-                    whiteSpace: "nowrap",
-                  }}>ASSIGN SHIFT</Button>
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                  <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
+                    <Typography
+                      sx={{
+                        fontSize: "10px",
+                        fontWeight: 700,
+                        display: "inline-flex",
+                        px: 1,
+                        py: 0.4,
+                        borderRadius: "4px",
+                        ...(TODAY_STATUS_STYLES[row.todayStatus] ?? {
+                          color: "#64748b",
+                          fontWeight: 600,
+                        }),
+                      }}
+                    >
+                      {row.todayStatus}
+                    </Typography>
+                  </TableCell>
+                  <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
+                    <WeeklyCoverage days={row.weeklyDays} />
+                  </TableCell>
+                  <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
+                    <WorkloadBar
+                      hours={row.workloadHours}
+                      max={row.workloadMax}
+                    />
+                  </TableCell>
+                  <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
+                    <Typography
+                      fontSize="12px"
+                      color="text.light"
+                      whiteSpace="nowrap"
+                    >
+                      {row.nextAvailable}
+                    </Typography>
+                  </TableCell>
+                  <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
+                    <Button
+                      size="small"
+                      variant="text"
+                      sx={{
+                        borderRadius: 1.5,
+                        textTransform: "none",
+                        fontSize: "10px",
+                        fontWeight: 700,
+                        py: 0.3,
+                        px: 1.2,
+                        color: "primary.main",
+                        "&:hover": { bgcolor: "rgba(14,165,233,0.08)" },
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      ASSIGN SHIFT
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>

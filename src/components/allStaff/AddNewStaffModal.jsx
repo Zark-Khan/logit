@@ -29,7 +29,7 @@ function SectionHeader({ number, label, bgcolor ,color }) {
 const inputSx = {
   "& .MuiOutlinedInput-root": {
     borderRadius: 2, fontSize: "0.82rem",
-    "& fieldset": { borderColor: "#E9EDF0" },
+    "& fieldset": { borderColor: "#E2E8F0" },
     "&:hover fieldset": { borderColor: "#0EA5E9" },
     "&.Mui-focused fieldset": { borderColor: "#0EA5E9", borderWidth: "1.5px" },
   },
@@ -43,9 +43,9 @@ const labelSx = {
 
 const selectSx = {
   borderRadius: 2, fontSize: "0.82rem",
-  "& fieldset": { borderColor: "#E9EDF0" },
-  "&:hover fieldset": { borderColor: "#0EA5E9" },
-  "&.Mui-focused fieldset": { borderColor: "#0EA5E9", borderWidth: "1.5px" },
+  "& .MuiOutlinedInput-notchedOutline": { borderColor: "#E2E8F0" },
+  "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "#0EA5E9" },
+  "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: "#0EA5E9", borderWidth: "1.5px" },
 };
 
 export function AddNewStaffModal({ open, onClose }) {

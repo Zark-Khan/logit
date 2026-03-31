@@ -5,7 +5,7 @@ import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { ROW_BORDER, HEADER_BORDER, TABLE_BG } from "./StaffTableStyles";
+import { ROW_BORDER, HEADER_BORDER, TABLE_BG, searchFieldSx, tableHeaderSx } from "./StaffTableStyles";
 
 const timesheetRows = [
   { id: 1, name: "Sarah Thompson", initial: "S", plannedHrs: "37.5h", actualHrs: "35.2h", overtime: "0h", discrepancy: "HOURS NOT COMPLETED", status: "PENDING" },
@@ -15,13 +15,13 @@ const timesheetRows = [
 ];
 
 const DISCREPANCY_STYLES = {
-  "HOURS NOT COMPLETED": { bg: "#fee2e2", color: "#dc2626", border: "1px solid #fca5a5" },
-  "-":                   { bg: "#f1f5f9", color: "#94a3b8", border: "1px solid #e2e8f0" },
+  "HOURS NOT COMPLETED": { bg: "#FFEFEF", color: "#EF4444", border: "0.5px solid #FFCACA" },
+  "-":                   { bg: "#FFEFEF", color: "#EF4444", border: "0.5px solid #FFCACA" },
 };
 
 const STATUS_STYLES = {
-  "PENDING":  { dot: "#f97316", color: "#ea580c" },
-  "APPROVED": { dot: "#22c55e", color: "#16a34a" },
+  "PENDING":  { color: "#FB923C" },
+  "APPROVED": { color: "#528910" },
 };
 
 export default function TimesheetReviewTable() {
@@ -39,12 +39,12 @@ export default function TimesheetReviewTable() {
         px: 2.5, py: 1.6, bgcolor: TABLE_BG, flexWrap: "wrap", gap: 1.5,
       }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Typography sx={{ fontWeight: 700, fontSize: "0.95rem", color: "text.primary", whiteSpace: "nowrap" }}>
+          <Typography sx={{ fontWeight: 700, fontSize: "14px", color: "text.primary", whiteSpace: "nowrap" }}>
             Timesheet Review
           </Typography>
           <TextField
             size="small"
-            placeholder="Search staff name..."
+            placeholder="Search staff name"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             InputProps={{
@@ -55,26 +55,45 @@ export default function TimesheetReviewTable() {
               ),
             }}
             sx={{
-              "& .MuiOutlinedInput-root": { borderRadius: 3, fontSize: "0.78rem", bgcolor: "background.paper", height: 32 },
-              width: 200,
+              ...searchFieldSx,
+              width: 256,
             }}
           />
         </Box>
 
-        <Box sx={{ display: "flex", gap: 0.8 }}>
+        <Box sx={{ 
+          display: "flex", 
+          p: "2px", 
+          bgcolor: "background.paper", 
+          border: "1px solid #E2E8F0", 
+          borderRadius: 2, 
+          gap: 0.5 
+        }}>
           {["DAILY", "WEEKLY", "PAY PERIOD"].map((mode) => (
             <Button
               key={mode}
               size="small"
-              variant={viewMode === mode ? "contained" : "outlined"}
               onClick={() => setViewMode(mode)}
               sx={{
-                borderRadius: 2, textTransform: "none", fontSize: "0.7rem", fontWeight: 700,
-                py: 0.4, px: 1.4, height: 30,
+                borderRadius: 1.5,
+                textTransform: "none",
+                fontWeight: 700,
+                height: 28,
+                px: 2,
+                minWidth: "auto",
                 ...(viewMode === mode
-                  ? { bgcolor: "#0EA5E9", color: "#fff", boxShadow: "none", "&:hover": { bgcolor: "#0284c7" } }
-                  : { borderColor: "rgba(14,165,233,0.3)", color: "#64748b",
-                      "&:hover": { borderColor: "#0EA5E9", color: "#0EA5E9", bgcolor: "rgba(14,165,233,0.04)" } }),
+                  ? { 
+                      bgcolor: "primary.main", 
+                      color: "text.paper", 
+                      fontSize: "8px", 
+                      boxShadow: "none",
+                      "&:hover": { bgcolor: "primary.main" } 
+                    }
+                  : { 
+                      color: "text.grey", 
+                      fontSize: "10px", 
+                      "&:hover": { bgcolor: "rgba(0,0,0,0.04)" } 
+                    }),
               }}
             >
               {mode}
@@ -88,11 +107,7 @@ export default function TimesheetReviewTable() {
           <TableHead>
             <TableRow>
               {["Staff Member", "Planned Hrs", "Actual Hrs", "Overtime", "Discrepancy", "Status", ""].map((h) => (
-                <TableCell key={h} sx={{
-                  bgcolor: "background.paper", fontSize: "0.65rem", fontWeight: 700,
-                  color: "text.secondary", textTransform: "uppercase", letterSpacing: 0.5,
-                  borderBottom: ROW_BORDER, whiteSpace: "nowrap", py: 1.5,
-                }}>
+                <TableCell key={h} sx={tableHeaderSx}>
                   {h}
                 </TableCell>
               ))}
@@ -114,24 +129,35 @@ export default function TimesheetReviewTable() {
               }}>
                 <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1.4 }}>
-                    <Avatar sx={{
-                      width: 32, height: 32, fontSize: "0.75rem", fontWeight: 700,
-                      bgcolor: "rgba(14,165,233,0.12)", color: "#0EA5E9",
-                      border: "1.5px solid rgba(14,165,233,0.25)",
-                    }}>
-                      {row.initial}
-                    </Avatar>
-                    <Typography fontWeight={700} fontSize="0.85rem" color="text.primary">{row.name}</Typography>
+                      <Avatar
+                                          sx={{
+                                            width: 32,
+                                            height: 32,
+                                            fontSize: "12px",
+                                            bgcolor: "text.paper",
+                                            fontWeight:700,
+                                            color:"text.primary"
+                                          }}
+                                        >
+                                          {row.initial}
+                                        </Avatar>
+                     <Typography
+                                            fontWeight={600}
+                                            fontSize="body1"
+                                            color="text.primary"
+                                          >
+                                            {row.name}
+                                          </Typography>
                   </Box>
                 </TableCell>
                 <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
-                  <Typography fontSize="0.82rem" color="text.secondary">{row.plannedHrs}</Typography>
+                  <Typography fontSize="14px" fontWeight={500} color="text.light">{row.plannedHrs}</Typography>
                 </TableCell>
                 <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
-                  <Typography fontSize="0.82rem" fontWeight={700} color="text.primary">{row.actualHrs}</Typography>
+                  <Typography fontSize="14px" fontWeight={700} color="text.primary">{row.actualHrs}</Typography>
                 </TableCell>
                 <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
-                  <Typography fontSize="0.82rem" fontWeight={700} color="#f97316">{row.overtime}</Typography>
+                  <Typography fontSize="14px" fontWeight={600} color="#F97316">{row.overtime}</Typography>
                 </TableCell>
                 <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
                   {(() => {
@@ -142,7 +168,7 @@ export default function TimesheetReviewTable() {
                         size="small"
                         sx={{
                           bgcolor: s.bg, color: s.color, border: s.border,
-                          fontWeight: 700, fontSize: "0.6rem", height: 22, borderRadius: 1.5,
+                          fontWeight: 700, fontSize: "10px", height: 21.6, borderRadius: 1,
                         }}
                       />
                     );
@@ -153,16 +179,16 @@ export default function TimesheetReviewTable() {
                     const s = STATUS_STYLES[row.status] ?? STATUS_STYLES["PENDING"];
                     return (
                       <Box sx={{ display: "flex", alignItems: "center", gap: 0.7 }}>
-                        <Box sx={{ width: 7, height: 7, borderRadius: "50%", bgcolor: s.dot }} />
-                        <Typography fontSize="0.75rem" fontWeight={700} color={s.color}>{row.status}</Typography>
+                        <Box sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: s.color }} />
+                        <Typography fontSize="10px" fontWeight={700} color={s.color}>{row.status}</Typography>
                       </Box>
                     );
                   })()}
                 </TableCell>
                 <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
                   <Button size="small" variant="outlined" sx={{
-                    borderRadius: 2, textTransform: "none", fontSize: "0.68rem", fontWeight: 700,
-                    py: 0.3, px: 1.4, borderColor: "rgba(14,165,233,0.35)", color: "#0EA5E9",
+                    borderRadius: 2, textTransform: "none", fontSize: "10px", fontWeight: 700,
+                    py: 0.3, px: 1.4, borderColor: "#E2E8F0", color: "primary.main", backgroundColor:"background.default",
                     "&:hover": { borderColor: "#0EA5E9", bgcolor: "rgba(14,165,233,0.06)" },
                   }}>REVIEW</Button>
                 </TableCell>
@@ -174,18 +200,28 @@ export default function TimesheetReviewTable() {
 
       <Box sx={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
-        px: 2.5, py: 1.4, bgcolor: TABLE_BG, borderTop: ROW_BORDER,
+        px: 2.5, py: 2, bgcolor: "background.default", borderTop: ROW_BORDER,
       }}>
-        <Typography fontSize="0.75rem" color="text.secondary">
-          Showing {filtered.length} records for current pay cycle
+        <Typography fontSize="12px" color="text.light">
+          Showing <span style={{color:"text.primary",fontWeight:700}}>{filtered.length}</span> records for current pay cycle
         </Typography>
         <Button
-          variant="contained"
+          // variant="contained"
           size="small"
           sx={{
-            borderRadius: 2.5, textTransform: "none", fontSize: "0.72rem", fontWeight: 700,
-            py: 0.8, px: 2.2, bgcolor: "#8AC642", color: "#fff", boxShadow: "none",
-            "&:hover": { bgcolor: "#76ad34", boxShadow: "none" },
+            borderRadius: 4,
+            textTransform: "none",
+            fontSize: "12px",
+            fontWeight: 700,
+            py: 0.689,
+            px: 1.48,
+            background: "linear-gradient(90deg, #8AC642 0%, #528910 100%)",
+            color: "#fff",
+            boxShadow: "none",
+            "&:hover": {
+              background: "linear-gradient(90deg, #7BB538 0%, #46780E 100%)",
+              boxShadow: "none",
+            },
           }}
         >
           APPROVE ALL BULK

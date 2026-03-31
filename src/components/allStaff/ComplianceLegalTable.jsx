@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import { ROW_BORDER, HEADER_BORDER, TABLE_BG } from "./StaffTableStyles";
+import { ROW_BORDER, HEADER_BORDER, TABLE_BG, searchFieldSx, tableHeaderSx } from "./StaffTableStyles";
 
 const complianceRows = [
   {
@@ -36,14 +36,14 @@ const complianceRows = [
 ];
 
 const OVERALL_STATUS_STYLES = {
-  "FULLY COMPLIANT": { bg: "#dcfce7", color: "#16a34a", border: "1px solid #bbf7d0" },
-  "EXPIRING SOON":   { bg: "#fef9c3", color: "#b45309", border: "1px solid #fde68a" },
-  "CRITICAL RISK":   { bg: "#fee2e2", color: "#dc2626", border: "1px solid #fca5a5" },
+  "FULLY COMPLIANT": { bg: "#DCFCE7", color: "#8AC642" },
+  "EXPIRING SOON":   { bg: "#FFEDD5", color: "#FEA500" },
+  "CRITICAL RISK":   { bg: "#FEE2E2", color: "#EF4444" },
 };
 
 const PROBLEM_ITEM_STYLES = {
-  "DBS Renewal":     { bg: "#fef3c7", color: "#92400e" },
-  "ID Verification": { bg: "#ede9fe", color: "#6d28d9" },
+  "DBS Renewal":     { bg: "#FFFFFF", color: "#0D0F12" },
+  "ID Verification": { bg: "#FEF2F2", color: "#DC2626" },
 };
 
 export default function ComplianceLegalTable() {
@@ -66,28 +66,28 @@ export default function ComplianceLegalTable() {
       }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
           <Box>
-            <Typography sx={{ fontWeight: 700, fontSize: "0.95rem", color: "text.primary" }}>
+            <Typography sx={{ fontWeight: 700, fontSize: "18px", color: "text.primary" }}>
               Compliance & Legal Audit
             </Typography>
-            <Typography sx={{ fontSize: "0.68rem", color: "text.secondary", mt: 0.2 }}>
+            <Typography sx={{ fontSize: "12px", color: "text.light", mt: 0.2 }}>
               Real-time status of professional credentials.
             </Typography>
           </Box>
           <TextField
             size="small"
-            placeholder="Search staff by name..."
+            placeholder="Search staff by name"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+                  <SearchIcon sx={{ fontSize: 16, color: "#9CA3AF" }} />
                 </InputAdornment>
               ),
             }}
             sx={{
-              "& .MuiOutlinedInput-root": { borderRadius: 3, fontSize: "0.78rem", bgcolor: "background.paper", height: 32 },
-              width: 210,
+              ...searchFieldSx,
+              width: 256,
             }}
           />
         </Box>
@@ -97,19 +97,29 @@ export default function ComplianceLegalTable() {
             label={`Non-Compliant (${nonCompliantCount})`}
             size="small"
             sx={{
-              bgcolor: "#fff0f0", color: "#dc2626",
-              border: "1.5px solid #fca5a5", fontWeight: 700,
-              fontSize: "0.72rem", height: 30, borderRadius: 2,
+              bgcolor: "#FEF2F2", color: "#dc2626",
+              border: "1px solid #FEE2E2", fontWeight: 700,
+              fontSize: "12px", height: 33.6, borderRadius: 4,
+              px:1.91
             }}
           />
           <Button
             size="small"
             variant="outlined"
             sx={{
-              borderRadius: 2, textTransform: "none", fontSize: "0.72rem", fontWeight: 700,
-              py: 0.5, px: 1.6, height: 32,
-              borderColor: "rgba(14,165,233,0.4)", color: "#0EA5E9",
-              "&:hover": { borderColor: "#0EA5E9", bgcolor: "rgba(14,165,233,0.06)" },
+              borderRadius: 4,
+              textTransform: "none",
+              fontSize: "12px",
+              fontWeight: 700,
+              px: 2.16,
+              height: 33.6,
+              borderColor: "#E2E8F0",
+              color: "text.grey",
+              bgcolor: "background.default",
+              "&:hover": {
+                borderColor: "primary.main",
+                bgcolor: "rgba(14,165,233,0.06)",
+              },
             }}
           >
             Export Report
@@ -122,11 +132,7 @@ export default function ComplianceLegalTable() {
           <TableHead>
             <TableRow>
               {["Staff Member", "Overall Status", "Problem Items", "Next Expiry", ""].map((h) => (
-                <TableCell key={h} sx={{
-                  bgcolor: "background.paper", fontSize: "0.65rem", fontWeight: 700,
-                  color: "text.secondary", textTransform: "uppercase", letterSpacing: 0.5,
-                  borderBottom: ROW_BORDER, whiteSpace: "nowrap", py: 1.5,
-                }}>
+                <TableCell key={h} sx={tableHeaderSx}>
                   {h}
                 </TableCell>
               ))}
@@ -147,34 +153,38 @@ export default function ComplianceLegalTable() {
                 "&:last-child td, &:last-child th": { border: "none" },
               }}>
                 <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
-                  <Typography fontWeight={700} fontSize="0.85rem" color="text.primary">{row.name}</Typography>
-                  <Typography fontSize="0.68rem" color="text.secondary">{row.role}</Typography>
+                  <Typography fontWeight={700} fontSize="14px" color="text.primary">{row.name}</Typography>
+                  <Typography fontSize="12px" color="text.light" fontWeight={600}>{row.role}</Typography>
                 </TableCell>
                 <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
                   {(() => {
                     const s = OVERALL_STATUS_STYLES[row.overallStatus] ?? { bg: "#f3f4f6", color: "#6b7280", border: "1px solid #e5e7eb" };
                     return (
-                      <Chip
-                        label={row.overallStatus}
-                        size="small"
-                        sx={{
-                          bgcolor: s.bg, color: s.color, border: s.border,
-                          fontWeight: 700, fontSize: "0.6rem", height: 22, borderRadius: 1.5,
-                        }}
-                      />
+                        <Chip
+                          label={row.overallStatus}
+                          size="small"
+                          sx={{
+                            bgcolor: s.bg,
+                            color: s.color,
+                            fontWeight: 700,
+                            fontSize: "10px",
+                            height: 21.6,
+                            borderRadius: 1,
+                          }}
+                        />
                     );
                   })()}
                 </TableCell>
                 <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
                   {row.problemItems.length === 0 ? (
-                    <Typography fontSize="0.78rem" color="text.secondary">None</Typography>
+                    <Typography fontSize="10px" color="text.light" fontStyle="italic">None</Typography>
                   ) : (
                     <Box sx={{ display: "flex", gap: 0.8, flexWrap: "wrap" }}>
                       {row.problemItems.map((item) => {
                         const s = PROBLEM_ITEM_STYLES[item] ?? { bg: "#f3f4f6", color: "#6b7280" };
                         return (
                           <Chip key={item} label={item} size="small" sx={{
-                            bgcolor: s.bg, color: s.color, fontWeight: 600, fontSize: "0.6rem", height: 20, borderRadius: 1,
+                            bgcolor: s.bg, color: s.color, fontWeight: 600, fontSize: "9px", height: 17.5, borderRadius: 1,
                           }} />
                         );
                       })}
@@ -182,17 +192,17 @@ export default function ComplianceLegalTable() {
                   )}
                 </TableCell>
                 <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
-                  <Typography fontSize="0.78rem" fontWeight={row.expiryExpired ? 700 : 400} color={row.expiryExpired ? "#f97316" : "text.secondary"}>
+                  <Typography fontSize="12px" fontWeight={700} color={row.expiryExpired ? "#F97316" : "text.light"}>
                     {row.nextExpiry}
                   </Typography>
                 </TableCell>
                 <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
                   <Box sx={{
-                    width: 28, height: 28, borderRadius: 1.5, border: "1.5px solid rgba(14,165,233,0.3)",
+                    width: 28, height: 28, borderRadius: 1,
                     display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
                     "&:hover": { bgcolor: "rgba(14,165,233,0.06)", borderColor: "#0EA5E9" }, transition: "all 0.15s ease",
                   }}>
-                    <FileUploadOutlinedIcon sx={{ fontSize: 15, color: "#0EA5E9" }} />
+                    <FileUploadOutlinedIcon sx={{ fontSize: 16, color: "primary.main" }} />
                   </Box>
                 </TableCell>
               </TableRow>

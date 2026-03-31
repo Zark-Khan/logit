@@ -18,12 +18,12 @@ import NavLogo from "../../assets/NavLogo.svg";
 
 const NAV_LINKS = [
   { label: "Staff", path: "/staff" },
-  { label: "Clients", path: "/clients" },
-  { label: "Rostering", path: "/rostering" },
-  { label: "Care Delivery", path: "/care-delivery" },
-  { label: "Finance", path: "/finance" },
-  { label: "Reports", path: "/reports" },
-  { label: "Settings", path: "/settings" },
+  { label: "Clients", path: "/clients", disabled: true },
+  { label: "Rostering", path: "/rostering", disabled: true },
+  { label: "Care Delivery", path: "/care-delivery", disabled: true },
+  { label: "Finance", path: "/finance", disabled: true },
+  { label: "Reports", path: "/reports", disabled: true },
+  { label: "Settings", path: "/settings", disabled: true },
 ];
 
 export default function Navbar() {
@@ -69,21 +69,21 @@ export default function Navbar() {
               height: "100%",
             }}
           >
-            {NAV_LINKS.map(({ label, path }) => {
+            {NAV_LINKS.map(({ label, path, disabled }) => {
               const isActive = location.pathname.startsWith(path);
               return (
                 <Typography
                   key={label}
-                  onClick={() => navigate(path)}
+                  onClick={() => !disabled && navigate(path)}
                   variant="body1"
                   sx={{
                     px: 1.5,
                     display: "flex",
                     alignItems: "center",
                     height: "100%",
-                    cursor: "pointer",
+                    cursor: disabled ? "default" : "pointer",
                     fontWeight: 500,
-                    color: isActive ? "primary.main" : "text.primary",
+                    color: isActive ? "primary.main" : (disabled ? "text.disabled" : "text.primary"),
                     whiteSpace: "nowrap",
                     position: "relative",
                     "&::after": isActive
@@ -102,7 +102,7 @@ export default function Navbar() {
                     transition: "all 0.18s ease",
 
                     "&:hover": {
-                      color: "primary.main",
+                      color: disabled ? "text.disabled" : "primary.main",
                     },
                   }}
                 >
@@ -122,7 +122,7 @@ export default function Navbar() {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon fontSize="small" sx={{ color: "text.disabled" }} />
+                <SearchIcon fontSize="small" sx={{ color: "primary.main" }} />
               </InputAdornment>
             ),
           }}
@@ -173,17 +173,15 @@ export default function Navbar() {
             sx={{ textAlign: "right", display: { xs: "none", sm: "block" } }}
           >
             <Typography
-              variant="body2"
+              variant="body1"
               fontWeight={600}
               color="text.primary"
-              lineHeight={1.2}
             >
               Alex Marshall
             </Typography>
             <Typography
               variant="body2"
-              color="text.secondary"
-              sx={{ fontSize: "0.7rem" }}
+              color="text.light"
             >
               Administrator
             </Typography>
