@@ -17,33 +17,61 @@ import {
 
 // ─── System Live badge ────────────────────────────────────────────────────────
 function SystemLive() {
-  const now = new Date();
+  const [now, setNow] = React.useState(new Date());
+
+  React.useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   const time = now.toLocaleTimeString("en-GB", {
     hour: "2-digit",
     minute: "2-digit",
   });
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        bgcolor: "background.paper",
+        border: "1px solid #E2E8F0",
+        borderRadius: "12px",
+        px: 1.65,
+        py: 1.68,
+        gap: 1.5,
+      }}
+    >
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <Box
           sx={{
-            width: 8,
-            height: 8,
+            width: 10,
+            height: 10,
             borderRadius: "50%",
             backgroundColor: "#8AC642",
-            boxShadow: "0 0 0 2px rgba(138,198,66,0.25)",
           }}
         />
         <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ fontSize: "0.72rem", fontWeight: 500 }}
+          sx={{
+            fontSize: "12px",
+            fontWeight: 500,
+            color: "text.primary",
+            whiteSpace: "nowrap",
+          }}
         >
           SYSTEM LIVE
         </Typography>
       </Box>
-      <Typography variant="body2" fontWeight={700} color="text.primary">
+
+      <Box sx={{ height: 16, borderLeft: "1px solid #E2E8F0" }} />
+
+      <Typography
+        sx={{
+          fontSize: "14px",
+          fontWeight: 600,
+          color: "text.primary",
+        }}
+      >
         {time}
       </Typography>
     </Box>
