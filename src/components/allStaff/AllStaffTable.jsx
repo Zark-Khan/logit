@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -87,6 +88,7 @@ const TODAY_STYLES = {
 };
 
 export default function AllStaffTable() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("All Roles");
   const [branchFilter, setBranchFilter] = useState("All Branches");
@@ -314,6 +316,7 @@ export default function AllStaffTable() {
                       <Button
                         size="small"
                         variant="outlined"
+                        onClick={() => navigate(`/staff/all-staff/${row.id}`)}
                         sx={{
                           borderRadius: 2,
                           textTransform: "none",

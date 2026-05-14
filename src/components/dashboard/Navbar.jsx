@@ -18,7 +18,7 @@ import NavLogo from "../../assets/NavLogo.svg";
 
 const NAV_LINKS = [
   { label: "Staff", path: "/staff" },
-  { label: "Clients", path: "/clients", disabled: true },
+  { label: "Clients", path: "/clients" },
   { label: "Rostering", path: "/rostering", disabled: true },
   { label: "Care Delivery", path: "/care-delivery", disabled: true },
   { label: "Finance", path: "/finance", disabled: true },

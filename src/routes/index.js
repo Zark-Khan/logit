@@ -11,7 +11,11 @@ import { WorkforceAvailability } from "../pages/WorkforceAvailabillity.jsx";
 import { TimesheetReview } from "../pages/TimesheetReview.jsx";
 import { ComplianceLegalAudit } from "../pages/CompliancelegalAudit.jsx";
 import { CapabilitySkillsMatrix } from "../pages/TrainingSkills.jsx";
-// import Clients    from "../pages/Clients";
+import StaffDetailPage from "../components/staffDetail/StaffDetailPage";
+import ClientsLayout from "../layouts/ClientsLayout";
+import ClientsOverview from "../pages/ClientsOverview";
+import AllClients from "../pages/AllClients";
+import ClientDetailPage from "../components/clientDetail/ClientDetailPage";
 
 export default function AppRoutes() {
   return (
@@ -28,13 +32,21 @@ export default function AppRoutes() {
       <Route element={<DashboardLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
 
+        <Route path="/staff/all-staff/:id" element={<StaffDetailPage />} />
         <Route path="/staff" element={<StaffLayout />}>
           <Route index element={<StaffOverview />} />
           <Route path="all-staff" element={<AllStaff />} />
+
           <Route path="availability" element={<WorkforceAvailability />} />
           <Route path="timesheets" element={<TimesheetReview />} />
           <Route path="compliance" element={<ComplianceLegalAudit />} />
           <Route path="training" element={<CapabilitySkillsMatrix />} />
+        </Route>
+
+        <Route path="/clients/all-clients/:id" element={<ClientDetailPage />} />
+        <Route path="/clients" element={<ClientsLayout />}>
+          <Route index element={<ClientsOverview />} />
+          <Route path="all-clients" element={<AllClients />} />
         </Route>
       </Route>
 
