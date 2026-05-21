@@ -35,7 +35,7 @@ const DetailCard = ({ label, value, sub, children, sx }) => (
       </Typography>
     )}
     {sub && (
-      <Typography fontSize="10px" fontWeight={500} color="text.grey" mt={0.3}>
+      <Typography fontSize="10px" fontWeight={400} color="text.grey" mt={0.3}>
         {sub}
       </Typography>
     )}
@@ -46,11 +46,17 @@ const DetailCard = ({ label, value, sub, children, sx }) => (
 export default function EmploymentContractTab({ staff }) {
   return (
     <Box>
-      <Typography fontSize="20px" fontWeight={700} color="text.primary" mb={0.4}>
+      <Typography
+        fontSize="20px"
+        fontWeight={700}
+        color="text.primary"
+        mb={0.4}
+      >
         Employment & Contract
       </Typography>
       <Typography fontSize="14px" color="text.light" mb={3.5}>
-        Detailed information and settings for {staff.name}'s employment & contract.
+        Detailed information and settings for {staff.name}'s employment &
+        contract.
       </Typography>
 
       <Box sx={{ display: "flex", flexDirection: "column", gap: 3.5 }}>
@@ -68,7 +74,12 @@ export default function EmploymentContractTab({ staff }) {
 
         {/* Employment Documents */}
         <Box>
-          <Typography fontSize="14px" fontWeight={700} color="text.primary" mb={1.5}>
+          <Typography
+            fontSize="14px"
+            fontWeight={700}
+            color="text.primary"
+            mb={1.5}
+          >
             Employment Documents
           </Typography>
           <DetailCard
@@ -77,13 +88,19 @@ export default function EmploymentContractTab({ staff }) {
               alignItems: "center",
               justifyContent: "space-between",
               py: 2.5,
-              px: { xs: 2, sm: 3 }
+              px: { xs: 2, sm: 3 },
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center", gap: 2.5 }}>
-              <InsertDriveFileOutlinedIcon sx={{ color: "#94A3B8", fontSize: "22px" }} />
+              <InsertDriveFileOutlinedIcon
+                sx={{ color: "#94A3B8", fontSize: "20px" }}
+              />
               <Box>
-                <Typography fontSize="14px" fontWeight={700} color="text.primary">
+                <Typography
+                  fontSize="14px"
+                  fontWeight={700}
+                  color="text.primary"
+                >
                   Signed Employment Contract
                 </Typography>
                 <Typography fontSize="12px" color="text.light" mt={0.1}>
@@ -102,7 +119,7 @@ export default function EmploymentContractTab({ staff }) {
                   fontSize: "10px",
                   height: 22,
                   borderRadius: "6px",
-                  px: 0.5
+                  px: 0.5,
                 }}
               />
               <Button
@@ -114,7 +131,7 @@ export default function EmploymentContractTab({ staff }) {
                   minWidth: "auto",
                   letterSpacing: "0.02em",
                   p: 0,
-                  "&:hover": { bgcolor: "transparent", color: "#0284c7" }
+                  "&:hover": { bgcolor: "transparent", color: "#0284c7" },
                 }}
               >
                 Upload New

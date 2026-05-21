@@ -61,7 +61,7 @@ const RequestCard = ({
         fontSize="14px"
         color={subtextColor}
         mt={0.2}
-        fontWeight={500}
+        fontWeight={400}
       >
         {subtext}
       </Typography>

@@ -54,7 +54,7 @@ function SystemLive() {
         <Typography
           sx={{
             fontSize: "12px",
-            fontWeight: 500,
+            fontWeight: 400,
             color: "text.primary",
             whiteSpace: "nowrap",
           }}
@@ -120,32 +120,44 @@ export default function Dashboard() {
           <CarerConflicts />
         </Grid>
 
-       <Grid size={{ xs: 12, lg: 8 }}>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 3, height: "100%" }}>
- 
-              <TodaysDiary />
- 
-              <Grid container spacing={3} sx={{ flex: 1 }}>
-                <Grid size={{ xs: 12, md: 6 }} sx={{ display: "flex" }}>
-                  <IncomingMessages sx={{ flex: 1 }} />
-                </Grid>
-                <Grid size={{ xs: 12, md: 6 }} sx={{ display: "flex" }}>
-                  <ComplianceStatus sx={{ flex: 1 }} />
-                </Grid>
+        <Grid size={{ xs: 12, lg: 8 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 3,
+              height: "100%",
+            }}
+          >
+            <TodaysDiary />
+
+            <Grid container spacing={3} sx={{ flex: 1 }}>
+              <Grid size={{ xs: 12, md: 6 }} sx={{ display: "flex" }}>
+                <IncomingMessages sx={{ flex: 1 }} />
               </Grid>
- 
+              <Grid size={{ xs: 12, md: 6 }} sx={{ display: "flex" }}>
+                <ComplianceStatus sx={{ flex: 1 }} />
+              </Grid>
+            </Grid>
+          </Box>
+        </Grid>
+
+        {/* Right column */}
+        <Grid size={{ xs: 12, lg: 4 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 3,
+              height: "100%",
+            }}
+          >
+            <BusinessSnapshot />
+            <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+              <UpcomingDeadlines sx={{ flex: 1, height: "100%" }} />
             </Box>
-          </Grid>
- 
-          {/* Right column */}
-          <Grid size={{ xs: 12, lg: 4 }}>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 3, height: "100%" }}>
-              <BusinessSnapshot />
-              <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-                <UpcomingDeadlines sx={{ flex: 1, height: "100%" }} />
-              </Box>
-            </Box>
-          </Grid>
+          </Box>
+        </Grid>
       </Grid>
     </Box>
   );

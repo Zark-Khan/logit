@@ -122,7 +122,7 @@ export function AddNewClientModal({ open, onClose }) {
         >
           <Box sx={{ mb: 2 }}>
             <Typography
-              sx={{ fontWeight: 700, fontSize: "22px", color: "text.primary" }}
+              sx={{ fontWeight: 700, fontSize: "20px", color: "text.primary" }}
             >
               Add New Client
             </Typography>
@@ -131,7 +131,7 @@ export function AddNewClientModal({ open, onClose }) {
                 fontSize: "14px",
                 color: "text.secondary",
                 mt: 0.5,
-                fontWeight: 500,
+                fontWeight: 400,
               }}
             >
               Register a new service user to the agency.
@@ -484,7 +484,7 @@ export function AddNewClientModal({ open, onClose }) {
               fontSize: "0.75rem",
               color: "#0284C7",
               lineHeight: 1.5,
-              fontWeight: 500,
+              fontWeight: 400,
             }}
           >
             After creation, the client profile will be partially populated. You

@@ -108,7 +108,7 @@ const allClientsRows = [
     avatar: "A",
     status: "ACTIVE",
     risk: "Med Risk",
-    riskColor: "#FEA500", // orange
+    riskColor: "#FEA400", // orange
     careDetails: "Medication Support",
     branch: "West Branch",
     assignedTeam: { initials: "ST", name: "Sarah Thompson" },
@@ -120,7 +120,7 @@ const allClientsRows = [
     name: "John Doe",
     avatar: "J",
     status: "ON HOLD",
-    statusColor: "#FEA500", // orange
+    statusColor: "#FEA400", // orange
     risk: "Low Risk",
     riskColor: "#8AC642",
     careDetails: "Home Help",
@@ -297,7 +297,7 @@ export default function AllClientsTable() {
                       color: row.statusColor || "#8AC642",
                       fontWeight: 700,
                       fontSize: "10px",
-                      height: "22px",
+                      height: "20px",
                       borderRadius: "4px",
                       px: "0px !important",
                     }}
@@ -339,7 +339,7 @@ export default function AllClientsTable() {
                   </Typography>
                   <Typography
                     fontSize="10px"
-                    fontWeight={500}
+                    fontWeight={400}
                     color="text.secondary"
                   >
                     {row.branch}
@@ -402,7 +402,7 @@ export default function AllClientsTable() {
                       size="small"
                       sx={{
                         bgcolor: "#fff",
-                        color: "#FEA500",
+                        color: "#FEA400",
                         borderRadius: "8px",
                         p: 0.5,
                         "&:hover": { bgcolor: "#fffbf0" },

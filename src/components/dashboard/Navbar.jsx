@@ -19,9 +19,9 @@ import NavLogo from "../../assets/NavLogo.svg";
 const NAV_LINKS = [
   { label: "Staff", path: "/staff" },
   { label: "Clients", path: "/clients" },
-  { label: "Rostering", path: "/rostering", disabled: true },
-  { label: "Care Delivery", path: "/care-delivery", disabled: true },
-  { label: "Finance", path: "/finance", disabled: true },
+  { label: "Rostering", path: "/rostering" },
+  { label: "Care Delivery", path: "/care-delivery" },
+  { label: "Finance", path: "/finance" },
   { label: "Reports", path: "/reports", disabled: true },
   { label: "Settings", path: "/settings", disabled: true },
 ];
@@ -54,7 +54,12 @@ export default function Navbar() {
         {/* Logo */}
         <Box
           onClick={() => navigate("/dashboard")}
-          sx={{ display: "flex", alignItems: "center", flexShrink: 0, cursor: "pointer" }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            flexShrink: 0,
+            cursor: "pointer",
+          }}
         >
           <Box component="img" src={NavLogo} alt="Logit" />
         </Box>
@@ -82,8 +87,12 @@ export default function Navbar() {
                     alignItems: "center",
                     height: "100%",
                     cursor: disabled ? "default" : "pointer",
-                    fontWeight: 500,
-                    color: isActive ? "primary.main" : (disabled ? "text.disabled" : "text.primary"),
+                    fontWeight: 400,
+                    color: isActive
+                      ? "primary.main"
+                      : disabled
+                        ? "text.disabled"
+                        : "text.primary",
                     whiteSpace: "nowrap",
                     position: "relative",
                     "&::after": isActive
@@ -148,7 +157,7 @@ export default function Navbar() {
             variant="dot"
             sx={{
               "& .MuiBadge-badge": {
-                backgroundColor: "#FEA500",
+                backgroundColor: "#FEA400",
                 minWidth: 8,
                 height: 8,
                 top: 4,
@@ -172,17 +181,10 @@ export default function Navbar() {
           <Box
             sx={{ textAlign: "right", display: { xs: "none", sm: "block" } }}
           >
-            <Typography
-              variant="body1"
-              fontWeight={600}
-              color="text.primary"
-            >
+            <Typography variant="body1" fontWeight={600} color="text.primary">
               Alex Marshall
             </Typography>
-            <Typography
-              variant="body2"
-              color="text.light"
-            >
+            <Typography variant="body2" color="text.light">
               Administrator
             </Typography>
           </Box>

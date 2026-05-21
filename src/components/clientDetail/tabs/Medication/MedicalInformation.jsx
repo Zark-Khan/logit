@@ -70,7 +70,7 @@ export default function MedicalInformation({ onBack }) {
           >
             <Typography
               fontSize="14px"
-              color="#64748B"
+              color="text.light"
               sx={{ lineHeight: 1.6 }}
             >
               At present, no known allergies or intolerances have been reported
@@ -109,7 +109,7 @@ export default function MedicalInformation({ onBack }) {
             <Box>
               <Typography
                 fontSize="10px"
-                fontWeight={800}
+                fontWeight={700}
                 color="text.secondary"
                 sx={{ mb: 1 }}
               >
@@ -132,7 +132,7 @@ export default function MedicalInformation({ onBack }) {
             <Box>
               <Typography
                 fontSize="10px"
-                fontWeight={800}
+                fontWeight={700}
                 color="text.secondary"
                 sx={{ mb: 1 }}
               >
@@ -161,7 +161,7 @@ export default function MedicalInformation({ onBack }) {
             <Box>
               <Typography
                 fontSize="10px"
-                fontWeight={800}
+                fontWeight={700}
                 color="text.secondary"
                 sx={{ mb: 1 }}
               >
@@ -184,7 +184,7 @@ export default function MedicalInformation({ onBack }) {
             <Box>
               <Typography
                 fontSize="10px"
-                fontWeight={800}
+                fontWeight={700}
                 color="text.secondary"
                 sx={{ mb: 1 }}
               >
@@ -207,7 +207,7 @@ export default function MedicalInformation({ onBack }) {
             <Box>
               <Typography
                 fontSize="10px"
-                fontWeight={800}
+                fontWeight={700}
                 color="text.secondary"
                 sx={{ mb: 1 }}
               >
@@ -280,7 +280,7 @@ export default function MedicalInformation({ onBack }) {
             background: "main.primary",
             textTransform: "none",
             boxShadow: "0 4px 12px rgba(14, 165, 233, 0.2)",
-            color:"#ffffff"
+            color: "#ffffff",
           }}
           onClick={onBack}
         >
@@ -294,7 +294,7 @@ export default function MedicalInformation({ onBack }) {
 function InfoSection({ number, title, children }) {
   return (
     <Box sx={{ mb: 5 }}>
-      <Typography fontWeight={800} fontSize="18px" sx={{ mb: 2.5 }}>
+      <Typography fontWeight={700} fontSize="18px" sx={{ mb: 2.5 }}>
         {number}. {title}
       </Typography>
       {children}

@@ -125,7 +125,7 @@ export function ScheduleVisitModal({
                 sx={{
                   fontSize: "12px",
                   color: "text.secondary",
-                  fontWeight: 500,
+                  fontWeight: 400,
                 }}
               >
                 Creating visit for{" "}
@@ -300,7 +300,7 @@ export function ScheduleVisitModal({
                   sx={{
                     fontSize: "11px",
                     color: "text.secondary",
-                    fontWeight: 500,
+                    fontWeight: 400,
                   }}
                 >
                   {s.role}

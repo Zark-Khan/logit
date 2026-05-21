@@ -64,7 +64,7 @@ export default function MARChart({ onBack }) {
             mb: 4,
           }}
         >
-          <Typography fontWeight={800} fontSize="20px">
+          <Typography fontWeight={700} fontSize="20px">
             Margaret's MAR chart
           </Typography>
           <Box sx={{ display: "flex", gap: 2 }}>
@@ -148,7 +148,7 @@ export default function MARChart({ onBack }) {
                 <Typography
                   key={h}
                   fontSize="10px"
-                  fontWeight={800}
+                  fontWeight={700}
                   color="text.secondary"
                   sx={{ p: 1.5, textAlign: "center" }}
                 >
@@ -176,7 +176,7 @@ export default function MARChart({ onBack }) {
                   fontWeight={700}
                   color="primary.main"
                 >
-                  Paracetamol 500mg tablets
+                  Paracetamol 400mg tablets
                 </Typography>
                 <Typography
                   fontSize="10px"

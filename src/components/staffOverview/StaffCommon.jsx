@@ -65,7 +65,7 @@ export function BigStat({ label, value, sub }) {
             </Typography>
             <Typography
               component="span"
-              sx={{ fontSize: "18px", fontWeight: 500, ml: 0.5 }}
+              sx={{ fontSize: "18px", fontWeight: 400, ml: 0.5 }}
             >
               {value.minutes}
             </Typography>
@@ -76,11 +76,11 @@ export function BigStat({ label, value, sub }) {
       </Typography>
 
       <Box sx={{ display: "flex", flexDirection: "column", mt: 0.4 }}>
-        <Typography sx={{ fontSize: "20px", fontWeight: 500 }}>
+        <Typography sx={{ fontSize: "20px", fontWeight: 400 }}>
           {sub.appointments}
         </Typography>
         <Typography
-          sx={{ fontSize: "12px", fontWeight: 500, color: "#250046" }}
+          sx={{ fontSize: "12px", fontWeight: 400, color: "#240046" }}
         >
           {sub.carers}
         </Typography>

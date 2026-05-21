@@ -195,7 +195,7 @@ export default function TimesheetsPayTab({ staff }) {
                   color: "text.secondary",
                   borderBottom: "1px solid #83D8FF",
                   py: 2,
-                  fontWeight: 500,
+                  fontWeight: 400,
                 }}
               >
                 22 May
@@ -206,7 +206,7 @@ export default function TimesheetsPayTab({ staff }) {
                   color: "text.secondary",
                   borderBottom: "1px solid #83D8FF",
                   py: 2,
-                  fontWeight: 500,
+                  fontWeight: 400,
                 }}
               >
                 Standard Care (Margaret Hall)
@@ -217,7 +217,7 @@ export default function TimesheetsPayTab({ staff }) {
                   color: "text.secondary",
                   borderBottom: "1px solid #83D8FF",
                   py: 2,
-                  fontWeight: 500,
+                  fontWeight: 400,
                 }}
               >
                 6h
@@ -228,7 +228,7 @@ export default function TimesheetsPayTab({ staff }) {
                   color: "text.secondary",
                   borderBottom: "1px solid #83D8FF",
                   py: 2,
-                  fontWeight: 500,
+                  fontWeight: 400,
                 }}
               >
                 £132.00
@@ -242,7 +242,7 @@ export default function TimesheetsPayTab({ staff }) {
                   fontSize: "14px",
                   color: "text.secondary",
                   py: 2,
-                  fontWeight: 500,
+                  fontWeight: 400,
                 }}
               >
                 21 May
@@ -252,7 +252,7 @@ export default function TimesheetsPayTab({ staff }) {
                   fontSize: "14px",
                   color: "text.secondary",
                   py: 2,
-                  fontWeight: 500,
+                  fontWeight: 400,
                 }}
               >
                 Overtime (Weekend)
@@ -262,7 +262,7 @@ export default function TimesheetsPayTab({ staff }) {
                   fontSize: "14px",
                   color: "text.secondary",
                   py: 2,
-                  fontWeight: 500,
+                  fontWeight: 400,
                 }}
               >
                 4h
@@ -272,7 +272,7 @@ export default function TimesheetsPayTab({ staff }) {
                   fontSize: "14px",
                   color: "text.secondary",
                   py: 2,
-                  fontWeight: 500,
+                  fontWeight: 400,
                 }}
               >
                 £99.00

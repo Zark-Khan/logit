@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Typography,
-  Button,
-  Paper,
-} from "@mui/material";
+import { Box, Typography, Button, Paper } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -52,14 +47,14 @@ export default function AddMedicationForm({ onBack }) {
       >
         <Typography
           fontSize="10px"
-          fontWeight={800}
+          fontWeight={700}
           color="text.secondary"
           sx={{ mb: 1 }}
         >
           MEDICATION
         </Typography>
-        <Typography fontWeight={800} fontSize="18px" color="text.primary">
-          Paracetamol 500mg tablets
+        <Typography fontWeight={700} fontSize="18px" color="text.primary">
+          Paracetamol 400mg tablets
         </Typography>
         <Box
           sx={{
@@ -83,7 +78,7 @@ export default function AddMedicationForm({ onBack }) {
         elevation={0}
         sx={{
           px: 4,
-          py:2,
+          py: 2,
           borderRadius: "24px",
           border: "1px solid #CBD5E1",
           bgcolor: "#fff",
@@ -132,11 +127,11 @@ export default function AddMedicationForm({ onBack }) {
             }}
           >
             <InfoOutlinedIcon
-              sx={{ fontSize: 18, color: "#64748B", mt: 0.1 }}
+              sx={{ fontSize: 18, color: "text.light", mt: 0.1 }}
             />
             <Typography
               fontSize="11px"
-              color="#64748B"
+              color="text.light"
               sx={{ lineHeight: 1.5 }}
             >
               If you're unsure, we recommend reading the{" "}
@@ -158,44 +153,44 @@ export default function AddMedicationForm({ onBack }) {
 
       {/* Accordion Style Sections */}
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <FormSection label="Type" value="Scheduled" />
-          <FormSection label="Dose" value="2 oral tablets" />
-          <FormSection label="Route" value="Oral" />
-          <FormSection label="Frequency" value="2 times a day" />
-          <FormSection label="When" value="10am, 8pm" />
-          <FormSection
-            label="From"
-            value="Wednesday 25th Feb - Wednesday 25th Feb"
-          />
-          <FormSection
-            label="Past administrations"
-            value="0 past administrations recorded"
-          />
-          <FormSection label="Notes (optional)" value="Additional instructions" />
-          <FormSection
-            label="Are the above details correct?"
-            value="Select an option"
-            isLast
-          />
-        </Box>
+        <FormSection label="Type" value="Scheduled" />
+        <FormSection label="Dose" value="2 oral tablets" />
+        <FormSection label="Route" value="Oral" />
+        <FormSection label="Frequency" value="2 times a day" />
+        <FormSection label="When" value="10am, 8pm" />
+        <FormSection
+          label="From"
+          value="Wednesday 25th Feb - Wednesday 25th Feb"
+        />
+        <FormSection
+          label="Past administrations"
+          value="0 past administrations recorded"
+        />
+        <FormSection label="Notes (optional)" value="Additional instructions" />
+        <FormSection
+          label="Are the above details correct?"
+          value="Select an option"
+          isLast
+        />
+      </Box>
 
-        <Button
-          variant="contained"
-          sx={{
-            mt: 5,
-            py: 1,
-            borderRadius: "14px",
-            fontWeight: 700,
-            fontSize: "16px",
-            background: "main.primary",
-            textTransform: "none",
-            boxShadow: "0 4px 12px rgba(14, 165, 233, 0.25)",
-            color:"#ffffff"
-          }}
-          onClick={onBack}
-        >
-          Save changes
-        </Button>
+      <Button
+        variant="contained"
+        sx={{
+          mt: 5,
+          py: 1,
+          borderRadius: "14px",
+          fontWeight: 700,
+          fontSize: "16px",
+          background: "main.primary",
+          textTransform: "none",
+          boxShadow: "0 4px 12px rgba(14, 165, 233, 0.25)",
+          color: "#ffffff",
+        }}
+        onClick={onBack}
+      >
+        Save changes
+      </Button>
     </Box>
   );
 }
@@ -217,17 +212,17 @@ function FormSection({ label, value, isLast }) {
       <Box>
         <Typography
           fontSize="11px"
-          fontWeight={800}
+          fontWeight={700}
           color="text.primary"
           sx={{ mb: 0.5, textTransform: "uppercase" }}
         >
           {label} *
         </Typography>
-        <Typography fontSize="14px" fontWeight={500} color="text.light">
+        <Typography fontSize="14px" fontWeight={400} color="text.light">
           {value}
         </Typography>
       </Box>
-      <KeyboardArrowDownIcon sx={{ color: "#64748B" }} />
+      <KeyboardArrowDownIcon sx={{ color: "text.light" }} />
     </Box>
   );
 }

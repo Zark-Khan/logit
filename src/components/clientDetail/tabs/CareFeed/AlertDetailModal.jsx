@@ -68,7 +68,7 @@ export default function AlertDetailModal({ open, onClose, alert, client }) {
                 >
                   {client?.name || "Margaret Hall"}
                 </Typography>
-                <Typography fontSize="14px" color="text.light" fontWeight={500}>
+                <Typography fontSize="14px" color="text.light" fontWeight={400}>
                   18 Feb, 13:29
                 </Typography>
                 <Box
@@ -85,7 +85,7 @@ export default function AlertDetailModal({ open, onClose, alert, client }) {
                   }}
                 >
                   <NotificationsIcon sx={{ fontSize: 14 }} />
-                  <Typography fontSize="10px" fontWeight={800}>
+                  <Typography fontSize="10px" fontWeight={700}>
                     ALERT
                   </Typography>
                 </Box>
@@ -315,7 +315,7 @@ function DetailsContent() {
             alignItems: "center",
           }}
         >
-          <Typography fontSize="14px" fontWeight={800} color="#EA580C">
+          <Typography fontSize="14px" fontWeight={700} color="#EA580C">
             Action needed
           </Typography>
           <KeyboardArrowDownIcon sx={{ color: "#EA580C" }} />

@@ -7,11 +7,11 @@ const StatCard = ({ label, value, sub, subColor }) => (
     sx={{
       flex: 1,
       // minWidth: 120,
-      display:"flex",
-      flexDirection:"column",
-      justifyContent:"center",
-      alignItems:"start",
-      gap:0.5,  
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "start",
+      gap: 0.5,
       bgcolor: "#fff",
       border: "1px solid #F1F5F9",
       borderRadius: "12px",
@@ -27,11 +27,11 @@ const StatCard = ({ label, value, sub, subColor }) => (
     >
       {label}
     </Typography>
-    <Typography fontSize="14px" fontWeight={700} color="text.primary" >
+    <Typography fontSize="14px" fontWeight={700} color="text.primary">
       {value}
     </Typography>
     {sub && (
-      <Typography fontSize="10px" fontWeight={500} color="text.grey" mt={0.3}>
+      <Typography fontSize="10px" fontWeight={400} color="text.grey" mt={0.3}>
         {sub}
       </Typography>
     )}
@@ -41,7 +41,12 @@ const StatCard = ({ label, value, sub, subColor }) => (
 export default function OverviewTab({ staff }) {
   return (
     <Box>
-      <Typography fontSize="20px" fontWeight={700} color="text.primary" mb={0.4}>
+      <Typography
+        fontSize="20px"
+        fontWeight={700}
+        color="text.primary"
+        mb={0.4}
+      >
         Overview
       </Typography>
       <Typography fontSize="14px" color="text.light" mb={3.5}>
@@ -68,13 +73,15 @@ export default function OverviewTab({ staff }) {
       </Box>
 
       {/* Summary info + Quick View */}
-      <Box sx={{ display: "flex", justifyContent: "space-evenly", width:"100%"}}>
+      <Box
+        sx={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}
+      >
         {/* Summary Info */}
         <Box
           sx={{
             px: 2.5,
             py: 2,
-            flex:1
+            flex: 1,
           }}
         >
           <Typography
@@ -84,11 +91,16 @@ export default function OverviewTab({ staff }) {
             textTransform="uppercase"
             letterSpacing="0.06em"
             mb={1.5}
-           
           >
             Summary Info
           </Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-evenly", flexWrap: "wrap" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              flexWrap: "wrap",
+            }}
+          >
             <Box>
               <Typography fontSize="12px" color="text.light" mb={0.3}>
                 Joined Date
@@ -111,17 +123,17 @@ export default function OverviewTab({ staff }) {
         {/* Today's Quick View */}
         <Box
           sx={{
-            flex:1,
+            flex: 1,
             bgcolor: "#fff",
             border: "1px solid #E0F2FE",
             borderRadius: "16px",
             px: 2.5,
             py: 2,
-            display:"flex",
-            flexDirection:"column",
-            justifyContent:"center",
-            alignItems:"start",
-            gap:0.5,  
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "start",
+            gap: 0.5,
           }}
         >
           <Typography

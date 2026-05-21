@@ -6,7 +6,7 @@ import {
   Avatar,
   Button,
   Chip,
-  Grid,  // ← add this import
+  Grid, // ← add this import
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import EditIcon from "@mui/icons-material/Edit";
@@ -87,17 +87,28 @@ export default function StaffDetailPage() {
 
   const renderTab = () => {
     if (activeTab === "Overview") return <OverviewTab staff={staff} />;
-    if (activeTab === "Personal Details") return <PersonalDetailsTab staff={staff} />;
-    if (activeTab === "Employment & Contract") return <EmploymentContractTab staff={staff} />;
-    if (activeTab === "Availability & Schedule") return <AvailabilityScheduleTab staff={staff} />;
-    if (activeTab === "Leave & Absences") return <LeaveAbsencesTab staff={staff} />;
-    if (activeTab === "Skills & Training") return <SkillsTrainingTab staff={staff} />;
-    if (activeTab === "Compliance & Documents") return <ComplianceDocumentsTab staff={staff} />;
-    if (activeTab === "Rostering & Assignments") return <RosteringAssignmentsTab staff={staff} />;
-    if (activeTab === "Timesheets & Pay") return <TimesheetsPayTab staff={staff} />;
-    if (activeTab === "Performance & Activity") return <PerformanceActivityTab staff={staff} />;
-    if (activeTab === "Assigned Clients") return <AssignedClientsTab staff={staff} />;
-    if (activeTab === "Account & Access") return <AccountAccessTab staff={staff} />;
+    if (activeTab === "Personal Details")
+      return <PersonalDetailsTab staff={staff} />;
+    if (activeTab === "Employment & Contract")
+      return <EmploymentContractTab staff={staff} />;
+    if (activeTab === "Availability & Schedule")
+      return <AvailabilityScheduleTab staff={staff} />;
+    if (activeTab === "Leave & Absences")
+      return <LeaveAbsencesTab staff={staff} />;
+    if (activeTab === "Skills & Training")
+      return <SkillsTrainingTab staff={staff} />;
+    if (activeTab === "Compliance & Documents")
+      return <ComplianceDocumentsTab staff={staff} />;
+    if (activeTab === "Rostering & Assignments")
+      return <RosteringAssignmentsTab staff={staff} />;
+    if (activeTab === "Timesheets & Pay")
+      return <TimesheetsPayTab staff={staff} />;
+    if (activeTab === "Performance & Activity")
+      return <PerformanceActivityTab staff={staff} />;
+    if (activeTab === "Assigned Clients")
+      return <AssignedClientsTab staff={staff} />;
+    if (activeTab === "Account & Access")
+      return <AccountAccessTab staff={staff} />;
     return <PLACEHOLDER_CONTENT tab={activeTab} name={staff.name} />;
   };
 
@@ -116,13 +127,13 @@ export default function StaffDetailPage() {
         onClick={() => navigate("/staff/all-staff")}
       >
         <ArrowBackIcon
-  sx={{
-    width: 8,
-    height: 24,
-    color: "#94A3B8",
-  }}
-/>
-        <Typography fontSize="14px" color="text.secondary" fontWeight={500}>
+          sx={{
+            width: 8,
+            height: 24,
+            color: "#94A3B8",
+          }}
+        />
+        <Typography fontSize="14px" color="text.secondary" fontWeight={400}>
           Staff
         </Typography>
         <Typography fontSize="12px" color="#CBD5E1">
@@ -150,12 +161,12 @@ export default function StaffDetailPage() {
         }}
       >
         {/* Left: avatar + info */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2, p:2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, p: 2 }}>
           <Avatar
             sx={{
               width: 58,
               height: 58,
-              fontSize: "22px",
+              fontSize: "20px",
               fontWeight: 700,
               bgcolor: "rgba(14,165,233,0.15)",
               color: "#0EA5E9",
@@ -166,7 +177,7 @@ export default function StaffDetailPage() {
           </Avatar>
 
           <Box>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb:1 }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
               <Typography fontWeight={700} fontSize="30px" color="text.primary">
                 {staff.name}
               </Typography>
@@ -180,7 +191,7 @@ export default function StaffDetailPage() {
                   fontSize: "12px",
                   height: 24,
                   borderRadius: "8px",
-                  px:0.4
+                  px: 0.4,
                 }}
               />
               <Chip
@@ -191,17 +202,24 @@ export default function StaffDetailPage() {
                     staff.status === "Active"
                       ? "#528910"
                       : "rgba(249,115,22,0.12)",
-                  color:"text.paper",
+                  color: "text.paper",
                   fontWeight: 700,
                   fontSize: "12px",
                   height: 24,
                   borderRadius: "8px",
-                  px:0.4
+                  px: 0.4,
                 }}
               />
             </Box>
 
-            <Box sx={{ display: "flex", alignItems: "center", gap: 3, flexWrap: "wrap" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 3,
+                flexWrap: "wrap",
+              }}
+            >
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.1 }}>
                 <EmailIcon sx={{ fontSize: 15, color: "text.secondary" }} />
                 <Typography fontSize="14px" color="text.secondary">
@@ -215,7 +233,9 @@ export default function StaffDetailPage() {
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.1 }}>
-                <LocationOnIcon sx={{ fontSize: 15, color: "text.secondary" }} />
+                <LocationOnIcon
+                  sx={{ fontSize: 15, color: "text.secondary" }}
+                />
                 <Typography fontSize="14px" color="text.secondary">
                   {staff.branch}
                 </Typography>
@@ -245,28 +265,27 @@ export default function StaffDetailPage() {
         </Button>
       </Box>
 
- 
-<Grid container spacing={4}>
-  <Grid size={{ xs: 12, md: 3 }}>
-    <StaffDetailNav activeTab={activeTab} onTabChange={setActiveTab} />
-  </Grid>
+      <Grid container spacing={4}>
+        <Grid size={{ xs: 12, md: 3 }}>
+          <StaffDetailNav activeTab={activeTab} onTabChange={setActiveTab} />
+        </Grid>
 
-  {/* Right content area */}
-  <Grid size={{ xs: 12, md: 9 }}>
-    <Box
-      sx={{
-        bgcolor: "#E0F5FF",
-        border: "1px solid #83D8FF",
-        borderRadius: "16px",
-        px: 3,
-        py: 2.5,
-        minHeight: 420,
-      }}
-    >
-      {renderTab()}
-    </Box>
-  </Grid>
-</Grid>
+        {/* Right content area */}
+        <Grid size={{ xs: 12, md: 9 }}>
+          <Box
+            sx={{
+              bgcolor: "#E0F5FF",
+              border: "1px solid #83D8FF",
+              borderRadius: "16px",
+              px: 3,
+              py: 2.5,
+              minHeight: 420,
+            }}
+          >
+            {renderTab()}
+          </Box>
+        </Grid>
+      </Grid>
     </Box>
   );
 }

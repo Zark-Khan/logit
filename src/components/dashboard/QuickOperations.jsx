@@ -23,7 +23,7 @@ const ACTIONS = [
     label: "Rostering",
     icon: RosteringIcon,
     bg: "linear-gradient(to left, rgba(254, 214, 139, 1), rgba(248, 250, 252, 1))",
-    color: "#FFA500",
+    color: "#FFA400",
   },
   {
     label: "Reports",
@@ -39,10 +39,10 @@ export default function QuickOperations() {
       elevation={0}
       sx={{
         px: 2.5,
-        pt:2.5,
-        pb:7.858,
+        pt: 2.5,
+        pb: 7.858,
         borderRadius: 5,
-        border: "1px solid #FEA5006E",
+        border: "1px solid #FEA4006E",
         height: "100%",
         backgroundColor: "background.bgOrange",
       }}
@@ -69,19 +69,17 @@ export default function QuickOperations() {
             fontSize: "10px",
             px: 0.77,
             py: 0.5,
-            letterSpacing:"1px",  
+            letterSpacing: "1px",
             borderRadius: 1,
             cursor: "pointer",
-            background:"#FFE6C4"
+            background: "#FFE6C4",
           }}
         >
           AGENCY SHORTCUTS
         </Typography>
       </Box>
 
-      <Box
-      sx={{ display: "flex", gap: 2 }}
-      >
+      <Box sx={{ display: "flex", gap: 2 }}>
         {ACTIONS.map(({ label, icon: Icon, bg, color }) => (
           <Box
             key={label}
@@ -92,7 +90,7 @@ export default function QuickOperations() {
               justifyContent: "center",
               gap: 1,
               py: 2.4,
-              flex: 1, 
+              flex: 1,
               borderRadius: 2,
               border: `1px solid ${color}`,
               background: bg,

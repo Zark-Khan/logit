@@ -105,8 +105,8 @@ export default function MedicationDashboard({ setView, client }) {
                 >
                   {[
                     { name: "Paracetamol", desc: "1g tablets", active: true },
-                    { name: "Paracetamol", desc: "500mg tablets" },
-                    { name: "Paracetamol", desc: "500mg capsules" },
+                    { name: "Paracetamol", desc: "400mg tablets" },
+                    { name: "Paracetamol", desc: "400mg capsules" },
                     { name: "Paracetamol", desc: "Plus tablets" },
                   ].map((item, i) => (
                     <Box

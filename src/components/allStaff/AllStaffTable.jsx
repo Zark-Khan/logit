@@ -77,7 +77,7 @@ const STATUS_STYLES = {
 
 const COMPLIANCE_STYLES = {
   OK: { bg: "#F0FFF5", color: "#528910" },
-  EXPIRING: { bg: "#FFFCF7", color: "#FEA500" },
+  EXPIRING: { bg: "#FFFCF7", color: "#FEA400" },
   MISSING: { bg: "#FEE2E2", color: "#EF4444" },
 };
 
@@ -175,10 +175,7 @@ export default function AllStaffTable() {
                 "Today",
                 "Actions",
               ].map((h) => (
-                <TableCell
-                  key={h}
-                  sx={tableHeaderSx}
-                >
+                <TableCell key={h} sx={tableHeaderSx}>
                   {h}
                 </TableCell>
               ))}
@@ -218,8 +215,8 @@ export default function AllStaffTable() {
                           height: 32,
                           fontSize: "12px",
                           bgcolor: "text.paper",
-                          fontWeight:700,
-                          color:"text.primary"
+                          fontWeight: 700,
+                          color: "text.primary",
                         }}
                       >
                         {row.name[0]}
@@ -232,21 +229,29 @@ export default function AllStaffTable() {
                         >
                           {row.name}
                         </Typography>
-                        <Typography fontSize="10px" fontWeight="400" color="text.light">
+                        <Typography
+                          fontSize="10px"
+                          fontWeight="400"
+                          color="text.light"
+                        >
                           {row.email}
                         </Typography>
                       </Box>
                     </Box>
                   </TableCell>
                   <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
-                    <Typography variant="body2" color="text.primary" fontWeight="600" >
+                    <Typography
+                      variant="body2"
+                      color="text.primary"
+                      fontWeight="600"
+                    >
                       {row.role}
                     </Typography>
                   </TableCell>
                   <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
                     <Typography
                       fontSize="12px"
-                      fontWeight={500}
+                      fontWeight={400}
                       color={
                         STATUS_STYLES[row.status]?.color ?? "text.secondary"
                       }
@@ -270,8 +275,8 @@ export default function AllStaffTable() {
                             fontWeight: 700,
                             fontSize: "10px",
                             height: "21.6px",
-                            borderRadius:"4px",
-                            px:"0px !important"
+                            borderRadius: "4px",
+                            px: "0px !important",
                           }}
                         />
                       );
@@ -280,7 +285,7 @@ export default function AllStaffTable() {
                   <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
                     {(() => {
                       const s = TODAY_STYLES[row.today] ?? {
-                        color: "#64748b",
+                        color: "text.light",
                       };
                       return (
                         <Box
@@ -324,13 +329,13 @@ export default function AllStaffTable() {
                           fontWeight: 700,
                           py: 0.6,
                           px: 1.25,
-                          backgroundColor:"background.default",
+                          backgroundColor: "background.default",
                           borderColor: "#BCEAFF",
                           color: "primary.main",
                           "&:hover": {
                             borderColor: "primary.main",
                             bgcolor: "#BCEAFF",
-                            color:"primary.main",
+                            color: "primary.main",
                           },
                         }}
                       >
@@ -340,13 +345,13 @@ export default function AllStaffTable() {
                         size="small"
                         variant="outlined"
                         sx={{
-                           borderRadius: 2,
+                          borderRadius: 2,
                           textTransform: "none",
                           fontSize: "10px",
                           fontWeight: 700,
                           py: 0.6,
                           px: 1.25,
-                          backgroundColor:"background.default",
+                          backgroundColor: "background.default",
                           borderColor: "#A7D47152",
                           color: "#8AC642",
                           "&:hover": {

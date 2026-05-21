@@ -34,7 +34,7 @@ const DetailCard = ({ label, value, sub, children, sx }) => (
       </Typography>
     )}
     {sub && (
-      <Typography fontSize="10px" fontWeight={500} color="text.grey" mt={0.3}>
+      <Typography fontSize="10px" fontWeight={400} color="text.grey" mt={0.3}>
         {sub}
       </Typography>
     )}
@@ -45,7 +45,12 @@ const DetailCard = ({ label, value, sub, children, sx }) => (
 export default function PersonalDetailsTab({ staff }) {
   return (
     <Box>
-      <Typography fontSize="20px" fontWeight={700} color="text.primary" mb={0.4}>
+      <Typography
+        fontSize="20px"
+        fontWeight={700}
+        color="text.primary"
+        mb={0.4}
+      >
         Personal Details
       </Typography>
       <Typography fontSize="14px" color="text.light" mb={3.5}>
@@ -67,7 +72,12 @@ export default function PersonalDetailsTab({ staff }) {
 
         {/* Residential Address */}
         <Box>
-          <Typography fontSize="14px" fontWeight={700} color="text.primary" mb={1.5}>
+          <Typography
+            fontSize="14px"
+            fontWeight={700}
+            color="text.primary"
+            mb={1.5}
+          >
             Residential Address
           </Typography>
           <DetailCard sx={{ minHeight: "auto", py: 2.5, gap: 0.3 }}>
@@ -85,7 +95,12 @@ export default function PersonalDetailsTab({ staff }) {
 
         {/* Emergency Contact */}
         <Box>
-          <Typography fontSize="14px" fontWeight={700} color="text.primary" mb={1.5}>
+          <Typography
+            fontSize="14px"
+            fontWeight={700}
+            color="text.primary"
+            mb={1.5}
+          >
             Emergency Contact
           </Typography>
           <Box sx={{ display: "flex", gap: 2 }}>
@@ -94,10 +109,7 @@ export default function PersonalDetailsTab({ staff }) {
               value="Robert Thompson"
               sub="Relationship: Husband"
             />
-            <DetailCard
-              label="Emergency Phone"
-              value="+44 7700 900555"
-            />
+            <DetailCard label="Emergency Phone" value="+44 7700 900555" />
           </Box>
         </Box>
       </Box>

@@ -65,7 +65,7 @@ export default function MedicationStatsCard({ sx = {} }) {
             <Typography
               sx={{
                 fontSize: "14px",
-                fontWeight: 500,
+                fontWeight: 400,
                 color: "rgba(255,255,255,0.9)",
                 mt: 1,
               }}

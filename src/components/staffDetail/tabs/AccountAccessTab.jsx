@@ -34,7 +34,7 @@ const IOSSwitch = styled((props) => (
     backgroundColor: "#E9E9EA",
     opacity: 1,
     transition: theme.transitions.create(["background-color"], {
-      duration: 500,
+      duration: 400,
     }),
   },
 }));

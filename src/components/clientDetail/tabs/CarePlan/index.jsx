@@ -337,7 +337,7 @@ function DocumentsView({ client, onBack }) {
               sx={{ transform: "rotate(90deg)", color: "text.light" }}
             />
           </Box>
-          <Typography fontSize="14px" fontWeight={500} color="text.primary">
+          <Typography fontSize="14px" fontWeight={400} color="text.primary">
             Drag and drop or click and select a file
           </Typography>
         </Box>
@@ -353,7 +353,7 @@ function DocumentsView({ client, onBack }) {
         >
           <Typography
             fontSize="10px"
-            fontWeight={800}
+            fontWeight={700}
             color="text.priamry"
             sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
           >
@@ -361,7 +361,7 @@ function DocumentsView({ client, onBack }) {
           </Typography>
           <Typography
             fontSize="10px"
-            fontWeight={800}
+            fontWeight={700}
             color="text.priamry"
             sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
           >
@@ -369,7 +369,7 @@ function DocumentsView({ client, onBack }) {
           </Typography>
           <Typography
             fontSize="10px"
-            fontWeight={800}
+            fontWeight={700}
             color="text.priamry"
             sx={{ textAlign: "center" }}
           >
@@ -743,11 +743,11 @@ function DetailSection({ number, title, description, children, action }) {
       <Grid container spacing={4}>
         <Grid size={{ xs: 12, md: 5 }}>
           <Box sx={{ display: "flex", gap: 1.5, mb: 2 }}>
-            <Typography fontSize="18px" fontWeight={800} color="text.primary">
+            <Typography fontSize="18px" fontWeight={700} color="text.primary">
               {number}.
             </Typography>
             <Box>
-              <Typography fontSize="18px" fontWeight={800} color="text.primary">
+              <Typography fontSize="18px" fontWeight={700} color="text.primary">
                 {title}
               </Typography>
               <Typography
@@ -794,7 +794,7 @@ function StatusCard({ title, subtitle, by, color, hasUpdate }) {
         <Typography
           fontSize="12px"
           color="text.primary"
-          fontWeight={500}
+          fontWeight={400}
           sx={{ mt: 0.5 }}
         >
           {subtitle}
@@ -923,7 +923,7 @@ function RiskCard({
           <Typography fontSize="12px" color="text.light">
             {date}
           </Typography>
-          <Typography fontSize="10px" fontWeight={800} color={severityColor}>
+          <Typography fontSize="10px" fontWeight={700} color={severityColor}>
             {severity}
           </Typography>
         </Box>

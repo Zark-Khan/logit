@@ -66,15 +66,14 @@ const staffRows = [
   },
 ];
 
-
 const TODAY_STATUS_STYLES = {
-  "FULLY OCCUPIED": { 
-    color: "primary.main", 
-    bgcolor: "background.default", 
+  "FULLY OCCUPIED": {
+    color: "primary.main",
+    bgcolor: "background.default",
   },
-  AVAILABLE: { 
-    color: "#528910", 
-    bgcolor: "#DCFCE7" 
+  AVAILABLE: {
+    color: "#528910",
+    bgcolor: "#DCFCE7",
   },
 };
 
@@ -117,9 +116,7 @@ function WeeklyCoverage({ days }) {
 function WorkloadBar({ hours, max }) {
   const pct = Math.min(hours / max, 1) * 100;
   return (
-    <Box
-      sx={{ display: "flex", alignItems: "center", gap: 1.2, minWidth: 90 }}
-    >
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1.2, minWidth: 90 }}>
       <Box
         sx={{
           flex: 1,
@@ -353,7 +350,7 @@ export default function WorkforceAvailabilityTable() {
                         py: 0.4,
                         borderRadius: "4px",
                         ...(TODAY_STATUS_STYLES[row.todayStatus] ?? {
-                          color: "#64748b",
+                          color: "text.light",
                           fontWeight: 600,
                         }),
                       }}

@@ -82,7 +82,7 @@ export default function TodaysDiary() {
       elevation={0}
       sx={{
         p: 2.5,
-        pb:0,
+        pb: 0,
         borderRadius: 3,
         border: "1px solid #2EBEFF85",
         backgroundColor: "#73D3FF38",
@@ -98,14 +98,10 @@ export default function TodaysDiary() {
         }}
       >
         <Box>
-          <Typography fontWeight={700} sx={{fontSize:"18px"}}>
+          <Typography fontWeight={700} sx={{ fontSize: "18px" }}>
             Today's Diary &amp; Activity
           </Typography>
-          <Typography
-            variant="body2"
-            color="text.darkGrey"
-            fontWeight={400}
-          >
+          <Typography variant="body2" color="text.darkGrey" fontWeight={400}>
             Tracking 6 scheduled care visits
           </Typography>
         </Box>
@@ -225,26 +221,39 @@ export default function TodaysDiary() {
                       >
                         {initial}
                       </Box>
-                      <Typography variant="body1" sx={{color:"text.primary", fontWeight:"600"}}>{client}</Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{ color: "text.primary", fontWeight: "600" }}
+                      >
+                        {client}
+                      </Typography>
                     </Box>
                   </TableCell>
 
                   {/* Carer */}
                   <TableCell sx={{ py: 1.8 }}>
-                    <Typography variant="body1" color="text.primary" fontWeight="500">
+                    <Typography
+                      variant="body1"
+                      color="text.primary"
+                      fontWeight="400"
+                    >
                       {carer}
                     </Typography>
                   </TableCell>
 
                   {/* Type */}
                   <TableCell sx={{ py: 1.8 }}>
-                    <Typography variant="body2" color="text.primary" fontWeight="600">
+                    <Typography
+                      variant="body2"
+                      color="text.primary"
+                      fontWeight="600"
+                    >
                       {type}
                     </Typography>
                   </TableCell>
 
                   {/* Status */}
-                  <TableCell sx={{ py: 1.8,textAlign:"right"}}>
+                  <TableCell sx={{ py: 1.8, textAlign: "right" }}>
                     <Box
                       sx={{
                         display: "inline-flex",

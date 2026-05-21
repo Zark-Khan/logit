@@ -111,7 +111,7 @@ export default function DiarySummaryCard({ sx = {} }) {
       {/* SECOND SOFT LAYER */}
       <Box
         component="svg"
-        viewBox="0 0 500 150"
+        viewBox="0 0 400 150"
         preserveAspectRatio="none"
         sx={{
           position: "absolute",
@@ -124,7 +124,7 @@ export default function DiarySummaryCard({ sx = {} }) {
         }}
       >
         <path
-          d="M0,140 C150,150 350,120 500,135 L500,150 L0,150 Z"
+          d="M0,140 C150,150 350,120 400,135 L400,150 L0,150 Z"
           fill="rgba(255,255,255,0.18)"
         />
       </Box>

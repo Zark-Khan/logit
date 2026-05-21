@@ -188,7 +188,7 @@ function DetailsContent() {
           icon={<GroupOutlinedIcon />}
           title="Care team"
           content={
-            <Typography fontSize="14px" fontWeight={500} color="primary.main">
+            <Typography fontSize="14px" fontWeight={400} color="primary.main">
               Priya Sasikumar
             </Typography>
           }
@@ -363,7 +363,7 @@ function ActivitiesContent() {
                   borderRadius: "6px",
                 }}
               >
-                <Typography fontSize="10px" fontWeight={800} color="#16A34A">
+                <Typography fontSize="10px" fontWeight={700} color="#16A34A">
                   {act.status}
                 </Typography>
               </Box>
@@ -594,7 +594,7 @@ function ObservationItem({ icon, title, value, meta, time }) {
                   >
                     <Typography
                       fontSize="8px"
-                      fontWeight={800}
+                      fontWeight={700}
                       color="text.secondary"
                     >
                       {m}

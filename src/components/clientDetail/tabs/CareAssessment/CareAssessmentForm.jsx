@@ -707,7 +707,7 @@ export default function CareAssessmentForm({ client }) {
                     justifyContent: "center",
                     fontSize: "12px",
                     fontWeight: 700,
-                    color: "#64748B",
+                    color: "text.light",
                   }}
                 >
                   1
@@ -777,7 +777,7 @@ export default function CareAssessmentForm({ client }) {
                     justifyContent: "center",
                     fontSize: "12px",
                     fontWeight: 700,
-                    color: "#64748B",
+                    color: "text.light",
                   }}
                 >
                   2
@@ -848,7 +848,7 @@ export default function CareAssessmentForm({ client }) {
                     justifyContent: "center",
                     fontSize: "12px",
                     fontWeight: 700,
-                    color: "#64748B",
+                    color: "text.light",
                   }}
                 >
                   3
@@ -918,7 +918,7 @@ export default function CareAssessmentForm({ client }) {
                     justifyContent: "center",
                     fontSize: "12px",
                     fontWeight: 700,
-                    color: "#64748B",
+                    color: "text.light",
                   }}
                 >
                   4
@@ -989,7 +989,7 @@ export default function CareAssessmentForm({ client }) {
                     justifyContent: "center",
                     fontSize: "12px",
                     fontWeight: 700,
-                    color: "#64748B",
+                    color: "text.light",
                   }}
                 >
                   5
@@ -1060,7 +1060,7 @@ export default function CareAssessmentForm({ client }) {
                     justifyContent: "center",
                     fontSize: "12px",
                     fontWeight: 700,
-                    color: "#64748B",
+                    color: "text.light",
                   }}
                 >
                   6

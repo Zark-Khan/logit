@@ -73,7 +73,7 @@ export default function DiarySummaryCard({ sx = {} }) {
               sx={{
                 fontSize: "10px",
                 color: "text.paper",
-                fontWeight: 500,
+                fontWeight: 400,
                 opacity: 0.8,
               }}
             >

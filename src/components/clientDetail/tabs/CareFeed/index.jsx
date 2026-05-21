@@ -161,14 +161,14 @@ function FilterChip({ label, count, active, onClick }) {
       <Typography
         fontSize="15px"
         fontWeight={700}
-        color={active ? "primary.main" : "#64748B"}
+        color={active ? "primary.main" : "text.light"}
       >
         {label}
       </Typography>
       <Box
         sx={{
           bgcolor: active ? "primary.main" : "#E2E8F0",
-          color: active ? "#fff" : "#64748B",
+          color: active ? "#fff" : "text.light",
           fontSize: "12px",
           fontWeight: 700,
           minWidth: 24,
@@ -281,7 +281,7 @@ function VisitCard({ item, onClick }) {
         >
           <Typography
             fontSize="10px"
-            fontWeight={800}
+            fontWeight={700}
             color={isInProgress ? "primary.main" : "#16A34A"}
           >
             {item.status}
@@ -367,7 +367,7 @@ function AlertCard({ item, onClick }) {
       </Box>
 
       <Box sx={{ bgcolor: "#FFEDD575", px: 2.5, py: 1.2 }}>
-        <Typography fontSize="10px" fontWeight={800} color="#EA580C">
+        <Typography fontSize="10px" fontWeight={700} color="#EA580C">
           ACTION NEEDED
         </Typography>
       </Box>

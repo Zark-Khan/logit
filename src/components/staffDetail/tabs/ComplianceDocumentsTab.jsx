@@ -15,7 +15,9 @@ const DocCard = ({ title, expires, badge, badgeBg, badgeColor, iconColor }) => (
     }}
   >
     <Box sx={{ display: "flex", alignItems: "center", gap: 2.5 }}>
-      <InsertDriveFileOutlinedIcon sx={{ color: iconColor || "#94A3B8", fontSize: "22px" }} />
+      <InsertDriveFileOutlinedIcon
+        sx={{ color: iconColor || "#94A3B8", fontSize: "20px" }}
+      />
       <Box>
         <Typography fontSize="14px" fontWeight={700} color="text.primary">
           {title}
@@ -99,11 +101,17 @@ export default function ComplianceDocumentsTab({ staff }) {
 
   return (
     <Box>
-      <Typography fontSize="20px" fontWeight={700} color="text.primary" mb={0.4}>
+      <Typography
+        fontSize="20px"
+        fontWeight={700}
+        color="text.primary"
+        mb={0.4}
+      >
         Compliance & Documents
       </Typography>
       <Typography fontSize="14px" color="text.light" mb={3.5}>
-        Detailed information and settings for {staff.name}'s compliance & documents.
+        Detailed information and settings for {staff.name}'s compliance &
+        documents.
       </Typography>
 
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>

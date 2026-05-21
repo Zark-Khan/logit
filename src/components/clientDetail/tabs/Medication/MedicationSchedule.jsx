@@ -65,7 +65,7 @@ export default function MedicationSchedule({ onBack }) {
           }}
         >
           <Box sx={{ display: "flex", alignItems: "baseline", gap: 1.5 }}>
-            <Typography fontWeight={800} fontSize="20px">
+            <Typography fontWeight={700} fontSize="20px">
               Margaret's medications
             </Typography>
             <Typography fontSize="14px" color="text.light">
@@ -117,7 +117,7 @@ export default function MedicationSchedule({ onBack }) {
 
         {/* Table */}
         <Box sx={{ width: "100%", overflowX: "auto" }}>
-          <Box sx={{ minWidth: 800 }}>
+          <Box sx={{ minWidth: 700 }}>
             {/* Column Headers */}
             <Box
               sx={{
@@ -141,7 +141,7 @@ export default function MedicationSchedule({ onBack }) {
                 <Typography
                   key={h}
                   fontSize="10px"
-                  fontWeight={800}
+                  fontWeight={700}
                   color="text.secondary"
                   sx={{ display: "flex", alignItems: "center" }}
                 >
@@ -176,7 +176,7 @@ export default function MedicationSchedule({ onBack }) {
                   }}
                 />
                 <Typography fontSize="14px" fontWeight={700}>
-                  Paracetamol 500mg tablets
+                  Paracetamol 400mg tablets
                 </Typography>
               </Box>
               <Typography fontSize="14px" color="text.light">

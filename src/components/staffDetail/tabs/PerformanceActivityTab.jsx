@@ -102,7 +102,7 @@ export default function PerformanceActivityTab({ staff }) {
           fontStyle="italic"
           color="text.primary"
           mb={1}
-          fontWeight={500}
+          fontWeight={400}
         >
           "Sarah consistently receives high praise for her palliative care
           support. She is very thorough with digital documentation."

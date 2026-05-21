@@ -89,7 +89,7 @@ export default function SkillsTrainingTab({ staff }) {
           mt: 2,
           width: "100%",
           py: 2.2,
-          border: "1px dashed #64748B",
+          border: "1px dashed text.light",
           borderRadius: "12px",
           display: "flex",
           justifyContent: "center",

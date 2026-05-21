@@ -24,7 +24,7 @@ export default function ClientDetailNav({ activeTab, onTabChange }) {
       sx={{
         flexShrink: 0,
         bgcolor: "rgba(138, 198, 66, 0.15)", // faint green background
-        border: "1px solid rgba(138, 198, 66, 0.4)",
+        border: "1px solid #8AC642",
         borderRadius: "24px",
         overflow: "hidden",
         px: 1.5,

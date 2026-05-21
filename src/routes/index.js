@@ -16,6 +16,9 @@ import ClientsLayout from "../layouts/ClientsLayout";
 import ClientsOverview from "../pages/ClientsOverview";
 import AllClients from "../pages/AllClients";
 import ClientDetailPage from "../components/clientDetail/ClientDetailPage";
+import RosteringPage from "../pages/RosteringPage";
+import CareDeliveryPage from "../pages/CareDeliveryPage";
+import FinancePage from "../pages/FinancePage";
 
 export default function AppRoutes() {
   return (
@@ -31,6 +34,9 @@ export default function AppRoutes() {
       {/* Dashboard — shared Navbar via DashboardLayout */}
       <Route element={<DashboardLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/rostering" element={<RosteringPage />} />
+        <Route path="/care-delivery" element={<CareDeliveryPage />} />
+        <Route path="/finance" element={<FinancePage />} />
 
         <Route path="/staff/all-staff/:id" element={<StaffDetailPage />} />
         <Route path="/staff" element={<StaffLayout />}>

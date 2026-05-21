@@ -116,7 +116,7 @@ export default function ClientOverviewTab({ client }) {
             sx={{
               p: 3,
               borderRadius: "16px",
-              border: "1px solid #FEA50080",
+              border: "1px solid #FEA40080",
               bgcolor: "#fff",
               width: "100%",
               flex: 1,
@@ -256,7 +256,7 @@ export default function ClientOverviewTab({ client }) {
                     labelStyle={{
                       fontWeight: 700,
                       fontSize: "12px",
-                      color: "#1E293B",
+                      color: "text.primary",
                       marginBottom: "4px",
                     }}
                   />

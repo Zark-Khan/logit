@@ -34,7 +34,12 @@ const TopStat = ({ icon, label, value, iconBg, iconColor }) => (
       {React.cloneElement(icon, { sx: { color: iconColor, fontSize: 18 } })}
     </Box>
     <Box>
-      <Typography fontSize="9px" fontWeight={700} color="text.light" textTransform="uppercase">
+      <Typography
+        fontSize="9px"
+        fontWeight={700}
+        color="text.light"
+        textTransform="uppercase"
+      >
         {label}
       </Typography>
       <Typography fontSize="16px" fontWeight={700} color="text.primary">
@@ -47,8 +52,15 @@ const TopStat = ({ icon, label, value, iconBg, iconColor }) => (
 const SummaryCard = ({ title, icon, rows }) => (
   <Box sx={{ flex: 1, minWidth: 260 }}>
     <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
-      {React.cloneElement(icon, { sx: { fontSize: 14, color: "text.secondary" } })}
-      <Typography fontSize="10px" fontWeight={700} color="text.secondary" textTransform="uppercase">
+      {React.cloneElement(icon, {
+        sx: { fontSize: 14, color: "text.secondary" },
+      })}
+      <Typography
+        fontSize="10px"
+        fontWeight={700}
+        color="text.secondary"
+        textTransform="uppercase"
+      >
         {title}
       </Typography>
     </Box>
@@ -62,10 +74,14 @@ const SummaryCard = ({ title, icon, rows }) => (
             mb: i === rows.length - 1 ? 0 : 1.2,
           }}
         >
-          <Typography fontSize="12px" color="text.secondary" fontWeight={500}>
+          <Typography fontSize="12px" color="text.secondary" fontWeight={400}>
             {row.label}
           </Typography>
-          <Typography fontSize="12px" fontWeight={700} color={row.color || "text.primary"}>
+          <Typography
+            fontSize="12px"
+            fontWeight={700}
+            color={row.color || "text.primary"}
+          >
             {row.value}
           </Typography>
         </Box>
@@ -105,7 +121,12 @@ const AppointmentPopover = () => (
           <Typography fontSize="11px" color="text.light" sx={{ width: 80 }}>
             {item.label}
           </Typography>
-          <Typography fontSize="11px" fontWeight={700} color="text.primary" sx={{ flex: 1 }}>
+          <Typography
+            fontSize="11px"
+            fontWeight={700}
+            color="text.primary"
+            sx={{ flex: 1 }}
+          >
             {item.value}
           </Typography>
         </Box>
@@ -141,11 +162,17 @@ export default function RosteringAssignmentsTab({ staff }) {
   return (
     <Box>
       {/* Top Heading */}
-      <Typography fontSize="20px" fontWeight={700} color="text.primary" mb={0.4}>
+      <Typography
+        fontSize="20px"
+        fontWeight={700}
+        color="text.primary"
+        mb={0.4}
+      >
         Rostering & Assignments
       </Typography>
       <Typography fontSize="14px" color="text.light" mb={3.5}>
-        Detailed information and settings for {staff.name}'s rostering & assignments.
+        Detailed information and settings for {staff.name}'s rostering &
+        assignments.
       </Typography>
 
       {/* Top 4 Stats */}
@@ -181,7 +208,14 @@ export default function RosteringAssignmentsTab({ staff }) {
       </Box>
 
       {/* Weekly Roster */}
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1.5 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 1.5,
+        }}
+      >
         <Typography fontSize="16px" fontWeight={700} color="text.primary">
           Weekly Roster
         </Typography>
@@ -204,12 +238,34 @@ export default function RosteringAssignmentsTab({ staff }) {
       </Box>
 
       {/* Custom Grid Calendar */}
-      <Box sx={{ bgcolor: "#fff", borderRadius: "12px", border: "1px solid #E2E8F0", overflow: "hidden", position: "relative", mb: 4 }}>
+      <Box
+        sx={{
+          bgcolor: "#fff",
+          borderRadius: "12px",
+          border: "1px solid #E2E8F0",
+          overflow: "hidden",
+          position: "relative",
+          mb: 4,
+        }}
+      >
         <AppointmentPopover />
-        
+
         <Box sx={{ display: "flex", borderBottom: "1px solid #E2E8F0" }}>
-          <Box sx={{ width: 140, p: 2, display: "flex", alignItems: "center", borderRight: "1px solid #E2E8F0" }}>
-            <Typography fontSize="9px" fontWeight={700} color="text.secondary" textTransform="uppercase">
+          <Box
+            sx={{
+              width: 140,
+              p: 2,
+              display: "flex",
+              alignItems: "center",
+              borderRight: "1px solid #E2E8F0",
+            }}
+          >
+            <Typography
+              fontSize="9px"
+              fontWeight={700}
+              color="text.secondary"
+              textTransform="uppercase"
+            >
               Week View
             </Typography>
           </Box>
@@ -222,7 +278,8 @@ export default function RosteringAssignmentsTab({ staff }) {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                borderRight: i !== columns.length - 1 ? "1px solid #E2E8F0" : "none",
+                borderRight:
+                  i !== columns.length - 1 ? "1px solid #E2E8F0" : "none",
               }}
             >
               <Typography fontSize="9px" fontWeight={700} color="text.primary">
@@ -233,9 +290,26 @@ export default function RosteringAssignmentsTab({ staff }) {
         </Box>
 
         {days.map((day, dIdx) => (
-          <Box key={dIdx} sx={{ display: "flex", borderBottom: dIdx !== days.length - 1 ? "1px solid #E2E8F0" : "none", height: 90 }}>
+          <Box
+            key={dIdx}
+            sx={{
+              display: "flex",
+              borderBottom:
+                dIdx !== days.length - 1 ? "1px solid #E2E8F0" : "none",
+              height: 90,
+            }}
+          >
             {/* Row Header */}
-            <Box sx={{ width: 140, p: 2, borderRight: "1px solid #E2E8F0", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <Box
+              sx={{
+                width: 140,
+                p: 2,
+                borderRight: "1px solid #E2E8F0",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
               <Typography fontSize="12px" fontWeight={700} color="text.primary">
                 {day.name}
               </Typography>
@@ -243,25 +317,79 @@ export default function RosteringAssignmentsTab({ staff }) {
                 {day.date}
               </Typography>
             </Box>
-            
+
             {/* Cells */}
             {columns.map((col, cIdx) => {
               let eventContent = null;
               if (dIdx === 0 && cIdx === 1) {
                 eventContent = (
-                  <Box sx={{ width: "95%", height: "80%", bgcolor: "#DCFCE7", border: "1px solid #86EFAC", borderRadius: "6px", p: 0.8, display: "flex", flexDirection: "column", gap: 0.3 }}>
-                    <Typography fontSize="10px" fontWeight={700} color="#166534">Sarah Th...</Typography>
-                    <Typography fontSize="9px" color="#16A34A">08:00 - 09:15</Typography>
-                    <Typography fontSize="8px" fontWeight={700} color="#16A34A" sx={{ mt: "auto" }}>• MORNING...</Typography>
+                  <Box
+                    sx={{
+                      width: "95%",
+                      height: "80%",
+                      bgcolor: "#DCFCE7",
+                      border: "1px solid #86EFAC",
+                      borderRadius: "6px",
+                      p: 0.8,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 0.3,
+                    }}
+                  >
+                    <Typography
+                      fontSize="10px"
+                      fontWeight={700}
+                      color="#166534"
+                    >
+                      Sarah Th...
+                    </Typography>
+                    <Typography fontSize="9px" color="#16A34A">
+                      08:00 - 09:15
+                    </Typography>
+                    <Typography
+                      fontSize="8px"
+                      fontWeight={700}
+                      color="#16A34A"
+                      sx={{ mt: "auto" }}
+                    >
+                      • MORNING...
+                    </Typography>
                   </Box>
                 );
               } else if (dIdx === 2 && cIdx === 2) {
                 // Wednesday, col 3 " "
                 eventContent = (
-                  <Box sx={{ width: "100%", height: "80%", bgcolor: "#F1F5F9", border: "1px solid #94A3B8", borderRadius: "6px", p: 0.8, display: "flex", flexDirection: "column", gap: 0.3 }}>
-                    <Typography fontSize="10px" fontWeight={700} color="text.primary">James Wilson</Typography>
-                    <Typography fontSize="9px" color="text.secondary">10:00 - 11:15</Typography>
-                    <Typography fontSize="8px" fontWeight={700} color="text.secondary" sx={{ mt: "auto" }}>• MEDICATION</Typography>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      height: "80%",
+                      bgcolor: "#F1F5F9",
+                      border: "1px solid #94A3B8",
+                      borderRadius: "6px",
+                      p: 0.8,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 0.3,
+                    }}
+                  >
+                    <Typography
+                      fontSize="10px"
+                      fontWeight={700}
+                      color="text.primary"
+                    >
+                      James Wilson
+                    </Typography>
+                    <Typography fontSize="9px" color="text.secondary">
+                      10:00 - 11:15
+                    </Typography>
+                    <Typography
+                      fontSize="8px"
+                      fontWeight={700}
+                      color="text.secondary"
+                      sx={{ mt: "auto" }}
+                    >
+                      • MEDICATION
+                    </Typography>
                   </Box>
                 );
               }
@@ -271,11 +399,14 @@ export default function RosteringAssignmentsTab({ staff }) {
                   key={cIdx}
                   sx={{
                     flex: 1,
-                    borderRight: cIdx !== columns.length - 1 ? "1px solid #E2E8F0" : "none",
+                    borderRight:
+                      cIdx !== columns.length - 1
+                        ? "1px solid #E2E8F0"
+                        : "none",
                     position: "relative",
                     display: "flex",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
                   }}
                 >
                   {eventContent}
@@ -301,7 +432,11 @@ export default function RosteringAssignmentsTab({ staff }) {
           title="Carer Hours Assigned"
           icon={<CalendarTodayOutlinedIcon />}
           rows={[
-            { label: "Carer hours this week", value: "23:00", color: "#16A34A" },
+            {
+              label: "Carer hours this week",
+              value: "23:00",
+              color: "#16A34A",
+            },
             { label: "Carer evenings this week", value: "6", color: "#16A34A" },
           ]}
         />
@@ -309,15 +444,30 @@ export default function RosteringAssignmentsTab({ staff }) {
           title="Planned Travel Time and Distance"
           icon={<LocationOnOutlinedIcon />}
           rows={[
-            { label: "Travel time for this week", value: "43h, 8m", color: "text.primary" },
-            { label: "Payable travel time", value: "0h, 0m", color: "text.primary" },
-            { label: "Travel mileage", value: "1784.48 miles", color: "text.primary" },
-            { label: "Payable travel mileage", value: "0 miles", color: "text.primary" },
+            {
+              label: "Travel time for this week",
+              value: "43h, 8m",
+              color: "text.primary",
+            },
+            {
+              label: "Payable travel time",
+              value: "0h, 0m",
+              color: "text.primary",
+            },
+            {
+              label: "Travel mileage",
+              value: "1784.48 miles",
+              color: "text.primary",
+            },
+            {
+              label: "Payable travel mileage",
+              value: "0 miles",
+              color: "text.primary",
+            },
             { label: "Waiting time", value: "0h, 10m", color: "text.primary" },
           ]}
         />
       </Box>
-
     </Box>
   );
 }

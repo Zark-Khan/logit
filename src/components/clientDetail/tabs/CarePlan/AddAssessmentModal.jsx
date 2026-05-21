@@ -79,7 +79,7 @@ export default function AddAssessmentModal({ open, onClose, onAdd }) {
           }}
         >
           <Box>
-            <Typography variant="h5" fontWeight={800} color="text.primary">
+            <Typography variant="h5" fontWeight={700} color="text.primary">
               Add assessments
             </Typography>
             <Typography fontSize="14px" color="text.light" sx={{ mt: 0.5 }}>
