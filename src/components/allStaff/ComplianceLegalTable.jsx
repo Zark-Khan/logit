@@ -70,7 +70,7 @@ const OVERALL_STATUS_STYLES = {
 };
 
 const PROBLEM_ITEM_STYLES = {
-  "DBS Renewal": { bg: "#FFFFFF", color: "#0D0F12" },
+  "DBS Renewal": { bg: "#FFFFFF", color: "text.primary" },
   "ID Verification": { bg: "#FEF2F2", color: "#DC2626" },
 };
 

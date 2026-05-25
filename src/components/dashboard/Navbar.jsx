@@ -22,7 +22,7 @@ const NAV_LINKS = [
   { label: "Rostering", path: "/rostering" },
   { label: "Care Delivery", path: "/care-delivery" },
   { label: "Finance", path: "/finance" },
-  { label: "Reports", path: "/reports", disabled: true },
+  { label: "Reports", path: "/reports" },
   { label: "Settings", path: "/settings", disabled: true },
 ];
 

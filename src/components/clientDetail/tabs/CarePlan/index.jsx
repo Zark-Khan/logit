@@ -32,9 +32,10 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import AddAssessmentModal from "./AddAssessmentModal";
+import ReviewAssessment from "./ReviewAssessment";
 
 export default function CarePlanTab({ client }) {
-  const [view, setView] = useState("dashboard"); // 'dashboard', 'personal-care', 'documents'
+  const [view, setView] = useState("dashboard"); // 'dashboard', 'documents', 'personal-care', 'review-personal-care', etc.
   const [addModalOpen, setAddModalOpen] = useState(false);
 
   return (
@@ -48,10 +49,19 @@ export default function CarePlanTab({ client }) {
         </Typography>
       </Box>
 
-      {view === "personal-care" ? (
-        <PersonalCareDetail
+      {view.startsWith("review-") ? (
+        <ReviewAssessment
+          categoryId={view.replace("review-", "")}
+          categoryTitle={view.replace("review-", "").replace("-", " ")}
+          clientName={client.name.split(" ")[0]}
+          onBack={() => setView(view.replace("review-", ""))}
+        />
+      ) : view !== "dashboard" && view !== "documents" ? (
+        <AssessmentDetail
           client={client}
+          categoryId={view}
           onBack={() => setView("dashboard")}
+          onReview={() => setView(`review-${view}`)}
         />
       ) : view === "documents" ? (
         <DocumentsView client={client} onBack={() => setView("dashboard")} />
@@ -90,6 +100,7 @@ export default function CarePlanTab({ client }) {
                   title: "Mobility",
                   icon: <DirectionsRunIcon />,
                   date: "27 FEB 2026",
+                  id: "mobility",
                 },
                 {
                   title: "Family / Carer Support",
@@ -547,7 +558,10 @@ function AssessmentCard({ icon, title, status, onClick }) {
   );
 }
 
-function PersonalCareDetail({ client, onBack }) {
+function AssessmentDetail({ client, categoryId, onBack, onReview }) {
+  const title = categoryId.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  const firstName = client.name.split(" ")[0];
+
   return (
     <Box>
       <Box
@@ -562,17 +576,16 @@ function PersonalCareDetail({ client, onBack }) {
       >
         <ArrowBackIcon sx={{ fontSize: 16, color: "primary.main" }} />
         <Typography fontSize="14px" fontWeight={700} color="primary.main">
-          Back to Margaret's care plan
+          Back to {firstName}'s care plan
         </Typography>
       </Box>
 
       <Box sx={{ mb: 5 }}>
         <Typography variant="h5" fontWeight={700} color="text.primary">
-          Personal care
+          {title}
         </Typography>
         <Typography fontSize="14px" color="text.light" sx={{ mt: 0.3 }}>
-          Capture outcomes, tasks and risks related to Margaret's personal care
-          needs.
+          Capture outcomes, tasks and risks related to {firstName}'s {title.toLowerCase()} needs.
         </Typography>
       </Box>
 
@@ -580,9 +593,9 @@ function PersonalCareDetail({ client, onBack }) {
       <DetailSection
         number="1"
         title="Needs assessment"
-        description="Record Margaret's level of independence for each personal care activity, and any support that is required"
+        description={`Record ${firstName}'s level of independence for each ${title.toLowerCase()} activity, and any support that is required`}
         action={
-          <Button variant="outlined" sx={outlineBtnSx}>
+          <Button variant="outlined" sx={{ textTransform: "none", borderRadius: "8px", fontWeight: 700 }} onClick={onReview}>
             Review assessment
           </Button>
         }
@@ -616,7 +629,7 @@ function PersonalCareDetail({ client, onBack }) {
       <DetailSection
         number="2"
         title="Assessment summary and outcomes"
-        description="Describe how your team can support Margaret"
+        description={`Describe how your team can support ${firstName}`}
       >
         <Box
           sx={{
@@ -652,7 +665,7 @@ function PersonalCareDetail({ client, onBack }) {
             <Typography fontSize="10px" fontWeight={700} color="text.light">
               677 / 2000 characters
             </Typography>
-            <Button variant="outlined" sx={outlineBtnSx}>
+            <Button variant="outlined" sx={{ textTransform: "none", borderRadius: "8px", fontWeight: 700 }}>
               Save changes
             </Button>
           </Box>
@@ -663,7 +676,7 @@ function PersonalCareDetail({ client, onBack }) {
       <DetailSection
         number="3"
         title="Tasks"
-        description="Add tasks to support Margaret in achieving their outcomes."
+        description={`Add tasks to support ${firstName} in achieving their outcomes.`}
       >
         <TextField
           fullWidth
@@ -699,9 +712,9 @@ function PersonalCareDetail({ client, onBack }) {
       <DetailSection
         number="4"
         title="Risks and mitigations"
-        description="Record any risks Margaret presents with, and the measures taken to mitigate them. If you feel Margaret's risk level has changed, you should consider the need to review the Care Plan and RAG status in Birdie and update accordingly."
+        description={`Record any risks ${firstName} presents with, and the measures taken to mitigate them. If you feel ${firstName}'s risk level has changed, you should consider the need to review the Care Plan and RAG status in Birdie and update accordingly.`}
         action={
-          <Button variant="outlined" sx={outlineBtnSx}>
+          <Button variant="outlined" sx={{ textTransform: "none", borderRadius: "8px", fontWeight: 700 }}>
             Add new risk
           </Button>
         }
@@ -949,14 +962,4 @@ function RiskCard({
   );
 }
 
-const outlineBtnSx = {
-  textTransform: "none",
-  borderRadius: "10px",
-  fontWeight: 700,
-  fontSize: "14px",
-  borderColor: "#E2E8F0",
-  color: "text.primary",
-  bgcolor: "#fff",
-  px: 2,
-  "&:hover": { borderColor: "primary.main", bgcolor: "rgba(0,0,0,0.02)" },
-};
+

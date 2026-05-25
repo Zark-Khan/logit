@@ -13,7 +13,7 @@ import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 const STATS = [
   {
     label: "Total Revenue",
-    value: "£142,500",
+    value: "£142,400",
     badge: "+12.5%",
     badgeColor: "#059669",
     badgeBg: "#ECFDF5",

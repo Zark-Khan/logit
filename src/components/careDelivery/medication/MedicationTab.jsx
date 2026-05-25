@@ -1,12 +1,27 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, TextField, MenuItem, IconButton, SvgIcon } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  TextField,
+  MenuItem,
+  SvgIcon,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddMedicationModal from "./AddMedicationModal";
 import MedicationDetailDrawer from "./MedicationDetailDrawer";
 
 function PillIcon(props) {
   return (
-    <SvgIcon {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <SvgIcon
+      {...props}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M10.5 20.5l-6-6a4.95 4.95 0 1 1 7-7l6 6a4.95 4.95 0 1 1-7 7z" />
       <line x1="8.5" y1="8.5" x2="15.5" y2="15.5" />
     </SvgIcon>
@@ -16,7 +31,7 @@ function PillIcon(props) {
 const MEDICATION_DATA = [
   {
     id: 1,
-    name: "Paracetamol 500mg",
+    name: "Paracetamol 400mg",
     client: "Arthur Morgan",
     frequency: "Twice Daily",
     time: "Today, 09:15 AM",
@@ -46,7 +61,7 @@ const MEDICATION_DATA = [
   },
   {
     id: 3,
-    name: "Metformin 500mg",
+    name: "Metformin 400mg",
     client: "John Marston",
     frequency: "Three Times Daily",
     time: "Yesterday, 06:00 PM",
@@ -55,7 +70,8 @@ const MEDICATION_DATA = [
     startDate: "2026-01-01",
     endDate: "Ongoing",
     route: "Oral (Tablet/Capsule)",
-    reason: "Client was asleep during the scheduled time and carer decided not to wake them as per care plan guidelines for non-critical medication.",
+    reason:
+      "Client was asleep during the scheduled time and carer decided not to wake them as per care plan guidelines for non-critical medication.",
     reportedBy: "Sarah Thompson",
     reportedAt: "Today, 07:30 AM",
   },
@@ -123,7 +139,9 @@ export default function MedicationTab() {
         <TextField
           placeholder="Search by medicine or client ..."
           InputProps={{
-            startAdornment: <SearchIcon sx={{ color: "#94A3B8", mr: 1, fontSize: 20 }} />,
+            startAdornment: (
+              <SearchIcon sx={{ color: "#94A3B8", mr: 1, fontSize: 20 }} />
+            ),
           }}
           sx={{
             width: 448,
@@ -133,7 +151,12 @@ export default function MedicationTab() {
               height: 44,
               "& fieldset": { border: "none" },
             },
-            "& input::placeholder": { color: "#94A3B8", opacity: 1, fontSize: "14px", fontWeight: 500 },
+            "& input::placeholder": {
+              color: "#94A3B8",
+              opacity: 1,
+              fontSize: "14px",
+              fontWeight: 400,
+            },
           }}
         />
 
@@ -149,7 +172,11 @@ export default function MedicationTab() {
                 height: 37,
                 "& fieldset": { border: "none" },
               },
-              "& .MuiSelect-select": { color: "#EF4444", fontWeight: 700, fontSize: "14px" },
+              "& .MuiSelect-select": {
+                color: "#EF4444",
+                fontWeight: 700,
+                fontSize: "14px",
+              },
             }}
           >
             <MenuItem value="Missed">Missed</MenuItem>
@@ -167,7 +194,11 @@ export default function MedicationTab() {
                 height: 37,
                 "& fieldset": { border: "none" },
               },
-              "& .MuiSelect-select": { color: "text.light", fontWeight: 500, fontSize: "14px" },
+              "& .MuiSelect-select": {
+                color: "text.light",
+                fontWeight: 400,
+                fontSize: "14px",
+              },
             }}
           >
             <MenuItem value="Today">Today, 1 Mar 2026</MenuItem>
@@ -203,15 +234,22 @@ export default function MedicationTab() {
           overflow: "hidden",
         }}
       >
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", p: 3 }}>
-          <Typography fontSize="16px" fontWeight={800} color="text.primary">
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            p: 3,
+          }}
+        >
+          <Typography fontSize="16px" fontWeight={700} color="text.primary">
             Active Medications
           </Typography>
           <Typography fontSize="12px" fontWeight={700} color="text.grey">
             Showing all clients
           </Typography>
         </Box>
-        
+
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           {MEDICATION_DATA.map((item, index) => (
             <Box
@@ -243,20 +281,39 @@ export default function MedicationTab() {
                   <PillIcon sx={{ color: "#F43F5E", fontSize: 22 }} />
                 </Box>
                 <Box>
-                  <Typography fontSize="14px" fontWeight={700} color="text.primary" mb={0.2}>
+                  <Typography
+                    fontSize="14px"
+                    fontWeight={700}
+                    color="text.primary"
+                    mb={0.2}
+                  >
                     {item.name}
                   </Typography>
-                  <Typography fontSize="12px" color="text.light" fontWeight={400}>
+                  <Typography
+                    fontSize="12px"
+                    color="text.light"
+                    fontWeight={400}
+                  >
                     {item.client} &bull; {item.frequency}
                   </Typography>
                 </Box>
               </Box>
 
               <Box sx={{ textAlign: "right" }}>
-                <Typography fontSize="12px" fontWeight={700} color="text.primary" mb={0.2}>
+                <Typography
+                  fontSize="12px"
+                  fontWeight={700}
+                  color="text.primary"
+                  mb={0.2}
+                >
                   {item.time}
                 </Typography>
-                <Typography fontSize="10px" fontWeight={700} color={item.status === "MISSED" ? "#EF4444" : "#10B981"} sx={{ letterSpacing: "0.05em" }}>
+                <Typography
+                  fontSize="10px"
+                  fontWeight={700}
+                  color={item.status === "MISSED" ? "#EF4444" : "#10B981"}
+                  sx={{ letterSpacing: "0.05em" }}
+                >
                   {item.status}
                 </Typography>
               </Box>

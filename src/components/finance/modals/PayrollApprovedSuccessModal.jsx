@@ -1,7 +1,7 @@
 import React from "react";
 import { Dialog, Box, Typography, Button } from "@mui/material";
 
-export default function PaymentRecordedSuccessModal({ open, onClose, amount }) {
+export default function PayrollApprovedSuccessModal({ open, onClose, staffCount = 42 }) {
   return (
     <Dialog
       open={open}
@@ -9,8 +9,8 @@ export default function PaymentRecordedSuccessModal({ open, onClose, amount }) {
       PaperProps={{
         sx: {
           width: "100%",
-          maxWidth: 440, // Match RecordPaymentModal precisely!
-          borderRadius: "24px", // Match RecordPaymentModal precisely!
+          maxWidth: 440,
+          borderRadius: "24px",
           p: 4,
           textAlign: "center",
           boxShadow: "0px 25px 50px -12px rgba(0, 0, 0, 0.15)",
@@ -42,6 +42,7 @@ export default function PaymentRecordedSuccessModal({ open, onClose, amount }) {
             mx: "auto",
           }}
         >
+         
             <svg
               width="28"
               height="28"
@@ -64,7 +65,7 @@ export default function PaymentRecordedSuccessModal({ open, onClose, amount }) {
                 strokeLinejoin="round"
               />
             </svg>
-        </Box>
+          </Box>
           
         {/* Title & Subtitle */}
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
@@ -74,7 +75,7 @@ export default function PaymentRecordedSuccessModal({ open, onClose, amount }) {
             color="text.primary"
             sx={{ lineHeight: 1.2 }}
           >
-            Payment Recorded!
+            Payroll Approved!
           </Typography>
           <Typography
             fontSize="16px"
@@ -82,9 +83,7 @@ export default function PaymentRecordedSuccessModal({ open, onClose, amount }) {
             fontWeight={400}
             sx={{ lineHeight: 1.6, maxWidth: 340, mx: "auto" }}
           >
-            The payment of{" "}
-              {amount}
-            has been successfully recorded and applied to the invoice.
+            All {staffCount} staff payroll have been successfully approved for payroll.
           </Typography>
         </Box>
 
@@ -98,13 +97,12 @@ export default function PaymentRecordedSuccessModal({ open, onClose, amount }) {
             borderRadius: "16px",
             py: 2,
             fontWeight: 700,
-            fontSize: "14px",
+            fontSize: "16px",
             textTransform: "none",
             boxShadow: "none",
-            "&:hover": { bgcolor: "#0284C7" },
           }}
         >
-          Back to Payments
+          Back to Payroll
         </Button>
       </Box>
     </Dialog>

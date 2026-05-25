@@ -42,12 +42,12 @@ const inputSx = {
     backgroundColor: "#F8FAFC",
     "& fieldset": { borderColor: "#F1F5F9" },
   },
-  "& input::placeholder": { color: "#94A3B8", opacity: 1, fontWeight: 500 },
+  "& input::placeholder": { color: "#94A3B8", opacity: 1, fontWeight: 400 },
 };
 
 const labelSx = {
   fontSize: "10px",
-  fontWeight: 800,
+  fontWeight: 700,
   color: "#64748B",
   mb: 1,
   letterSpacing: "0.05em",
@@ -68,11 +68,15 @@ export default function ReportIncidentModal({ open, onClose }) {
   const [witnesses, setWitnesses] = useState([]);
   const [followUp, setFollowUp] = useState("No");
 
-  const handleClose = () => { setStep(0); onClose(); };
+  const handleClose = () => {
+    setStep(0);
+    onClose();
+  };
   const handleNext = () => setStep((s) => Math.min(s + 1, 2));
   const handleBack = () => setStep((s) => Math.max(s - 1, 0));
   const addWitness = () => setWitnesses((w) => [...w, ""]);
-  const updateWitness = (i, val) => setWitnesses((w) => w.map((x, idx) => (idx === i ? val : x)));
+  const updateWitness = (i, val) =>
+    setWitnesses((w) => w.map((x, idx) => (idx === i ? val : x)));
 
   return (
     <Dialog
@@ -116,12 +120,16 @@ export default function ReportIncidentModal({ open, onClose }) {
               <Typography fontSize="20px" fontWeight={700} color="text.primary">
                 Report New Incident
               </Typography>
-              <Typography fontSize="12px" color="#64748B" fontWeight={500}>
+              <Typography fontSize="12px" color="#64748B" fontWeight={400}>
                 {STEP_SUBTITLES[step]}
               </Typography>
             </Box>
           </Box>
-          <IconButton size="small" onClick={handleClose} sx={{ color: "#94A3B8" }}>
+          <IconButton
+            size="small"
+            onClick={handleClose}
+            sx={{ color: "#94A3B8" }}
+          >
             <CloseIcon sx={{ fontSize: 20 }} />
           </IconButton>
         </Box>
@@ -131,149 +139,149 @@ export default function ReportIncidentModal({ open, onClose }) {
 
       {/* Step 1: Incident Details */}
       {step === 0 && (
-      <Box sx={{ p: 3, backgroundColor: "#ffffff" }}>
-        <Grid container spacing={2.5}>
-          {/* Incident Type */}
-          <Grid size={{ xs: 12, sm: 6 }}>
-            <Typography
-              sx={labelSx}
-              fontSize={"10px"}
-              fontWeight={700}
-              color="text.grey"
-            >
-              Incident Type
-            </Typography>
-            <TextField
-              select
-              fullWidth
-              defaultValue=""
-              SelectProps={{ displayEmpty: true }}
-              sx={inputSx}
-            >
-              <MenuItem value="" disabled>
-                Select Type
-              </MenuItem>
-              <MenuItem value="fall">Fall</MenuItem>
-              <MenuItem value="injury">Injury</MenuItem>
-              <MenuItem value="safeguarding">Safeguarding</MenuItem>
-              <MenuItem value="health">Health Deterioration</MenuItem>
-              <MenuItem value="other">Other</MenuItem>
-            </TextField>
-          </Grid>
+        <Box sx={{ p: 3, backgroundColor: "#ffffff" }}>
+          <Grid container spacing={2.5}>
+            {/* Incident Type */}
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Typography
+                sx={labelSx}
+                fontSize={"10px"}
+                fontWeight={700}
+                color="text.grey"
+              >
+                Incident Type
+              </Typography>
+              <TextField
+                select
+                fullWidth
+                defaultValue=""
+                SelectProps={{ displayEmpty: true }}
+                sx={inputSx}
+              >
+                <MenuItem value="" disabled>
+                  Select Type
+                </MenuItem>
+                <MenuItem value="fall">Fall</MenuItem>
+                <MenuItem value="injury">Injury</MenuItem>
+                <MenuItem value="safeguarding">Safeguarding</MenuItem>
+                <MenuItem value="health">Health Deterioration</MenuItem>
+                <MenuItem value="other">Other</MenuItem>
+              </TextField>
+            </Grid>
 
-          {/* Client Name */}
-          <Grid size={{ xs: 12, sm: 6 }}>
-            <Typography
-              sx={labelSx}
-              fontSize={"10px"}
-              fontWeight={700}
-              color="text.grey"
-            >
-              Client Name
-            </Typography>
-            <TextField
-              fullWidth
-              placeholder="e.g. Arthur Morgan"
-              sx={inputSx}
-            />
-          </Grid>
+            {/* Client Name */}
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Typography
+                sx={labelSx}
+                fontSize={"10px"}
+                fontWeight={700}
+                color="text.grey"
+              >
+                Client Name
+              </Typography>
+              <TextField
+                fullWidth
+                placeholder="e.g. Arthur Morgan"
+                sx={inputSx}
+              />
+            </Grid>
 
-          {/* Date & Time */}
-          <Grid size={{ xs: 12, sm: 6 }}>
-            <Typography
-              sx={labelSx}
-              fontSize={"10px"}
-              fontWeight={700}
-              color="text.grey"
-            >
-              Date & Time
-            </Typography>
-            <TextField
-              fullWidth
-              type="datetime-local"
-              InputProps={{
-                startAdornment: (
-                  <CalendarTodayOutlinedIcon
-                    sx={{ color: "#94A3B8", fontSize: 18, mr: 1 }}
-                  />
-                ),
-              }}
-              sx={{
-                ...inputSx,
-                "& input[type='datetime-local']::-webkit-calendar-picker-indicator":
-                  { opacity: 0.5, cursor: "pointer" },
-              }}
-            />
-          </Grid>
+            {/* Date & Time */}
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Typography
+                sx={labelSx}
+                fontSize={"10px"}
+                fontWeight={700}
+                color="text.grey"
+              >
+                Date & Time
+              </Typography>
+              <TextField
+                fullWidth
+                type="datetime-local"
+                InputProps={{
+                  startAdornment: (
+                    <CalendarTodayOutlinedIcon
+                      sx={{ color: "#94A3B8", fontSize: 18, mr: 1 }}
+                    />
+                  ),
+                }}
+                sx={{
+                  ...inputSx,
+                  "& input[type='datetime-local']::-webkit-calendar-picker-indicator":
+                    { opacity: 0.5, cursor: "pointer" },
+                }}
+              />
+            </Grid>
 
-          {/* Location */}
-          <Grid size={{ xs: 12, sm: 6 }}>
-            <Typography
-              sx={labelSx}
-              fontSize={"10px"}
-              fontWeight={700}
-              color="text.grey"
-            >
-              Location
-            </Typography>
-            <TextField
-              fullWidth
-              placeholder="e.g. Living Room"
-              InputProps={{
-                startAdornment: (
-                  <LocationOnOutlinedIcon
-                    sx={{ color: "#94A3B8", fontSize: 18, mr: 1 }}
-                  />
-                ),
-              }}
-              sx={inputSx}
-            />
-          </Grid>
+            {/* Location */}
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Typography
+                sx={labelSx}
+                fontSize={"10px"}
+                fontWeight={700}
+                color="text.grey"
+              >
+                Location
+              </Typography>
+              <TextField
+                fullWidth
+                placeholder="e.g. Living Room"
+                InputProps={{
+                  startAdornment: (
+                    <LocationOnOutlinedIcon
+                      sx={{ color: "#94A3B8", fontSize: 18, mr: 1 }}
+                    />
+                  ),
+                }}
+                sx={inputSx}
+              />
+            </Grid>
 
-          {/* Severity Level */}
-          <Grid size={{ xs: 12 }}>
-            <Typography
-              sx={labelSx}
-              fontSize={"10px"}
-              fontWeight={700}
-              color="text.grey"
-            >
-              Severity Level
-            </Typography>
-            <Box sx={{ display: "flex", gap: 1.5 }}>
-              {SEVERITY_LEVELS.map((level) => {
-                const isActive = severity === level;
-                const styles = isActive
-                  ? SEVERITY_COLORS[level].active
-                  : SEVERITY_COLORS[level].idle;
-                return (
-                  <Box
-                    key={level}
-                    onClick={() => setSeverity(level)}
-                    sx={{
-                      flex: 1,
-                      py: 1,
-                      borderRadius: "10px",
-                      border: "1.5px solid",
-                      borderColor: styles.border,
-                      bgcolor: styles.bgcolor,
-                      color: styles.color,
-                      fontSize: "12px",
-                      fontWeight: 700,
-                      textAlign: "center",
-                      cursor: "pointer",
-                      transition: "all 0.15s ease",
-                      userSelect: "none",
-                    }}
-                  >
-                    {level}
-                  </Box>
-                );
-              })}
-            </Box>
+            {/* Severity Level */}
+            <Grid size={{ xs: 12 }}>
+              <Typography
+                sx={labelSx}
+                fontSize={"10px"}
+                fontWeight={700}
+                color="text.grey"
+              >
+                Severity Level
+              </Typography>
+              <Box sx={{ display: "flex", gap: 1.5 }}>
+                {SEVERITY_LEVELS.map((level) => {
+                  const isActive = severity === level;
+                  const styles = isActive
+                    ? SEVERITY_COLORS[level].active
+                    : SEVERITY_COLORS[level].idle;
+                  return (
+                    <Box
+                      key={level}
+                      onClick={() => setSeverity(level)}
+                      sx={{
+                        flex: 1,
+                        py: 1,
+                        borderRadius: "10px",
+                        border: "1.5px solid",
+                        borderColor: styles.border,
+                        bgcolor: styles.bgcolor,
+                        color: styles.color,
+                        fontSize: "12px",
+                        fontWeight: 700,
+                        textAlign: "center",
+                        cursor: "pointer",
+                        transition: "all 0.15s ease",
+                        userSelect: "none",
+                      }}
+                    >
+                      {level}
+                    </Box>
+                  );
+                })}
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
+        </Box>
       )}
 
       {/* Step 2: Description & Witnesses */}
@@ -281,7 +289,12 @@ export default function ReportIncidentModal({ open, onClose }) {
         <Box sx={{ p: 3, backgroundColor: "#ffffff" }}>
           <Grid container spacing={2.5}>
             <Grid size={{ xs: 12 }}>
-              <Typography sx={labelSx} fontSize={"10px"} fontWeight={700} color="text.grey">
+              <Typography
+                sx={labelSx}
+                fontSize={"10px"}
+                fontWeight={700}
+                color="text.grey"
+              >
                 Incident Description
               </Typography>
               <TextField
@@ -297,13 +310,30 @@ export default function ReportIncidentModal({ open, onClose }) {
                     alignItems: "flex-start",
                     "& fieldset": { borderColor: "#F1F5F9" },
                   },
-                  "& textarea::placeholder": { color: "#94A3B8", opacity: 1, fontWeight: 500 },
+                  "& textarea::placeholder": {
+                    color: "#94A3B8",
+                    opacity: 1,
+                    fontWeight: 400,
+                  },
                 }}
               />
             </Grid>
             <Grid size={{ xs: 12 }}>
-              <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1.5 }}>
-                <Typography sx={labelSx} fontSize={"10px"} fontWeight={700} color="text.grey" mb={0}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 1.5,
+                }}
+              >
+                <Typography
+                  sx={labelSx}
+                  fontSize={"10px"}
+                  fontWeight={700}
+                  color="text.grey"
+                  mb={0}
+                >
                   Witnesses
                 </Typography>
                 <Button
@@ -335,7 +365,9 @@ export default function ReportIncidentModal({ open, onClose }) {
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+                <Box
+                  sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}
+                >
                   {witnesses.map((w, i) => (
                     <TextField
                       key={i}
@@ -374,20 +406,24 @@ export default function ReportIncidentModal({ open, onClose }) {
                     alignItems: "flex-start",
                     "& fieldset": { borderColor: "#F1F5F9" },
                   },
-                  "& textarea::placeholder": { color: "#94A3B8", opacity: 1, fontWeight: 500 },
+                  "& textarea::placeholder": {
+                    color: "#94A3B8",
+                    opacity: 1,
+                    fontWeight: 400,
+                  },
                 }}
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <Typography sx={labelSx} fontSize={"10px"} fontWeight={700} color="text.grey">
+              <Typography
+                sx={labelSx}
+                fontSize={"10px"}
+                fontWeight={700}
+                color="text.grey"
+              >
                 Current Status
               </Typography>
-              <TextField
-                select
-                fullWidth
-                defaultValue="Open"
-                sx={inputSx}
-              >
+              <TextField select fullWidth defaultValue="Open" sx={inputSx}>
                 <MenuItem value="Open">Open</MenuItem>
                 <MenuItem value="Investigating">Investigating</MenuItem>
                 <MenuItem value="Closed">Closed</MenuItem>
@@ -395,7 +431,12 @@ export default function ReportIncidentModal({ open, onClose }) {
               </TextField>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <Typography sx={labelSx} fontSize={"10px"} fontWeight={700} color="text.grey">
+              <Typography
+                sx={labelSx}
+                fontSize={"10px"}
+                fontWeight={700}
+                color="text.grey"
+              >
                 Follow-Up Required?
               </Typography>
               <Box sx={{ display: "flex", gap: 1.5 }}>
@@ -437,9 +478,23 @@ export default function ReportIncidentModal({ open, onClose }) {
                   border: "1px solid #BFDBFE",
                 }}
               >
-                <InfoOutlinedIcon sx={{ color: "#3B82F6", fontSize: 18, flexShrink: 0, mt: 0.1 }} />
-                <Typography fontSize="12px" color="#1D4ED8" fontWeight={400} sx={{ lineHeight: 1.6 }}>
-                  By saving this report, you confirm that all information provided is accurate to the best of your knowledge. This report will be logged for review by the safeguarding lead.
+                <InfoOutlinedIcon
+                  sx={{
+                    color: "#3B82F6",
+                    fontSize: 18,
+                    flexShrink: 0,
+                    mt: 0.1,
+                  }}
+                />
+                <Typography
+                  fontSize="12px"
+                  color="#1D4ED8"
+                  fontWeight={400}
+                  sx={{ lineHeight: 1.6 }}
+                >
+                  By saving this report, you confirm that all information
+                  provided is accurate to the best of your knowledge. This
+                  report will be logged for review by the safeguarding lead.
                 </Typography>
               </Box>
             </Grid>

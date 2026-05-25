@@ -626,7 +626,7 @@ function RequirementItem({ label }) {
           cursor: "pointer",
         }}
       />
-      <Typography fontSize="16px" fontWeight={800} color="#334155">
+      <Typography fontSize="16px" fontWeight={700} color="#334155">
         {label}
       </Typography>
     </Box>
@@ -636,7 +636,7 @@ function RequirementItem({ label }) {
 function FinanceSection({ carerName }) {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-      <Typography fontSize="18px" fontWeight={800} color="text.primary" mb={1}>
+      <Typography fontSize="18px" fontWeight={700} color="text.primary" mb={1}>
         Carer: {carerName}
       </Typography>
 
@@ -791,7 +791,7 @@ function FinanceField({ label, value, hint, required }) {
             bgcolor: "#F8FAFC",
           }}
         >
-          <Typography fontSize="14px" fontWeight={800} color="text.primary">
+          <Typography fontSize="14px" fontWeight={700} color="text.primary">
             {value}
           </Typography>
         </Paper>
@@ -847,7 +847,7 @@ function NoteField({ label, placeholder }) {
           },
           "& .MuiInputBase-input": {
             fontSize: "14px",
-            fontWeight: 500,
+            fontWeight: 400,
             color: "text.grey",
           },
         }}
@@ -860,11 +860,11 @@ function TravelSection({ carerName, method, clientName }) {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <Typography fontSize="18px" fontWeight={800} color="text.primary">
+        <Typography fontSize="18px" fontWeight={700} color="text.primary">
           Carer: {carerName}
         </Typography>
         <Box sx={{ width: "2px", height: "20px", bgcolor: "#CBD5E1" }} />
-        <Typography fontSize="18px" fontWeight={800} color="text.primary">
+        <Typography fontSize="18px" fontWeight={700} color="text.primary">
           Travel method: {method}
         </Typography>
       </Box>
@@ -898,7 +898,7 @@ function RouteInfo({ from, to, distance, time }) {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-      <Typography fontSize="14px" fontWeight={800} color="text.primary">
+      <Typography fontSize="14px" fontWeight={700} color="text.primary">
         {isClient(from) ? (
           <Box component="span" sx={{ color: "primary.main" }}>
             {from}

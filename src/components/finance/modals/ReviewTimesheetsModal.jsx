@@ -5,7 +5,6 @@ import {
   Typography,
   IconButton,
   Button,
-  Divider,
   Avatar,
   AvatarGroup,
 } from "@mui/material";
@@ -28,9 +27,24 @@ const STAFF_LIST = [
 ];
 
 const SHIFTS = [
-  { date: "Mar 01, 2024", desc: "Morning Shift • 80.0 Miles", hours: "8.0h", status: "PAID" },
-  { date: "Mar 02, 2024", desc: "Afternoon Shift • 12.0 Miles", hours: "8.0h", status: "PAID" },
-  { date: "Mar 03, 2024", desc: "Evening Shift • 15.0 Miles", hours: "8.0h", status: "PAID" },
+  {
+    date: "Mar 01, 2024",
+    desc: "Morning Shift • 80.0 Miles",
+    hours: "8.0h",
+    status: "PAID",
+  },
+  {
+    date: "Mar 02, 2024",
+    desc: "Afternoon Shift • 12.0 Miles",
+    hours: "8.0h",
+    status: "PAID",
+  },
+  {
+    date: "Mar 03, 2024",
+    desc: "Evening Shift • 15.0 Miles",
+    hours: "8.0h",
+    status: "PAID",
+  },
 ];
 
 const btnBase = {
@@ -68,7 +82,7 @@ export default function ReviewTimesheetsModal({ open, onClose }) {
           borderRadius: "24px",
           boxShadow: "0 24px 48px -12px rgba(16,24,40,0.18)",
           overflow: "hidden",
-          backgroundColor:"#F8FAFC4D !important"
+          backgroundColor: "#F8FAFC4D !important",
         },
       }}
     >
@@ -90,10 +104,20 @@ export default function ReviewTimesheetsModal({ open, onClose }) {
           >
             <CheckCircleIcon sx={{ color: "#059669", fontSize: 36 }} />
           </Box>
-          <Typography fontSize="24px" fontWeight={700} color="text.primary" mb={1}>
+          <Typography
+            fontSize="24px"
+            fontWeight={700}
+            color="text.primary"
+            mb={1}
+          >
             Timesheets Approved!
           </Typography>
-          <Typography fontSize="16px" color="text.grey" fontWeight={500} sx={{ mb: 4 }}>
+          <Typography
+            fontSize="16px"
+            color="text.grey"
+            fontWeight={400}
+            sx={{ mb: 4 }}
+          >
             All staff timesheets have been successfully approved for payroll.
           </Typography>
           <Button
@@ -116,8 +140,22 @@ export default function ReviewTimesheetsModal({ open, onClose }) {
       ) : (
         <>
           {/* ── Header ── */}
-          <Box sx={{ px: 3, pt: 3, pb: 2.5, bgcolor: "#fff", borderBottom: "1px solid #F1F5F9" }}>
-            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <Box
+            sx={{
+              px: 3,
+              pt: 3,
+              pb: 2.5,
+              bgcolor: "#fff",
+              borderBottom: "1px solid #F1F5F9",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+              }}
+            >
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                 <Box
                   sx={{
@@ -133,15 +171,27 @@ export default function ReviewTimesheetsModal({ open, onClose }) {
                   <AccessTimeIcon sx={{ color: "#059669", fontSize: 22 }} />
                 </Box>
                 <Box>
-                  <Typography fontSize="20px" fontWeight={700} color="text.primary">
+                  <Typography
+                    fontSize="20px"
+                    fontWeight={700}
+                    color="text.primary"
+                  >
                     Review Timesheets
                   </Typography>
-                  <Typography fontSize="14px" color="text.light" fontWeight={400}>
+                  <Typography
+                    fontSize="14px"
+                    color="text.light"
+                    fontWeight={400}
+                  >
                     Approve or reject staff hours for the current payroll cycle
                   </Typography>
                 </Box>
               </Box>
-              <IconButton size="small" onClick={handleClose} sx={{ color: "text.grey" }}>
+              <IconButton
+                size="small"
+                onClick={handleClose}
+                sx={{ color: "text.grey" }}
+              >
                 <CloseIcon sx={{ fontSize: 20 }} />
               </IconButton>
             </Box>
@@ -149,7 +199,6 @@ export default function ReviewTimesheetsModal({ open, onClose }) {
 
           {/* ── Body (2 Columns) ── */}
           <Box sx={{ display: "flex", height: 540, bgcolor: "#fff" }}>
-            
             {/* Left Sidebar */}
             <Box
               sx={{
@@ -164,11 +213,17 @@ export default function ReviewTimesheetsModal({ open, onClose }) {
                 fontSize="12px"
                 fontWeight={700}
                 color="#94A3B8"
-                sx={{ textTransform: "uppercase", letterSpacing: "0.06em", px: 3, pt: 3, pb: 1.5 }}
+                sx={{
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                  px: 3,
+                  pt: 3,
+                  pb: 1.5,
+                }}
               >
                 Pending Review
               </Typography>
-              
+
               {/* Staff List */}
               <Box sx={{ flex: 1, overflowY: "auto", px: 2 }}>
                 {STAFF_LIST.map((staff) => {
@@ -189,7 +244,9 @@ export default function ReviewTimesheetsModal({ open, onClose }) {
                         border: isActive && "1px solid #DBEAFE",
                       }}
                     >
-                      <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 1.5 }}
+                      >
                         <Avatar
                           sx={{
                             width: 32,
@@ -198,22 +255,32 @@ export default function ReviewTimesheetsModal({ open, onClose }) {
                             color: "text.primary",
                             fontSize: "12px",
                             fontWeight: 700,
-                           
                           }}
                         >
                           {staff.initial}
                         </Avatar>
                         <Box>
-                          <Typography fontSize="14px" fontWeight={700} color="text.primary">
+                          <Typography
+                            fontSize="14px"
+                            fontWeight={700}
+                            color="text.primary"
+                          >
                             {staff.name}
                           </Typography>
-                          <Typography fontSize="12px" color="text.light" fontWeight={500}>
+                          <Typography
+                            fontSize="12px"
+                            color="text.light"
+                            fontWeight={400}
+                          >
                             {staff.hours}
                           </Typography>
                         </Box>
                       </Box>
                       <KeyboardArrowRightIcon
-                        sx={{ color: isActive ? "#2563EB" : "#CBD5E1", fontSize: 18 }}
+                        sx={{
+                          color: isActive ? "#2563EB" : "#CBD5E1",
+                          fontSize: 18,
+                        }}
                       />
                     </Box>
                   );
@@ -221,24 +288,60 @@ export default function ReviewTimesheetsModal({ open, onClose }) {
               </Box>
 
               {/* Bottom Info */}
-              <Box sx={{ p: 2, borderTop: "1px solid #F1F5F9", display: "flex", alignItems: "center", gap: 1.5 }}>
-                <AvatarGroup max={3} sx={{ "& .MuiAvatar-root": { width: 32, height: 32, fontSize: "10px" } }}>
-                  <Avatar sx={{ bgcolor: "#F1F5F9", color: "#64748B" }}>T</Avatar>
-                  <Avatar sx={{ bgcolor: "#F1F5F9", color: "#64748B" }}>M</Avatar>
-                  <Avatar sx={{ bgcolor: "#F1F5F9", color: "#64748B" }}>S</Avatar>
+              <Box
+                sx={{
+                  p: 2,
+                  borderTop: "1px solid #F1F5F9",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1.5,
+                }}
+              >
+                <AvatarGroup
+                  max={3}
+                  sx={{
+                    "& .MuiAvatar-root": {
+                      width: 32,
+                      height: 32,
+                      fontSize: "10px",
+                    },
+                  }}
+                >
+                  <Avatar sx={{ bgcolor: "#F1F5F9", color: "#64748B" }}>
+                    T
+                  </Avatar>
+                  <Avatar sx={{ bgcolor: "#F1F5F9", color: "#64748B" }}>
+                    M
+                  </Avatar>
+                  <Avatar sx={{ bgcolor: "#F1F5F9", color: "#64748B" }}>
+                    S
+                  </Avatar>
                 </AvatarGroup>
-                <Typography fontSize="12px" color="text.grey" fontWeight={500}>
+                <Typography fontSize="12px" color="text.grey" fontWeight={400}>
                   +3 staff members pending review
                 </Typography>
               </Box>
             </Box>
 
             {/* Right Content */}
-            <Box sx={{ flex: 1, display: "flex", flexDirection: "column", bgcolor: "#fff" }}>
+            <Box
+              sx={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                bgcolor: "#fff",
+              }}
+            >
               <Box sx={{ flex: 1, overflowY: "auto", p: 4 }}>
-                
                 {/* Profile Header */}
-                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: 4 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "flex-start",
+                    mb: 4,
+                  }}
+                >
                   <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                     <Avatar
                       sx={{
@@ -249,23 +352,31 @@ export default function ReviewTimesheetsModal({ open, onClose }) {
                         fontSize: "24px",
                         fontWeight: 700,
                         border: "1px solid #F1F5F9",
-                         borderRadius: "16px",
+                        borderRadius: "16px",
                       }}
                     >
                       A
                     </Avatar>
                     <Box>
-                      <Typography fontSize="24px" fontWeight={700} color="text.primary">
+                      <Typography
+                        fontSize="24px"
+                        fontWeight={700}
+                        color="text.primary"
+                      >
                         Arthur Morgan
                       </Typography>
-                      <Typography fontSize="14px" color="text.grey" fontWeight={500}>
+                      <Typography
+                        fontSize="14px"
+                        color="text.grey"
+                        fontWeight={400}
+                      >
                         Senior Carer • Central Branch
                       </Typography>
                     </Box>
                   </Box>
-                  
+
                   {/* Action Buttons */}
-                  <Box sx={{ display: "flex", gap: 1, alignItems: "center"   }}>
+                  <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
                     <IconButton
                       sx={{
                         width: 40,
@@ -295,89 +406,202 @@ export default function ReviewTimesheetsModal({ open, onClose }) {
 
                 {/* Stats Row */}
                 <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
-                  <Box sx={{ flex: 1, p: 2.5, borderRadius: "24px", border: "1px solid #F1F5F9", bgcolor: "#fff" }}>
-                    <Typography fontSize="10px" fontWeight={700} color="text.grey" sx={{ textTransform: "uppercase", letterSpacing: "0.06em", mb: 0.5 }}>
+                  <Box
+                    sx={{
+                      flex: 1,
+                      p: 2.5,
+                      borderRadius: "24px",
+                      border: "1px solid #F1F5F9",
+                      bgcolor: "#fff",
+                    }}
+                  >
+                    <Typography
+                      fontSize="10px"
+                      fontWeight={700}
+                      color="text.grey"
+                      sx={{
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        mb: 0.5,
+                      }}
+                    >
                       Total Hours
                     </Typography>
-                    <Typography fontSize="20px" fontWeight={700} color="text.primary">
+                    <Typography
+                      fontSize="20px"
+                      fontWeight={700}
+                      color="text.primary"
+                    >
                       240.0h
                     </Typography>
                   </Box>
-                  <Box sx={{ flex: 1, p: 2.5, borderRadius: "24px", border: "1px solid #F1F5F9", bgcolor: "#fff" }}>
-                    <Typography fontSize="10px" fontWeight={700} color="text.grey" sx={{ textTransform: "uppercase", letterSpacing: "0.06em", mb: 0.5 }}>
+                  <Box
+                    sx={{
+                      flex: 1,
+                      p: 2.5,
+                      borderRadius: "24px",
+                      border: "1px solid #F1F5F9",
+                      bgcolor: "#fff",
+                    }}
+                  >
+                    <Typography
+                      fontSize="10px"
+                      fontWeight={700}
+                      color="text.grey"
+                      sx={{
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        mb: 0.5,
+                      }}
+                    >
                       Overtime
                     </Typography>
-                    <Typography fontSize="20px" fontWeight={700} color="#059669">
+                    <Typography
+                      fontSize="20px"
+                      fontWeight={700}
+                      color="#059669"
+                    >
                       12.5h
                     </Typography>
                   </Box>
-                  <Box sx={{ flex: 1, p: 2.5, borderRadius: "24px", border: "1px solid #F1F5F9", bgcolor: "#fff" }}>
-                    <Typography fontSize="10px" fontWeight={700} color="text.grey" sx={{ textTransform: "uppercase", letterSpacing: "0.06em", mb: 0.5 }}>
+                  <Box
+                    sx={{
+                      flex: 1,
+                      p: 2.5,
+                      borderRadius: "24px",
+                      border: "1px solid #F1F5F9",
+                      bgcolor: "#fff",
+                    }}
+                  >
+                    <Typography
+                      fontSize="10px"
+                      fontWeight={700}
+                      color="text.grey"
+                      sx={{
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        mb: 0.5,
+                      }}
+                    >
                       Gross Pay
                     </Typography>
-                    <Typography fontSize="20px" fontWeight={700} color="text.primary">
+                    <Typography
+                      fontSize="20px"
+                      fontWeight={700}
+                      color="text.primary"
+                    >
                       £2,840.00
                     </Typography>
                   </Box>
                 </Box>
-                      <Box sx={{border: "1px solid #F1F5F9",bgcolor:"#fff",borderRadius:"24px",p:2.5}}>
+                <Box
+                  sx={{
+                    border: "1px solid #F1F5F9",
+                    bgcolor: "#fff",
+                    borderRadius: "24px",
+                    p: 2.5,
+                  }}
+                >
+                  {/* Shift Breakdown */}
+                  <Typography
+                    fontSize="12px"
+                    fontWeight={700}
+                    color="#64748B"
+                    sx={{
+                      textTransform: "uppercase",
+                      letterSpacing: "0.06em",
+                      mb: 2,
+                    }}
+                  >
+                    Shift Breakdown
+                  </Typography>
 
-                {/* Shift Breakdown */}
-                <Typography fontSize="12px" fontWeight={700} color="#64748B" sx={{ textTransform: "uppercase", letterSpacing: "0.06em", mb: 2 }}>
-                  Shift Breakdown
-                </Typography>
-                
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-                  {SHIFTS.map((s, i) => (
-                    <Box
-                      key={i}
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        py: 1,
-                        borderBottom: i === SHIFTS.length - 1 ? "none" : "1px solid #F8FAFC",
-                      }}
-                    >
-                      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  <Box
+                    sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}
+                  >
+                    {SHIFTS.map((s, i) => (
+                      <Box
+                        key={i}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          py: 1,
+                          borderBottom:
+                            i === SHIFTS.length - 1
+                              ? "none"
+                              : "1px solid #F8FAFC",
+                        }}
+                      >
                         <Box
-                          sx={{
-                            width: 36,
-                            height: 36,
-                            borderRadius: "10px",
-                            bgcolor: "#F8FAFC",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
                         >
-                          <InsertDriveFileOutlinedIcon sx={{ color: "#94A3B8", fontSize: 18 }} />
+                          <Box
+                            sx={{
+                              width: 36,
+                              height: 36,
+                              borderRadius: "10px",
+                              bgcolor: "#F8FAFC",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <InsertDriveFileOutlinedIcon
+                              sx={{ color: "#94A3B8", fontSize: 18 }}
+                            />
+                          </Box>
+                          <Box>
+                            <Typography
+                              fontSize="14px"
+                              fontWeight={700}
+                              color="text.primary"
+                            >
+                              {s.date}
+                            </Typography>
+                            <Typography
+                              fontSize="12px"
+                              color="text.light"
+                              fontWeight={400}
+                            >
+                              {s.desc}
+                            </Typography>
+                          </Box>
                         </Box>
-                        <Box>
-                          <Typography fontSize="14px" fontWeight={700} color="text.primary">
-                            {s.date}
+                        <Box sx={{ textAlign: "right" }}>
+                          <Typography
+                            fontSize="14px"
+                            fontWeight={700}
+                            color="text.primary"
+                            mb={0.25}
+                          >
+                            {s.hours}
                           </Typography>
-                          <Typography fontSize="12px" color="text.light" fontWeight={500}>
-                            {s.desc}
+                          <Typography
+                            fontSize="10px"
+                            fontWeight={700}
+                            color="#10B981"
+                            sx={{ letterSpacing: "0.05em" }}
+                          >
+                            {s.status}
                           </Typography>
                         </Box>
                       </Box>
-                      <Box sx={{ textAlign: "right" }}>
-                        <Typography fontSize="14px" fontWeight={700} color="text.primary" mb={0.25}>
-                          {s.hours}
-                        </Typography>
-                        <Typography fontSize="10px" fontWeight={700} color="#10B981" sx={{ letterSpacing: "0.05em" }}>
-                          {s.status}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  ))}
-                </Box>
+                    ))}
+                  </Box>
                 </Box>
               </Box>
 
               {/* Footer Button inside Right Content */}
-              <Box sx={{ p: 3, borderTop: "1px solid #F1F5F9", display: "flex", justifyContent: "flex-end", bgcolor: "#fff" }}>
+              <Box
+                sx={{
+                  p: 3,
+                  borderTop: "1px solid #F1F5F9",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  bgcolor: "#fff",
+                }}
+              >
                 <Button
                   onClick={handleApproveAll}
                   startIcon={<CheckCircleOutlineIcon />}

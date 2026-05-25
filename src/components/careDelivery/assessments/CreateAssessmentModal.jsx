@@ -70,8 +70,8 @@ export default function CreateAssessmentModal({ open, onClose }) {
                   bgcolor: isCompleted
                     ? "#10B981"
                     : isActive
-                    ? "#0EA5E9"
-                    : "#E2E8F0",
+                      ? "#0EA5E9"
+                      : "#E2E8F0",
                   color: isCompleted || isActive ? "#fff" : "#64748B",
                   fontSize: "12px",
                   fontWeight: 700,
@@ -109,7 +109,12 @@ export default function CreateAssessmentModal({ open, onClose }) {
   );
 
   const renderDetails = () => (
-    <Box sx={{ "& input::placeholder": { color: "#84919A", opacity: 1 }, "& .MuiSelect-select": { color: "#84919A" } }}>
+    <Box
+      sx={{
+        "& input::placeholder": { color: "#84919A", opacity: 1 },
+        "& .MuiSelect-select": { color: "#84919A" },
+      }}
+    >
       <Grid container spacing={4}>
         <Grid size={{ xs: 12, sm: 6 }}>
           <Typography
@@ -237,11 +242,33 @@ export default function CreateAssessmentModal({ open, onClose }) {
 
   const renderQuestions = () => (
     <Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
-        <Typography fontSize="14px" fontWeight={800} color="text.primary" sx={{ letterSpacing: "0.05em" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 3,
+        }}
+      >
+        <Typography
+          fontSize="14px"
+          fontWeight={700}
+          color="text.primary"
+          sx={{ letterSpacing: "0.05em" }}
+        >
           ASSESSMENT QUESTIONS
         </Typography>
-        <Typography fontSize="13px" fontWeight={700} color="#0EA5E9" sx={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 0.5 }}>
+        <Typography
+          fontSize="13px"
+          fontWeight={700}
+          color="#0EA5E9"
+          sx={{
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: 0.5,
+          }}
+        >
           + Add Question
         </Typography>
       </Box>
@@ -252,14 +279,14 @@ export default function CreateAssessmentModal({ open, onClose }) {
             qNum: 1,
             qText: "Can the client walk 50m without assistance?",
             response: "Yes",
-            placeholder: "Add any specific observations..."
+            placeholder: "Add any specific observations...",
           },
           {
             qNum: 2,
             qText: "Has the client had a fall in the last 6 months?",
             response: "No",
-            placeholder: "Add any specific observations..."
-          }
+            placeholder: "Add any specific observations...",
+          },
         ].map((item) => (
           <Box
             key={item.qNum}
@@ -269,9 +296,16 @@ export default function CreateAssessmentModal({ open, onClose }) {
               bgcolor: "#F8FAFC",
             }}
           >
-            <Box sx={{ display: "flex", gap: 2, alignItems: "flex-start", mb: 3 }}>
+            <Box
+              sx={{ display: "flex", gap: 2, alignItems: "flex-start", mb: 3 }}
+            >
               <Box sx={{ flex: 1 }}>
-                <Typography fontSize="10px" fontWeight={800} color="#64748B" sx={{ mb: 1, letterSpacing: "0.05em" }}>
+                <Typography
+                  fontSize="10px"
+                  fontWeight={700}
+                  color="#64748B"
+                  sx={{ mb: 1, letterSpacing: "0.05em" }}
+                >
                   QUESTION {item.qNum}
                 </Typography>
                 <TextField
@@ -283,12 +317,21 @@ export default function CreateAssessmentModal({ open, onClose }) {
                       bgcolor: "#fff",
                       "& fieldset": { border: "none" },
                     },
-                    "& input::placeholder": { color: "#94A3B8", opacity: 1, fontWeight: 500 },
+                    "& input::placeholder": {
+                      color: "#94A3B8",
+                      opacity: 1,
+                      fontWeight: 400,
+                    },
                   }}
                 />
               </Box>
               <Box sx={{ minWidth: 120 }}>
-                <Typography fontSize="10px" fontWeight={800} color="#64748B" sx={{ mb: 1, letterSpacing: "0.05em" }}>
+                <Typography
+                  fontSize="10px"
+                  fontWeight={700}
+                  color="#64748B"
+                  sx={{ mb: 1, letterSpacing: "0.05em" }}
+                >
                   RESPONSE
                 </Typography>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -301,7 +344,11 @@ export default function CreateAssessmentModal({ open, onClose }) {
                         bgcolor: "#fff",
                         "& fieldset": { border: "none" },
                       },
-                      "& input::placeholder": { color: "#94A3B8", opacity: 1, fontWeight: 500 },
+                      "& input::placeholder": {
+                        color: "#94A3B8",
+                        opacity: 1,
+                        fontWeight: 400,
+                      },
                     }}
                   />
                   <IconButton size="small" sx={{ color: "#EF4444" }}>
@@ -312,7 +359,12 @@ export default function CreateAssessmentModal({ open, onClose }) {
             </Box>
 
             <Box>
-              <Typography fontSize="10px" fontWeight={800} color="#64748B" sx={{ mb: 1, letterSpacing: "0.05em" }}>
+              <Typography
+                fontSize="10px"
+                fontWeight={700}
+                color="#64748B"
+                sx={{ mb: 1, letterSpacing: "0.05em" }}
+              >
                 NOTES / OBSERVATIONS
               </Typography>
               <TextField
@@ -326,7 +378,11 @@ export default function CreateAssessmentModal({ open, onClose }) {
                     bgcolor: "#fff",
                     "& fieldset": { border: "none" },
                   },
-                  "& textarea::placeholder": { color: "#94A3B8", opacity: 1, fontWeight: 500 },
+                  "& textarea::placeholder": {
+                    color: "#94A3B8",
+                    opacity: 1,
+                    fontWeight: 400,
+                  },
                 }}
               />
             </Box>
@@ -347,7 +403,12 @@ export default function CreateAssessmentModal({ open, onClose }) {
           border: "1px solid #F1F5F9",
         }}
       >
-        <Typography fontSize="10px" fontWeight={800} color="#64748B" sx={{ mb: 1.5, letterSpacing: "0.05em" }}>
+        <Typography
+          fontSize="10px"
+          fontWeight={700}
+          color="#64748B"
+          sx={{ mb: 1.5, letterSpacing: "0.05em" }}
+        >
           RISK LEVEL OUTCOME
         </Typography>
         <Box
@@ -370,7 +431,10 @@ export default function CreateAssessmentModal({ open, onClose }) {
                 cursor: "pointer",
                 bgcolor: level === "Low" ? "#0EA5E9" : "#fff",
                 color: level === "Low" ? "#fff" : "text.primary",
-                boxShadow: level === "Low" ? "0px 4px 12px rgba(14, 165, 233, 0.2)" : "0px 2px 4px rgba(0,0,0,0.02)",
+                boxShadow:
+                  level === "Low"
+                    ? "0px 4px 12px rgba(14, 165, 233, 0.2)"
+                    : "0px 2px 4px rgba(0,0,0,0.02)",
                 transition: "all 0.2s",
               }}
             >
@@ -379,7 +443,12 @@ export default function CreateAssessmentModal({ open, onClose }) {
           ))}
         </Box>
 
-        <Typography fontSize="10px" fontWeight={800} color="#64748B" sx={{ mb: 1, letterSpacing: "0.05em" }}>
+        <Typography
+          fontSize="10px"
+          fontWeight={700}
+          color="#64748B"
+          sx={{ mb: 1, letterSpacing: "0.05em" }}
+        >
           OUTCOME SCORE / SUMMARY
         </Typography>
         <TextField
@@ -392,11 +461,20 @@ export default function CreateAssessmentModal({ open, onClose }) {
               bgcolor: "#fff",
               "& fieldset": { borderColor: "#F1F5F9" },
             },
-            "& input::placeholder": { color: "#94A3B8", opacity: 1, fontWeight: 500 },
+            "& input::placeholder": {
+              color: "#94A3B8",
+              opacity: 1,
+              fontWeight: 400,
+            },
           }}
         />
 
-        <Typography fontSize="10px" fontWeight={800} color="#64748B" sx={{ mb: 1, letterSpacing: "0.05em" }}>
+        <Typography
+          fontSize="10px"
+          fontWeight={700}
+          color="#64748B"
+          sx={{ mb: 1, letterSpacing: "0.05em" }}
+        >
           STATUS
         </Typography>
         <TextField
@@ -408,7 +486,11 @@ export default function CreateAssessmentModal({ open, onClose }) {
               bgcolor: "#fff",
               "& fieldset": { borderColor: "#F1F5F9" },
             },
-            "& input::placeholder": { color: "#94A3B8", opacity: 1, fontWeight: 500 },
+            "& input::placeholder": {
+              color: "#94A3B8",
+              opacity: 1,
+              fontWeight: 400,
+            },
           }}
         />
       </Box>
@@ -425,8 +507,14 @@ export default function CreateAssessmentModal({ open, onClose }) {
         }}
       >
         <InfoOutlinedIcon sx={{ color: "#0EA5E9", fontSize: 20, mt: 0.2 }} />
-        <Typography fontSize="13px" color="#0EA5E9" fontWeight={500} sx={{ lineHeight: 1.6 }}>
-          Assessments should be reviewed regularly. A high risk outcome will automatically flag this client for immediate care plan review.
+        <Typography
+          fontSize="13px"
+          color="#0EA5E9"
+          fontWeight={400}
+          sx={{ lineHeight: 1.6 }}
+        >
+          Assessments should be reviewed regularly. A high risk outcome will
+          automatically flag this client for immediate care plan review.
         </Typography>
       </Box>
     </Box>
@@ -466,7 +554,7 @@ export default function CreateAssessmentModal({ open, onClose }) {
       <Typography fontSize="12px" color="text.light" mb={4}>
         Complete professional assessment for client care needs.
       </Typography>
-      
+
       <Divider sx={{ borderColor: "#F1F5F9", mx: -4 }} />
       {renderStepper()}
 

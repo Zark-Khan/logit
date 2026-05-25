@@ -264,7 +264,19 @@ export default function ClientDetailPage() {
         </Box>
 
         <Grid container spacing={4}>
-          <Grid size={{ xs: 12, md: 3 }}>
+          <Grid 
+            size={{ xs: 12, md: 3 }} 
+            sx={{ 
+              position: "sticky", 
+              top: 80, // increased to avoid hiding behind the main AppBar
+              alignSelf: "flex-start",
+              maxHeight: "calc(100vh - 120px)",
+              overflowY: "auto",
+              "&::-webkit-scrollbar": { display: "none" },
+              msOverflowStyle: "none",
+              scrollbarWidth: "none",
+            }}
+          >
             <ClientDetailNav activeTab={activeTab} onTabChange={setActiveTab} />
           </Grid>
 

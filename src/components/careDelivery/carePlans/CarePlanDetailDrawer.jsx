@@ -66,7 +66,7 @@ export default function CarePlanDetailDrawer({ open, onClose, plan }) {
               <Typography fontSize="20px" fontWeight={700} color="text.primary">
                 {plan.name}
               </Typography>
-              <Typography fontSize="12px" color="text.grey" fontWeight={500}>
+              <Typography fontSize="12px" color="text.grey" fontWeight={400}>
                 Care Plan Ref: CP-001
               </Typography>
             </Box>
@@ -221,7 +221,7 @@ export default function CarePlanDetailDrawer({ open, onClose, plan }) {
                     <Box>
                       <Typography
                         fontSize="14px"
-                        fontWeight={500}
+                        fontWeight={400}
                         color="text.primary"
                         sx={{ mb: 1, lineHeight: 1.5 }}
                       >
@@ -316,7 +316,7 @@ export default function CarePlanDetailDrawer({ open, onClose, plan }) {
                           />
                           <Typography
                             fontSize="14px"
-                            fontWeight={500}
+                            fontWeight={400}
                             color="text.primary"
                           >
                             Personal care and grooming support
@@ -406,7 +406,7 @@ export default function CarePlanDetailDrawer({ open, onClose, plan }) {
                   />
                   <Typography
                     fontSize="12px"
-                    fontWeight={500}
+                    fontWeight={400}
                     color="text.grey"
                   >
                     Last Review
@@ -432,7 +432,7 @@ export default function CarePlanDetailDrawer({ open, onClose, plan }) {
                   />
                   <Typography
                     fontSize="12px"
-                    fontWeight={500}
+                    fontWeight={400}
                     color="text.grey"
                   >
                     Next Review Due

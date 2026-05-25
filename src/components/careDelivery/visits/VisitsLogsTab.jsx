@@ -221,7 +221,7 @@ export default function VisitsLogsTab() {
                     }}
                   >
                     <PersonOutlineIcon sx={{ fontSize: 18 }} />
-                    <Typography fontSize="14px" fontWeight={500}>
+                    <Typography fontSize="14px" fontWeight={400}>
                       {row.carer}
                     </Typography>
                   </Box>
@@ -229,7 +229,7 @@ export default function VisitsLogsTab() {
                 <TableCell sx={{ borderBottom: "1px solid #fff" }}>
                   <Typography
                     fontSize="14px"
-                    fontWeight={500}
+                    fontWeight={400}
                     color="text.light"
                   >
                     {row.scheduled}
@@ -238,7 +238,7 @@ export default function VisitsLogsTab() {
                 <TableCell sx={{ borderBottom: "1px solid #fff" }}>
                   <Typography
                     fontSize="14px"
-                    fontWeight={500}
+                    fontWeight={400}
                     color="text.light"
                   >
                     {row.actual}

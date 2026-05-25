@@ -5,7 +5,6 @@ import {
   Typography,
   IconButton,
   Button,
-  Divider,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
@@ -106,7 +105,7 @@ export default function InvoicePreviewModal({ open, onClose, invoice }) {
                 fontWeight: 700,
                 fontSize: "20px",
                 lineHeight: "28px",
-                color: "#0D0F12",
+                color: "text.primary",
               }}
             >
               Invoice Preview
@@ -259,7 +258,7 @@ export default function InvoicePreviewModal({ open, onClose, invoice }) {
                   fontWeight: 700,
                   fontSize: "14px",
                   lineHeight: "20px",
-                  color: "#0D0F12",
+                  color: "text.primary",
                 }}
               >
                 {inv.id}
@@ -315,7 +314,7 @@ export default function InvoicePreviewModal({ open, onClose, invoice }) {
                   fontWeight: 700,
                   fontSize: "14px",
                   lineHeight: "20px",
-                  color: "#0D0F12",
+                  color: "text.primary",
                   mb: "4px",
                 }}
               >
@@ -407,7 +406,7 @@ export default function InvoicePreviewModal({ open, onClose, invoice }) {
               gridTemplateColumns: "349.35fr 78.83fr 90.78fr 113.08fr",
               pt: "15px",
               pb: "17.5px",
-              borderBottom: "1.6px solid #0D0F12",
+              borderBottom: "1.6px solid text.primary",
             }}
           >
             {[
@@ -424,7 +423,7 @@ export default function InvoicePreviewModal({ open, onClose, invoice }) {
                   lineHeight: "15px",
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
-                  color: "#0D0F12",
+                  color: "text.primary",
                   textAlign: align,
                 }}
               >
@@ -451,7 +450,7 @@ export default function InvoicePreviewModal({ open, onClose, invoice }) {
                     fontWeight: 700,
                     fontSize: "14px",
                     lineHeight: "20px",
-                    color: "#0D0F12",
+                    color: "text.primary",
                   }}
                 >
                   {ln.desc}
@@ -475,7 +474,7 @@ export default function InvoicePreviewModal({ open, onClose, invoice }) {
                   fontWeight: 400,
                   fontSize: "14px",
                   lineHeight: "20px",
-                  color: "#0D0F12",
+                  color: "text.primary",
                   textAlign: "center",
                 }}
               >
@@ -486,7 +485,7 @@ export default function InvoicePreviewModal({ open, onClose, invoice }) {
                   fontWeight: 400,
                   fontSize: "14px",
                   lineHeight: "20px",
-                  color: "#0D0F12",
+                  color: "text.primary",
                   textAlign: "center",
                 }}
               >
@@ -497,7 +496,7 @@ export default function InvoicePreviewModal({ open, onClose, invoice }) {
                   fontWeight: 700,
                   fontSize: "14px",
                   lineHeight: "20px",
-                  color: "#0D0F12",
+                  color: "text.primary",
                   textAlign: "right",
                 }}
               >
@@ -532,7 +531,7 @@ export default function InvoicePreviewModal({ open, onClose, invoice }) {
               >
                 <Typography
                   sx={{
-                    fontWeight: 500,
+                    fontWeight: 400,
                     fontSize: "14px",
                     lineHeight: "20px",
                     color: "#475569",
@@ -545,7 +544,7 @@ export default function InvoicePreviewModal({ open, onClose, invoice }) {
                     fontWeight: 700,
                     fontSize: "14px",
                     lineHeight: "20px",
-                    color: "#0D0F12",
+                    color: "text.primary",
                     textAlign: "right",
                   }}
                 >
@@ -571,7 +570,7 @@ export default function InvoicePreviewModal({ open, onClose, invoice }) {
                   fontStyle: "italic",
                   fontSize: "18px",
                   lineHeight: "28px",
-                  color: "#0D0F12",
+                  color: "text.primary",
                   textTransform: "uppercase",
                 }}
               >
@@ -579,10 +578,10 @@ export default function InvoicePreviewModal({ open, onClose, invoice }) {
               </Typography>
               <Typography
                 sx={{
-                  fontWeight: 800,
+                  fontWeight: 700,
                   fontSize: "24px",
                   lineHeight: "32px",
-                  color: "#0D0F12",
+                  color: "text.primary",
                   textAlign: "right",
                 }}
               >

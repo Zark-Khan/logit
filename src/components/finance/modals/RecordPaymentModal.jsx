@@ -26,26 +26,62 @@ import CheckIcon from "@mui/icons-material/Check";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const CLIENTS = [
-  { name: "Arthur Morgan", sub: "Private Funding · ID: CL-2094", color: "#0EA5E9" },
-  { name: "Sadie Adler", sub: "Private Funding · ID: CL-2094", color: "#E11D48" },
-  { name: "John Marston", sub: "Private Funding · ID: CL-2094", color: "#D97706" },
-  { name: "Charles Smith", sub: "Private Funding · ID: CL-2094", color: "#059669" },
-  { name: "Bill Williamson", sub: "Private Funding · ID: CL-2094", color: "#8B5CF6" },
+  {
+    name: "Arthur Morgan",
+    sub: "Private Funding · ID: CL-2094",
+    color: "#0EA5E9",
+  },
+  {
+    name: "Sadie Adler",
+    sub: "Private Funding · ID: CL-2094",
+    color: "#E11D48",
+  },
+  {
+    name: "John Marston",
+    sub: "Private Funding · ID: CL-2094",
+    color: "#D97706",
+  },
+  {
+    name: "Charles Smith",
+    sub: "Private Funding · ID: CL-2094",
+    color: "#059669",
+  },
+  {
+    name: "Bill Williamson",
+    sub: "Private Funding · ID: CL-2094",
+    color: "#8B5CF6",
+  },
 ];
 
 const PAYMENT_METHODS = [
-  { id: "Bank Transfer", label: "Bank Transfer", icon: <AccountBalanceIcon sx={{ fontSize: 16 }} /> },
-  { id: "Credit Card", label: "Credit Card", icon: <CreditCardIcon sx={{ fontSize: 16 }} /> },
-  { id: "Direct Debit", label: "Direct Debit", icon: <SyncIcon sx={{ fontSize: 16 }} /> },
-  { id: "Cash", label: "Cash", icon: <AttachMoneyIcon sx={{ fontSize: 16 }} /> },
+  {
+    id: "Bank Transfer",
+    label: "Bank Transfer",
+    icon: <AccountBalanceIcon sx={{ fontSize: 16 }} />,
+  },
+  {
+    id: "Credit Card",
+    label: "Credit Card",
+    icon: <CreditCardIcon sx={{ fontSize: 16 }} />,
+  },
+  {
+    id: "Direct Debit",
+    label: "Direct Debit",
+    icon: <SyncIcon sx={{ fontSize: 16 }} />,
+  },
+  {
+    id: "Cash",
+    label: "Cash",
+    icon: <AttachMoneyIcon sx={{ fontSize: 16 }} />,
+  },
 ];
 
 // Helper component for bold input labels
 const Label = ({ children }) => (
   <Typography
-    fontSize="13px"
+    fontSize="14px"
     fontWeight={700}
-    color="#0D0F12"
+    color="text.primary"
     sx={{ mb: 0.75, fontFamily: '"Poppins", sans-serif' }}
   >
     {children}
@@ -73,7 +109,7 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
       const mm = String(today.getMonth() + 1).padStart(2, "0");
       const dd = String(today.getDate()).padStart(2, "0");
       setDate(`${yyyy}-${mm}-${dd}`);
-      
+
       // Reset form states on reopen
       setSearchQuery("");
       setSelectedClient(null);
@@ -85,7 +121,7 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
   }, [open]);
 
   const filteredClients = CLIENTS.filter((c) =>
-    c.name.toLowerCase().includes(searchQuery.toLowerCase())
+    c.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   // Deterministic format to "MMM DD, YYYY"
@@ -98,8 +134,18 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
     const day = parts[2];
 
     const months = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
     ];
     const monthName = months[monthIdx] || "Jan";
     const formattedDay = day.padStart(2, "0");
@@ -108,7 +154,9 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
   };
 
   const handleRecord = () => {
-    const clientName = selectedClient ? selectedClient.name : searchQuery.trim();
+    const clientName = selectedClient
+      ? selectedClient.name
+      : searchQuery.trim();
     // if (!clientName) {
     //   alert("Please select or enter a client.");
     //   return;
@@ -128,7 +176,8 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
       client: clientName,
       method: selectedMethod,
       amount: formattedAmount,
-      reference: reference.trim() || `TXN-${Math.floor(10000 + Math.random() * 90000)}`,
+      reference:
+        reference.trim() || `TXN-${Math.floor(10000 + Math.random() * 90000)}`,
       status: "COMPLETED",
     };
 
@@ -144,7 +193,6 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
         sx: {
           width: "100%",
           maxWidth: 512,
-          maxHeight: "90vh", // Scrollable center if it hits height limit
           borderRadius: "24px",
           boxShadow: "0px 25px 50px -12px rgba(0, 0, 0, 0.15)",
           overflow: "hidden", // Locks header and footer in place
@@ -154,37 +202,52 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
         },
       }}
       sx={{
-        zIndex: 1301,
-        "& .MuiBackdrop-root": {
-          bgcolor: "rgba(15, 23, 42, 0.4)",
-          backdropFilter: "blur(8px)",
-        },
+        zIndex: 1401,
       }}
     >
       {/* Sticky Header Section */}
-      <Box sx={{ px: 3.5, pt: 3.5, pb: 2.25, display: "flex", justifyContent: "space-between", alignItems: "flex-start", bgcolor: "#FFFFFF" }}>
+      <Box
+        sx={{
+          px: 3.5,
+          pt: 3.5,
+          pb: 2.25,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          bgcolor: "#FFFFFF",
+        }}
+      >
         <Box sx={{ display: "flex", gap: 1.5, alignItems: "center" }}>
           {/* Green dollar icon container */}
           <Box
             sx={{
-              width: 40,
-              height: 40,
-              borderRadius: "12px",
-              bgcolor: "#E6FBF3",
+              width: 48,
+              height: 48,
+              borderRadius: "16px",
+              bgcolor: "#ECFDF5",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              border: "1.5px solid #D1FAE5",
               flexShrink: 0,
             }}
           >
-            <AttachMoneyIcon sx={{ color: "#10B981", fontSize: 22 }} />
+            <AttachMoneyIcon sx={{ color: "#10B981", fontSize: 24 }} />
           </Box>
           <Box>
-            <Typography fontSize="18px" fontWeight={800} color="#0D0F12" sx={{ lineHeight: 1.2 }}>
+            <Typography
+              fontSize="20px"
+              fontWeight={700}
+              color="text.primary"
+              sx={{ lineHeight: 1.2 }}
+            >
               Record Payment
             </Typography>
-            <Typography fontSize="12px" color="#64748B" fontWeight={500} mt={0.5}>
+            <Typography
+              fontSize="14px"
+              color="text.light"
+              fontWeight={400}
+              mt={0.5}
+            >
               Manually record a payment from a client
             </Typography>
           </Box>
@@ -196,10 +259,11 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
             color: "#94A3B8",
             bgcolor: "#F8FAFC",
             border: "1px solid #F1F5F9",
+            borderRadius: "16px",
             "&:hover": { bgcolor: "#F1F5F9" },
           }}
         >
-          <CloseIcon sx={{ fontSize: 16 }} />
+          <CloseIcon sx={{ fontSize: 20 }} />
         </IconButton>
       </Box>
 
@@ -207,27 +271,30 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
       <Divider sx={{ borderColor: "#F8FAFC", borderWidth: "0.8px" }} />
 
       {/* Scrollable Center Form Content */}
-      <Box 
-        ref={containerRef} 
-        sx={{ 
-          px: 3.5, 
-          py: 2.5, 
-          overflowY: "auto", 
-          display: "flex", 
-          flexDirection: "column", 
-          gap: 2.25, 
+      <Box
+        ref={containerRef}
+        sx={{
+          px: 3.5,
+          py: 2.5,
+          overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: 2.25,
           flex: 1,
-          bgcolor: "#FFFFFF"
+          bgcolor: "#FFFFFF",
         }}
       >
         {/* Select Client Field */}
         <ClickAwayListener onClickAway={() => setShowDropdown(false)}>
           <Box>
-            <Label>Select Client</Label>
+            <Label
+              sx={{ fontSize: "14px", fontWeight: 400, color: "text.primary" }}
+            >
+              Select Client
+            </Label>
             <TextField
               ref={clientInputRef}
               fullWidth
-              size="small"
               placeholder="Search for a client..."
               value={searchQuery}
               onFocus={() => {
@@ -243,17 +310,27 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon sx={{ color: "#94A3B8", fontSize: 18 }} />
+                    <SearchIcon
+                      sx={{
+                        color: "#94A3B8",
+                        width: "18px",
+                        height: "18px",
+                        fontSize: 18,
+                      }}
+                    />
                   </InputAdornment>
                 ),
               }}
               sx={{
                 "& .MuiOutlinedInput-root": {
-                  borderRadius: "14px",
+                  borderRadius: "16px",
                   bgcolor: "#F8FAFC",
-                  "& fieldset": { borderColor: "#E2E8F0" },
-                  "&:hover fieldset": { borderColor: "#CBD5E1" },
-                  "&.Mui-focused fieldset": { borderColor: "#0EA5E9", borderWidth: "1.5px" },
+                  "& fieldset": { borderColor: "#F8FAFC" },
+                  "&:hover fieldset": { borderColor: "#F8FAFC" },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#0EA5E9",
+                    borderWidth: "1.5px",
+                  },
                 },
               }}
             />
@@ -263,7 +340,12 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
               anchorEl={clientInputRef.current}
               placement="bottom-start"
               transition
-              style={{ zIndex: 1400, width: clientInputRef.current ? clientInputRef.current.clientWidth : "auto" }}
+              style={{
+                zIndex: 1400,
+                width: clientInputRef.current
+                  ? clientInputRef.current.clientWidth
+                  : "auto",
+              }}
             >
               {({ TransitionProps }) => (
                 <Fade {...TransitionProps} timeout={150}>
@@ -275,7 +357,8 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
                       maxHeight: 180,
                       overflowY: "auto",
                       border: "1px solid #F1F5F9",
-                      boxShadow: "0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04)",
+                      boxShadow:
+                        "0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04)",
                       bgcolor: "#FFFFFF",
                     }}
                   >
@@ -301,25 +384,45 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
                             width: 28,
                             height: 28,
                             fontSize: "11px",
-                            fontWeight: 800,
+                            fontWeight: 700,
                             bgcolor: client.color + "20",
                             color: client.color,
                           }}
                         >
                           {client.name[0]}
                         </Avatar>
-                        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                          <Typography fontSize="13px" fontWeight={700} color="#0D0F12" sx={{ lineHeight: 1.2 }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "flex-start",
+                          }}
+                        >
+                          <Typography
+                            fontSize="14px"
+                            fontWeight={700}
+                            color="text.primary"
+                            sx={{ lineHeight: 1.2 }}
+                          >
                             {client.name}
                           </Typography>
-                          <Typography fontSize="10px" color="#94A3B8" fontWeight={500} sx={{ mt: 0.25 }}>
+                          <Typography
+                            fontSize="10px"
+                            color="#94A3B8"
+                            fontWeight={400}
+                            sx={{ mt: 0.25 }}
+                          >
                             {client.sub}
                           </Typography>
                         </Box>
                       </MenuItem>
                     ))}
                     {filteredClients.length === 0 && (
-                      <Typography fontSize="12px" color="#94A3B8" sx={{ p: 2, textAlign: "center" }}>
+                      <Typography
+                        fontSize="12px"
+                        color="#94A3B8"
+                        sx={{ p: 2, textAlign: "center" }}
+                      >
                         No matching clients found
                       </Typography>
                     )}
@@ -338,13 +441,14 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
             <TextField
               type="date"
               fullWidth
-              size="small"
               value={date}
               onChange={(e) => setDate(e.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <CalendarTodayIcon sx={{ color: "#94A3B8", fontSize: 16, mr: 0.5 }} />
+                    <CalendarTodayIcon
+                      sx={{ color: "#84919A", fontSize: 16, mr: 0.5 }}
+                    />
                   </InputAdornment>
                 ),
               }}
@@ -352,15 +456,18 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "14px",
                   bgcolor: "#F8FAFC",
-                  "& fieldset": { borderColor: "#E2E8F0" },
+                  "& fieldset": { borderColor: "#F8FAFC" },
                   "&:hover fieldset": { borderColor: "#CBD5E1" },
-                  "&.Mui-focused fieldset": { borderColor: "#0EA5E9", borderWidth: "1.5px" },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#0EA5E9",
+                    borderWidth: "1.5px",
+                  },
                 },
                 "& input": {
                   fontFamily: '"Poppins", sans-serif',
-                  fontSize: "13px",
-                  color: "#0D0F12",
-                  fontWeight: 500,
+                  fontSize: "14px",
+                  color: "#84919A",
+                  fontWeight: 400,
                 },
               }}
             />
@@ -368,17 +475,26 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
 
           {/* Amount */}
           <Box sx={{ flex: 1 }}>
-            <Label>Amount</Label>
+            <Label fontSize={"14px"} fontWeight={700} color="text.primary">
+              Amount
+            </Label>
             <TextField
               fullWidth
-              size="small"
               placeholder="0.00"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start" sx={{ mr: 1 }}>
-                    <Typography sx={{ color: "#94A3B8", fontWeight: 700, fontSize: "14px" }}>£</Typography>
+                    <Typography
+                      sx={{
+                        color: "#94A3B8",
+                        fontWeight: 700,
+                        fontSize: "14px",
+                      }}
+                    >
+                      £
+                    </Typography>
                   </InputAdornment>
                 ),
               }}
@@ -386,14 +502,17 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "14px",
                   bgcolor: "#F8FAFC",
-                  "& fieldset": { borderColor: "#E2E8F0" },
+                  "& fieldset": { borderColor: "#F8FAFC" },
                   "&:hover fieldset": { borderColor: "#CBD5E1" },
-                  "&.Mui-focused fieldset": { borderColor: "#0EA5E9", borderWidth: "1.5px" },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#0EA5E9",
+                    borderWidth: "1.5px",
+                  },
                 },
                 "& input": {
                   fontFamily: '"Poppins", sans-serif',
-                  fontSize: "13px",
-                  color: "#0D0F12",
+                  fontSize: "14px",
+                  color: "text.primary",
                   fontWeight: 600,
                 },
               }}
@@ -403,8 +522,12 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
 
         {/* Payment Method 2x2 Grid */}
         <Box>
-          <Label>Payment Method</Label>
-          <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
+          <Label fontSize={"14px"} fontWeight={700} color="text.primary">
+            Payment Method
+          </Label>
+          <Box
+            sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}
+          >
             {PAYMENT_METHODS.map((method) => {
               const isSelected = selectedMethod === method.id;
               return (
@@ -445,7 +568,12 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
                   >
                     {method.icon}
                   </Box>
-                  <Typography fontSize="13px" fontWeight={700} color={isSelected ? "#0EA5E9" : "#0D0F12"} transition="all 0.2s">
+                  <Typography
+                    fontSize="14px"
+                    fontWeight={700}
+                    color={isSelected ? "#0EA5E9" : "text.primary"}
+                    transition="all 0.2s"
+                  >
                     {method.label}
                   </Typography>
                 </Box>
@@ -456,10 +584,11 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
 
         {/* Reference / Transaction ID */}
         <Box>
-          <Label>Reference / Transaction ID</Label>
+          <Label fontSize={"14px"} fontWeight={700} color="text.primary">
+            Reference / Transaction ID
+          </Label>
           <TextField
             fullWidth
-            size="small"
             placeholder="e.g. TXN-98234"
             value={reference}
             onChange={(e) => setReference(e.target.value)}
@@ -467,15 +596,18 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
               "& .MuiOutlinedInput-root": {
                 borderRadius: "14px",
                 bgcolor: "#F8FAFC",
-                "& fieldset": { borderColor: "#E2E8F0" },
+                "& fieldset": { borderColor: "#F8FAFC" },
                 "&:hover fieldset": { borderColor: "#CBD5E1" },
-                "&.Mui-focused fieldset": { borderColor: "#0EA5E9", borderWidth: "1.5px" },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#0EA5E9",
+                  borderWidth: "1.5px",
+                },
               },
               "& input": {
                 fontFamily: '"Poppins", sans-serif',
-                fontSize: "13px",
-                color: "#0D0F12",
-                fontWeight: 500,
+                fontSize: "14px",
+                color: "text.primary",
+                fontWeight: 400,
               },
             }}
           />
@@ -496,9 +628,9 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
           {/* Blue check icon in white circle */}
           <Box
             sx={{
-              width: 24,
-              height: 24,
-              borderRadius: "50%",
+              width: 40,
+              height: 40,
+              borderRadius: "12px",
               bgcolor: "#FFFFFF",
               display: "flex",
               alignItems: "center",
@@ -508,14 +640,32 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
               boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.05)",
             }}
           >
-            <CheckIcon sx={{ color: "#2563EB", fontSize: 13, stroke: "currentColor", strokeWidth: 1.5 }} />
+            <CheckIcon
+              sx={{
+                color: "#2563EB",
+                fontSize: 14,
+                stroke: "currentColor",
+                strokeWidth: 1.5,
+              }}
+            />
           </Box>
           <Box>
-            <Typography fontSize="12px" fontWeight={800} color="#1E3A8A" sx={{ lineHeight: 1.2, mb: 0.5 }}>
+            <Typography
+              fontSize="14px"
+              fontWeight={700}
+              color="#1E3A8A"
+              sx={{ lineHeight: 1.2, mb: 0.5 }}
+            >
               Auto-Apply to Invoice
             </Typography>
-            <Typography fontSize="11px" color="#3B82F6" fontWeight={500} sx={{ lineHeight: 1.4 }}>
-              This payment will be automatically applied to the oldest outstanding invoice for this client.
+            <Typography
+              fontSize="12px"
+              color="#3B82F6"
+              fontWeight={400}
+              sx={{ lineHeight: 1.4 }}
+            >
+              This payment will be automatically applied to the oldest
+              outstanding invoice for this client.
             </Typography>
           </Box>
         </Box>
@@ -525,7 +675,17 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
       <Divider sx={{ borderColor: "#F8FAFC", borderWidth: "0.8px" }} />
 
       {/* Sticky Footer Section */}
-      <Box sx={{ px: 3.5, pt: 2.25, pb: 3.5, display: "flex", justifyContent: "space-between", alignItems: "center", bgcolor: "#FFFFFF" }}>
+      <Box
+        sx={{
+          px: 3.5,
+          pt: 2.25,
+          pb: 3.5,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          bgcolor: "#FFFFFF",
+        }}
+      >
         {/* Cancel Button */}
         <Button
           onClick={onClose}
@@ -539,7 +699,7 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
             fontWeight: 700,
             fontSize: "14px",
             fontFamily: '"Poppins", sans-serif',
-            "&:hover": { bgcolor: "#E2E8F0" },
+            "&:hover": { bgcolor: "#F8FAFC" },
           }}
         >
           Cancel
@@ -548,10 +708,9 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
         {/* Record Payment Button */}
         <Button
           onClick={handleRecord}
-          endIcon={<ChevronRightIcon sx={{ fontSize: 16 }} />}
           sx={{
-            bgcolor: "#009BE5",
-            color: "#FFFFFF",
+            bgcolor: "#0EA5E9",
+            color: "#fff",
             borderRadius: "16px",
             px: 3.5,
             py: 1.25,
@@ -559,15 +718,18 @@ export default function RecordPaymentModal({ open, onClose, onRecord }) {
             fontWeight: 700,
             fontSize: "14px",
             fontFamily: '"Poppins", sans-serif',
-            boxShadow: "0px 8px 16px rgba(0, 155, 229, 0.2)",
+            boxShadow: "0 4px 14px 0 rgba(14,165,233,0.39)",
             transition: "all 0.2s ease-in-out",
             "&:hover": {
-              bgcolor: "#0084C1",
-              boxShadow: "none",
+              bgcolor: "#0284C7",
+              boxShadow: "0 6px 20px rgba(14,165,233,0.23)",
             },
           }}
         >
-          Record Payment
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            Record Payment
+            <ChevronRightIcon sx={{ fontSize: 18, ml: 0.5 }} />
+          </Box>
         </Button>
       </Box>
     </Dialog>

@@ -5,7 +5,6 @@ import {
   Typography,
   IconButton,
   Button,
-  Divider,
   Avatar,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -24,14 +23,18 @@ function SectionHeader({ children }) {
       fontWeight={700}
       color="#475569"
       sx={{ mb: 1.25, letterSpacing: "0.05em", textTransform: "uppercase" }}
-      
     >
       {children}
     </Typography>
   );
 }
 
-export default function TransactionDetailDrawer({ open, onClose, payment, onViewReceipt }) {
+export default function TransactionDetailDrawer({
+  open,
+  onClose,
+  payment,
+  onViewReceipt,
+}) {
   const [localPayment, setLocalPayment] = React.useState(null);
 
   React.useEffect(() => {
@@ -84,16 +87,20 @@ export default function TransactionDetailDrawer({ open, onClose, payment, onView
                 color: "#10B981",
                 fontSize: "20px",
                 fontWeight: 700,
-                
               }}
             >
               $
             </Avatar>
             <Box>
-              <Typography fontSize="10px" fontWeight={700} color="#0D0F12"  sx={{ lineHeight: 1.2 }}>
+              <Typography
+                fontSize="10px"
+                fontWeight={700}
+                color="text.primary"
+                sx={{ lineHeight: 1.2 }}
+              >
                 {displayPayment.reference}
               </Typography>
-              <Typography fontSize="14px" fontWeight={500} color="text.light" >
+              <Typography fontSize="14px" fontWeight={400} color="text.light">
                 {displayPayment.client} • {displayPayment.date}
               </Typography>
             </Box>
@@ -114,8 +121,17 @@ export default function TransactionDetailDrawer({ open, onClose, payment, onView
         </Box>
 
         {/* Content */}
-        <Box sx={{ flex: 1, overflowY: "auto", px: 4, py: 3.5, display: "flex", flexDirection: "column", gap: 3 }}>
-          
+        <Box
+          sx={{
+            flex: 1,
+            overflowY: "auto",
+            px: 4,
+            py: 3.5,
+            display: "flex",
+            flexDirection: "column",
+            gap: 3,
+          }}
+        >
           {/* Status & Amount Banner */}
           <Box
             sx={{
@@ -131,15 +147,20 @@ export default function TransactionDetailDrawer({ open, onClose, payment, onView
             <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
               <CheckCircleIcon sx={{ color: "#10B981", fontSize: 20 }} />
               <Box>
-                <Typography fontSize="14px" fontWeight={700} color="#065F46" letterSpacing="0.05em">
+                <Typography
+                  fontSize="14px"
+                  fontWeight={700}
+                  color="#065F46"
+                  letterSpacing="0.05em"
+                >
                   PAYMENT COMPLETED
                 </Typography>
-                <Typography fontSize="12px" color="#065F46" fontWeight={500}>
+                <Typography fontSize="12px" color="#065F46" fontWeight={400}>
                   Transaction settled successfully
                 </Typography>
               </Box>
             </Box>
-            <Typography fontSize="24px" fontWeight={700} color="#065F46" >
+            <Typography fontSize="24px" fontWeight={700} color="#065F46">
               {displayPayment.amount}
             </Typography>
           </Box>
@@ -147,26 +168,66 @@ export default function TransactionDetailDrawer({ open, onClose, payment, onView
           {/* Payment Method & Date Row */}
           <Box sx={{ display: "flex", gap: 2 }}>
             {/* Payment Method */}
-            <Box sx={{ flex: 1, bgcolor: "#F8FAFC", borderRadius: "16px", p: 2, border: "1px solid #F1F5F9" }}>
-              <Typography fontSize="10px" fontWeight={700} color="#94A3B8" letterSpacing="0.05em" sx={{ mb: 1, textTransform: "uppercase" }} >
+            <Box
+              sx={{
+                flex: 1,
+                bgcolor: "#F8FAFC",
+                borderRadius: "16px",
+                p: 2,
+                border: "1px solid #F1F5F9",
+              }}
+            >
+              <Typography
+                fontSize="10px"
+                fontWeight={700}
+                color="#94A3B8"
+                letterSpacing="0.05em"
+                sx={{ mb: 1, textTransform: "uppercase" }}
+              >
                 PAYMENT METHOD
               </Typography>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <AccountBalanceOutlinedIcon sx={{ color: "#3B82F6", fontSize: 16 }} />
-                <Typography fontSize="14px" fontWeight={700} color="text.primary" >
+                <AccountBalanceOutlinedIcon
+                  sx={{ color: "#3B82F6", fontSize: 16 }}
+                />
+                <Typography
+                  fontSize="14px"
+                  fontWeight={700}
+                  color="text.primary"
+                >
                   {displayPayment.method}
                 </Typography>
               </Box>
             </Box>
 
             {/* Transaction Date */}
-            <Box sx={{ flex: 1, bgcolor: "#F8FAFC", borderRadius: "16px", p: 2, border: "1px solid #F1F5F9" }}>
-              <Typography fontSize="10px" fontWeight={700} color="#94A3B8" letterSpacing="0.05em" sx={{ mb: 1, textTransform: "uppercase" }} >
+            <Box
+              sx={{
+                flex: 1,
+                bgcolor: "#F8FAFC",
+                borderRadius: "16px",
+                p: 2,
+                border: "1px solid #F1F5F9",
+              }}
+            >
+              <Typography
+                fontSize="10px"
+                fontWeight={700}
+                color="#94A3B8"
+                letterSpacing="0.05em"
+                sx={{ mb: 1, textTransform: "uppercase" }}
+              >
                 TRANSACTION DATE
               </Typography>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <CalendarTodayOutlinedIcon sx={{ color: "#3B82F6", fontSize: 16 }} />
-                <Typography fontSize="14px" fontWeight={700} color="text.primary" >
+                <CalendarTodayOutlinedIcon
+                  sx={{ color: "#3B82F6", fontSize: 16 }}
+                />
+                <Typography
+                  fontSize="14px"
+                  fontWeight={700}
+                  color="text.primary"
+                >
                   {displayPayment.date}
                 </Typography>
               </Box>
@@ -176,32 +237,82 @@ export default function TransactionDetailDrawer({ open, onClose, payment, onView
           {/* Applied To Section */}
           <Box>
             <SectionHeader>APPLIED TO</SectionHeader>
-            <Box sx={{ border: "1px solid #F8FAFC", borderRadius: "16px", overflow: "hidden" }}>
+            <Box
+              sx={{
+                border: "1px solid #F8FAFC",
+                borderRadius: "16px",
+                overflow: "hidden",
+              }}
+            >
               {/* Columns Header */}
-              <Box sx={{ display: "flex", justifyContent: "space-between", px: 2.5, py: 1.5, bgcolor: "#F8FAFC" }}>
-                <Typography fontSize="10px" fontWeight={700} color="text.grey" letterSpacing="0.05em" >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  px: 2.5,
+                  py: 1.5,
+                  bgcolor: "#F8FAFC",
+                }}
+              >
+                <Typography
+                  fontSize="10px"
+                  fontWeight={700}
+                  color="text.grey"
+                  letterSpacing="0.05em"
+                >
                   INVOICE ID
                 </Typography>
-                <Typography fontSize="10px" fontWeight={700} color="text.grey" letterSpacing="0.05em" >
+                <Typography
+                  fontSize="10px"
+                  fontWeight={700}
+                  color="text.grey"
+                  letterSpacing="0.05em"
+                >
                   AMOUNT APPLIED
                 </Typography>
               </Box>
               {/* Row Content */}
-              <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", p: 2, bgcolor: "#fff" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  p: 2,
+                  bgcolor: "#fff",
+                }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: 28, height: 28, borderRadius: "50%", bgcolor: "#EFF6FF" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: 28,
+                      height: 28,
+                      borderRadius: "50%",
+                      bgcolor: "#EFF6FF",
+                    }}
+                  >
                     <CheckCircleIcon sx={{ color: "#3B82F6", fontSize: 16 }} />
                   </Box>
                   <Box>
-                    <Typography fontSize="14px" fontWeight={700} color="text.primary" >
+                    <Typography
+                      fontSize="14px"
+                      fontWeight={700}
+                      color="text.primary"
+                    >
                       INV-2024-001
                     </Typography>
-                    <Typography fontSize="12px" color="#64748B" fontWeight={500} >
+                    <Typography
+                      fontSize="12px"
+                      color="#64748B"
+                      fontWeight={400}
+                    >
                       Mar 01, 2024
                     </Typography>
                   </Box>
                 </Box>
-                <Typography fontSize="14px" fontWeight={700} color="#059669" >
+                <Typography fontSize="14px" fontWeight={700} color="#059669">
                   {displayPayment.amount}
                 </Typography>
               </Box>
@@ -224,8 +335,19 @@ export default function TransactionDetailDrawer({ open, onClose, payment, onView
               }}
             >
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: "#10B981" }} />
-                <Typography fontSize="14px" fontWeight={700} color="text.primary" >
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    bgcolor: "#10B981",
+                  }}
+                />
+                <Typography
+                  fontSize="14px"
+                  fontWeight={700}
+                  color="text.primary"
+                >
                   Completed
                 </Typography>
               </Box>
@@ -248,14 +370,25 @@ export default function TransactionDetailDrawer({ open, onClose, payment, onView
               }}
             >
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                <Avatar sx={{ width: 36, height: 36, bgcolor: "#F1F5F9", color: "#64748B" }}>
+                <Avatar
+                  sx={{
+                    width: 36,
+                    height: 36,
+                    bgcolor: "#F1F5F9",
+                    color: "#64748B",
+                  }}
+                >
                   <PersonOutlineIcon sx={{ fontSize: 20 }} />
                 </Avatar>
                 <Box>
-                  <Typography fontSize="14px" fontWeight={700} color="text.primary" >
+                  <Typography
+                    fontSize="14px"
+                    fontWeight={700}
+                    color="text.primary"
+                  >
                     {displayPayment.client}
                   </Typography>
-                  <Typography fontSize="12px" color="#64748B" fontWeight={500} >
+                  <Typography fontSize="12px" color="#64748B" fontWeight={400}>
                     ID: CL-2934 • Private Funding
                   </Typography>
                 </Box>
@@ -264,8 +397,10 @@ export default function TransactionDetailDrawer({ open, onClose, payment, onView
                 fontSize="12px"
                 fontWeight={700}
                 color="#2563EB"
-                sx={{ cursor: "pointer", "&:hover": { textDecoration: "underline" } }}
-                
+                sx={{
+                  cursor: "pointer",
+                  "&:hover": { textDecoration: "underline" },
+                }}
               >
                 View Profile
               </Typography>
@@ -303,8 +438,13 @@ export default function TransactionDetailDrawer({ open, onClose, payment, onView
               >
                 <PrintOutlinedIcon sx={{ color: "#94A3B8", fontSize: 20 }} />
               </Box>
-              <Typography fontSize="12px" color="#64748B" sx={{ maxWidth: 320, lineHeight: 1.6 }} >
-                A digital receipt has been generated for this transaction. You can download or print it for your records.
+              <Typography
+                fontSize="12px"
+                color="#64748B"
+                sx={{ maxWidth: 320, lineHeight: 1.6 }}
+              >
+                A digital receipt has been generated for this transaction. You
+                can download or print it for your records.
               </Typography>
               <Button
                 variant="outlined"
@@ -328,7 +468,6 @@ export default function TransactionDetailDrawer({ open, onClose, payment, onView
               </Button>
             </Box>
           </Box>
-
         </Box>
 
         {/* Footer Actions */}

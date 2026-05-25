@@ -70,8 +70,8 @@ export default function CreateCarePlanModal({ open, onClose }) {
                   bgcolor: isCompleted
                     ? "#10B981"
                     : isActive
-                    ? "#0EA5E9"
-                    : "#E2E8F0",
+                      ? "#0EA5E9"
+                      : "#E2E8F0",
                   color: isCompleted || isActive ? "#fff" : "#64748B",
                   fontSize: "12px",
                   fontWeight: 700,
@@ -109,7 +109,12 @@ export default function CreateCarePlanModal({ open, onClose }) {
   );
 
   const renderBasicInfo = () => (
-    <Box sx={{ "& input::placeholder": { color: "#84919A", opacity: 1 }, "& .MuiSelect-select": { color: "#84919A" } }}>
+    <Box
+      sx={{
+        "& input::placeholder": { color: "#84919A", opacity: 1 },
+        "& .MuiSelect-select": { color: "#84919A" },
+      }}
+    >
       <Grid container spacing={4}>
         <Grid size={{ xs: 12, sm: 6 }}>
           <Typography
@@ -269,7 +274,7 @@ export default function CreateCarePlanModal({ open, onClose }) {
               color: "#94A3B8",
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
               flexShrink: 0,
-              backgroundColor:"#FFFFFF"
+              backgroundColor: "#FFFFFF",
             }}
           >
             1
@@ -497,7 +502,7 @@ export default function CreateCarePlanModal({ open, onClose }) {
         <Typography
           fontSize="12px"
           color="#1D4ED8"
-          fontWeight={500}
+          fontWeight={400}
           sx={{ lineHeight: 1.5 }}
         >
           By creating this care plan, you are confirming that a full assessment

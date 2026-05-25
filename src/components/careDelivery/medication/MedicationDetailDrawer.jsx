@@ -10,7 +10,6 @@ import {
   SvgIcon,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import MedicationOutlinedIcon from "@mui/icons-material/MedicationOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
@@ -21,7 +20,15 @@ import StethoscopeOutlinedIcon from "@mui/icons-material/MedicalServicesOutlined
 
 function PillIcon(props) {
   return (
-    <SvgIcon {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <SvgIcon
+      {...props}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M10.5 20.5l-6-6a4.95 4.95 0 1 1 7-7l6 6a4.95 4.95 0 1 1-7 7z" />
       <line x1="8.5" y1="8.5" x2="15.5" y2="15.5" />
     </SvgIcon>
@@ -100,10 +107,13 @@ export default function MedicationDetailDrawer({ open, onClose, medication }) {
                       px: 1.5,
                       py: 0.25,
                       borderRadius: "24px",
-                      bgcolor: medication.status === "MISSED" ? "#FFF1F2" : "#ECFDF5",
-                      color: medication.status === "MISSED" ? "#E11D48" : "#10B981",
+                      bgcolor:
+                        medication.status === "MISSED" ? "#FFF1F2" : "#ECFDF5",
+                      color:
+                        medication.status === "MISSED" ? "#E11D48" : "#10B981",
                       border: "1px solid",
-                      borderColor: medication.status === "MISSED" ? "#FFE4E6" : "#A7F3D0",
+                      borderColor:
+                        medication.status === "MISSED" ? "#FFE4E6" : "#A7F3D0",
                       fontSize: "10px",
                       fontWeight: 700,
                       letterSpacing: "0.05em",
@@ -112,8 +122,13 @@ export default function MedicationDetailDrawer({ open, onClose, medication }) {
                     {medication.status}
                   </Box>
                 </Box>
-                <Typography fontSize="16px" fontWeight={600} color="#475569" mb={0.5}>
-                  500mg
+                <Typography
+                  fontSize="16px"
+                  fontWeight={600}
+                  color="#475569"
+                  mb={0.5}
+                >
+                  400mg
                 </Typography>
                 <Box
                   sx={{
@@ -123,8 +138,10 @@ export default function MedicationDetailDrawer({ open, onClose, medication }) {
                     color: "#94A3B8",
                   }}
                 >
-                  <PersonOutlineOutlinedIcon sx={{ fontSize: 10, color: "#FB7185" }} />
-                  <Typography fontSize="14px" fontWeight={500}>
+                  <PersonOutlineOutlinedIcon
+                    sx={{ fontSize: 10, color: "#FB7185" }}
+                  />
+                  <Typography fontSize="14px" fontWeight={400}>
                     Client:{" "}
                     <Box component="span" fontWeight={700} color="#334155">
                       {medication.client}
@@ -181,7 +198,7 @@ export default function MedicationDetailDrawer({ open, onClose, medication }) {
                   <Typography
                     fontSize="14px"
                     color="text.primary"
-                    fontWeight={500}
+                    fontWeight={400}
                     sx={{ lineHeight: 1.6 }}
                   >
                     {medication.reason}
@@ -247,7 +264,7 @@ export default function MedicationDetailDrawer({ open, onClose, medication }) {
                     }}
                   >
                     <AccessTimeOutlinedIcon sx={{ fontSize: 14 }} />
-                    <Typography fontSize="13px" fontWeight={500}>
+                    <Typography fontSize="13px" fontWeight={400}>
                       {medication.reportedAt}
                     </Typography>
                   </Box>

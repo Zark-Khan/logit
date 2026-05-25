@@ -1,5 +1,12 @@
 import React from "react";
-import { Drawer, Box, Typography, IconButton, Button, Avatar, Grid } from "@mui/material";
+import {
+  Drawer,
+  Box,
+  Typography,
+  IconButton,
+  Button,
+  Grid,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import GppMaybeOutlinedIcon from "@mui/icons-material/GppMaybeOutlined"; // Amber shield
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -29,8 +36,21 @@ export default function IncidentDetailDrawer({ open, onClose, incident }) {
     >
       <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
         {/* Header */}
-        <Box sx={{ p: 4, pb: 3, bgcolor: "#fff", borderBottom: "1px solid #F1F5F9" }}>
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <Box
+          sx={{
+            p: 4,
+            pb: 3,
+            bgcolor: "#fff",
+            borderBottom: "1px solid #F1F5F9",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+            }}
+          >
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <Box
                 sx={{
@@ -46,19 +66,29 @@ export default function IncidentDetailDrawer({ open, onClose, incident }) {
                 <GppMaybeOutlinedIcon sx={{ color: "#D97706", fontSize: 28 }} />
               </Box>
               <Box>
-                <Typography fontSize="20px" fontWeight={700} color="text.primary">
+                <Typography
+                  fontSize="20px"
+                  fontWeight={700}
+                  color="text.primary"
+                >
                   {incident.title}
                 </Typography>
-                <Typography fontSize="12px" color="text.light" fontWeight={500}>
+                <Typography fontSize="12px" color="text.light" fontWeight={400}>
                   Ref: {incident.ref} &bull; Reported by {incident.reportedBy}
                 </Typography>
               </Box>
             </Box>
             <Box sx={{ display: "flex", gap: 1 }}>
               <IconButton size="small" sx={{ width: 40, height: 40 }}>
-                <EditOutlinedIcon sx={{ fontSize: 20, color: "text.primary" }} />
+                <EditOutlinedIcon
+                  sx={{ fontSize: 20, color: "text.primary" }}
+                />
               </IconButton>
-              <IconButton size="small" onClick={onClose} sx={{ width: 40, height: 40 }}>
+              <IconButton
+                size="small"
+                onClick={onClose}
+                sx={{ width: 40, height: 40 }}
+              >
                 <CloseIcon sx={{ fontSize: 24, color: "text.primary" }} />
               </IconButton>
             </Box>
@@ -67,11 +97,23 @@ export default function IncidentDetailDrawer({ open, onClose, incident }) {
 
         {/* Content Area */}
         <Box sx={{ flex: 1, overflowY: "auto", p: 4 }}>
-          
           {/* Stats Row */}
           <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
-            <Box sx={{ flex: 1, bgcolor: "#fff", p: 2.5, borderRadius: "24px", border: "1px solid #F1F5F9" }}>
-              <Typography fontSize="10px" fontWeight={700} color="#64748B" sx={{ mb: 1, letterSpacing: "0.25em" }}>
+            <Box
+              sx={{
+                flex: 1,
+                bgcolor: "#fff",
+                p: 2.5,
+                borderRadius: "24px",
+                border: "1px solid #F1F5F9",
+              }}
+            >
+              <Typography
+                fontSize="10px"
+                fontWeight={700}
+                color="#64748B"
+                sx={{ mb: 1, letterSpacing: "0.25em" }}
+              >
                 SEVERITY
               </Typography>
               <Box
@@ -90,8 +132,21 @@ export default function IncidentDetailDrawer({ open, onClose, incident }) {
                 {incident.severity}
               </Box>
             </Box>
-            <Box sx={{ flex: 1, bgcolor: "#fff", p: 2.5, borderRadius: "24px", border: "1px solid #F1F5F9" }}>
-              <Typography fontSize="10px" fontWeight={700} color="#64748B" sx={{ mb: 1, letterSpacing: "0.25em" }}>
+            <Box
+              sx={{
+                flex: 1,
+                bgcolor: "#fff",
+                p: 2.5,
+                borderRadius: "24px",
+                border: "1px solid #F1F5F9",
+              }}
+            >
+              <Typography
+                fontSize="10px"
+                fontWeight={700}
+                color="#64748B"
+                sx={{ mb: 1, letterSpacing: "0.25em" }}
+              >
                 STATUS
               </Typography>
               <Box
@@ -110,8 +165,21 @@ export default function IncidentDetailDrawer({ open, onClose, incident }) {
                 {incident.status}
               </Box>
             </Box>
-            <Box sx={{ flex: 1, bgcolor: "#fff", p: 2.5, borderRadius: "24px", border: "1px solid #F1F5F9" }}>
-              <Typography fontSize="10px" fontWeight={700} color="#64748B" sx={{ mb: 1, letterSpacing: "0.25em" }}>
+            <Box
+              sx={{
+                flex: 1,
+                bgcolor: "#fff",
+                p: 2.5,
+                borderRadius: "24px",
+                border: "1px solid #F1F5F9",
+              }}
+            >
+              <Typography
+                fontSize="10px"
+                fontWeight={700}
+                color="#64748B"
+                sx={{ mb: 1, letterSpacing: "0.25em" }}
+              >
                 FOLLOW-UP
               </Typography>
               <Box
@@ -133,32 +201,75 @@ export default function IncidentDetailDrawer({ open, onClose, incident }) {
           </Box>
 
           {/* Incident Description */}
-          <Box sx={{ bgcolor: "#fff", p: 3, borderRadius: "24px", border: "1px solid #F1F5F9", mb: 3 }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 3 }}>
-              <DescriptionOutlinedIcon sx={{ color: "#EF4444", fontSize: 20 }} />
+          <Box
+            sx={{
+              bgcolor: "#fff",
+              p: 3,
+              borderRadius: "24px",
+              border: "1px solid #F1F5F9",
+              mb: 3,
+            }}
+          >
+            <Box
+              sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 3 }}
+            >
+              <DescriptionOutlinedIcon
+                sx={{ color: "#EF4444", fontSize: 20 }}
+              />
               <Typography fontSize="16px" fontWeight={700} color="text.primary">
                 Incident Description
               </Typography>
             </Box>
-            <Box sx={{ bgcolor: "#F8FAFC", borderRadius: "16px", p: 3, mb: 3, border: "1px solid #F1F5F9"  }}>
-              <Typography fontSize="14px" color="text.grey" fontStyle="italic" sx={{ lineHeight: 1.6 }}>
+            <Box
+              sx={{
+                bgcolor: "#F8FAFC",
+                borderRadius: "16px",
+                p: 3,
+                mb: 3,
+                border: "1px solid #F1F5F9",
+              }}
+            >
+              <Typography
+                fontSize="14px"
+                color="text.grey"
+                fontStyle="italic"
+                sx={{ lineHeight: 1.6 }}
+              >
                 {incident.description}
               </Typography>
             </Box>
             <Grid container spacing={2}>
               <Grid size={{ xs: 6 }}>
-                <Typography fontSize="10px" fontWeight={700} color="#94A3B8" sx={{ mb: 0.5, letterSpacing: "0.05em" }}>
+                <Typography
+                  fontSize="10px"
+                  fontWeight={700}
+                  color="#94A3B8"
+                  sx={{ mb: 0.5, letterSpacing: "0.05em" }}
+                >
                   DATE & TIME
                 </Typography>
-                <Typography fontSize="14px" fontWeight={700} color="text.primary">
+                <Typography
+                  fontSize="14px"
+                  fontWeight={700}
+                  color="text.primary"
+                >
                   Today, 10:30 AM
                 </Typography>
               </Grid>
               <Grid size={{ xs: 6 }}>
-                <Typography fontSize="10px" fontWeight={700} color="#94A3B8B" sx={{ mb: 0.5, letterSpacing: "0.05em" }}>
+                <Typography
+                  fontSize="10px"
+                  fontWeight={700}
+                  color="#94A3B8B"
+                  sx={{ mb: 0.5, letterSpacing: "0.05em" }}
+                >
                   LOCATION
                 </Typography>
-                <Typography fontSize="14px" fontWeight={700} color="text.primary">
+                <Typography
+                  fontSize="14px"
+                  fontWeight={700}
+                  color="text.primary"
+                >
                   {incident.location}
                 </Typography>
               </Grid>
@@ -166,9 +277,21 @@ export default function IncidentDetailDrawer({ open, onClose, incident }) {
           </Box>
 
           {/* Witnesses */}
-          <Box sx={{ bgcolor: "#fff", p: 3, borderRadius: "24px", border: "1px solid #F1F5F9", mb: 3 }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
-              <PeopleOutlineOutlinedIcon sx={{ color: "#3B82F6", fontSize: 20 }} />
+          <Box
+            sx={{
+              bgcolor: "#fff",
+              p: 3,
+              borderRadius: "24px",
+              border: "1px solid #F1F5F9",
+              mb: 3,
+            }}
+          >
+            <Box
+              sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}
+            >
+              <PeopleOutlineOutlinedIcon
+                sx={{ color: "#3B82F6", fontSize: 20 }}
+              />
               <Typography fontSize="16px" fontWeight={700} color="text.primary">
                 Witnesses
               </Typography>
@@ -185,7 +308,7 @@ export default function IncidentDetailDrawer({ open, onClose, incident }) {
                     border: "1px solid #F1F5F9",
                     fontSize: "12px",
                     fontWeight: 700,
-                    color: "text.grey"
+                    color: "text.grey",
                   }}
                 >
                   {witness}
@@ -195,32 +318,80 @@ export default function IncidentDetailDrawer({ open, onClose, incident }) {
           </Box>
 
           {/* Immediate Actions */}
-          <Box sx={{ bgcolor: "#fff", p: 3, borderRadius: "24px", border: "1px solid #F1F5F9", mb: 3 }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
-              <CheckCircleOutlinedIcon sx={{ color: "#10B981", fontSize: 20 }} />
+          <Box
+            sx={{
+              bgcolor: "#fff",
+              p: 3,
+              borderRadius: "24px",
+              border: "1px solid #F1F5F9",
+              mb: 3,
+            }}
+          >
+            <Box
+              sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}
+            >
+              <CheckCircleOutlinedIcon
+                sx={{ color: "#10B981", fontSize: 20 }}
+              />
               <Typography fontSize="16px" fontWeight={700} color="text.primary">
                 Immediate Actions Taken
               </Typography>
             </Box>
-            <Box sx={{ p: 2, borderRadius: "14px", border: "1px solid #D1FAE5", bgcolor: "#ECFDF54D", color: "text.grey", fontSize: "14px", fontWeight: 400 }}>
+            <Box
+              sx={{
+                p: 2,
+                borderRadius: "14px",
+                border: "1px solid #D1FAE5",
+                bgcolor: "#ECFDF54D",
+                color: "text.grey",
+                fontSize: "14px",
+                fontWeight: 400,
+              }}
+            >
               {incident.immediateActions}
             </Box>
           </Box>
 
           {/* Investigation Log */}
-          <Box sx={{ bgcolor: "#fff", p: 3, borderRadius: "24px", border: "1px solid #F1F5F9", mb: 3 }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 3 }}>
+          <Box
+            sx={{
+              bgcolor: "#fff",
+              p: 3,
+              borderRadius: "24px",
+              border: "1px solid #F1F5F9",
+              mb: 3,
+            }}
+          >
+            <Box
+              sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 3 }}
+            >
               <TimelineOutlinedIcon sx={{ color: "#D97706", fontSize: 20 }} />
               <Typography fontSize="16px" fontWeight={700} color="text.primary">
                 Investigation Log
               </Typography>
             </Box>
-            
+
             <Box sx={{ position: "relative" }}>
-              <Box sx={{ position: "absolute", left: "7px", top: "10px", bottom: "10px", width: "2px", bgcolor: "#F1F5F9" }} />
-              
+              <Box
+                sx={{
+                  position: "absolute",
+                  left: "7px",
+                  top: "10px",
+                  bottom: "10px",
+                  width: "2px",
+                  bgcolor: "#F1F5F9",
+                }}
+              />
+
               {incident.logs?.map((log, index) => (
-                <Box key={index} sx={{ position: "relative", pl: 4, mb: index < incident.logs.length - 1 ? 4 : 0 }}>
+                <Box
+                  key={index}
+                  sx={{
+                    position: "relative",
+                    pl: 4,
+                    mb: index < incident.logs.length - 1 ? 4 : 0,
+                  }}
+                >
                   <Box
                     sx={{
                       position: "absolute",
@@ -230,18 +401,37 @@ export default function IncidentDetailDrawer({ open, onClose, incident }) {
                       height: "16px",
                       borderRadius: "50%",
                       bgcolor: index === 0 ? "#fff" : "#F8FAFC",
-                      border: index === 0 ? "2px solid #F59E0B" : "2px solid #E2E8F0",
+                      border:
+                        index === 0 ? "2px solid #F59E0B" : "2px solid #E2E8F0",
                       zIndex: 1,
                     }}
                   />
-                  <Typography fontSize="10px" fontWeight={700} color="#64748B" sx={{ mb: 0.5, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                  <Typography
+                    fontSize="10px"
+                    fontWeight={700}
+                    color="#64748B"
+                    sx={{
+                      mb: 0.5,
+                      letterSpacing: "0.05em",
+                      textTransform: "uppercase",
+                    }}
+                  >
                     {log.time}
                   </Typography>
-                  <Typography fontSize="12px" fontWeight={700} color="text.primary" sx={{ mb: 0.5 }}>
+                  <Typography
+                    fontSize="12px"
+                    fontWeight={700}
+                    color="text.primary"
+                    sx={{ mb: 0.5 }}
+                  >
                     {log.text}
                   </Typography>
                   {log.subtext && (
-                    <Typography fontSize="12px" color="text.light" fontWeight={400}>
+                    <Typography
+                      fontSize="12px"
+                      color="text.light"
+                      fontWeight={400}
+                    >
                       {log.subtext}
                     </Typography>
                   )}

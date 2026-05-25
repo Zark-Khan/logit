@@ -19,6 +19,7 @@ import ClientDetailPage from "../components/clientDetail/ClientDetailPage";
 import RosteringPage from "../pages/RosteringPage";
 import CareDeliveryPage from "../pages/CareDeliveryPage";
 import FinancePage from "../pages/FinancePage";
+import ReportsPage from "../pages/ReportsPage";
 
 export default function AppRoutes() {
   return (
@@ -37,6 +38,7 @@ export default function AppRoutes() {
         <Route path="/rostering" element={<RosteringPage />} />
         <Route path="/care-delivery" element={<CareDeliveryPage />} />
         <Route path="/finance" element={<FinancePage />} />
+        <Route path="/reports/*" element={<ReportsPage />} />
 
         <Route path="/staff/all-staff/:id" element={<StaffDetailPage />} />
         <Route path="/staff" element={<StaffLayout />}>

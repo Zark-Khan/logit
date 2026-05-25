@@ -2,12 +2,8 @@ import React, { useState } from "react";
 import {
   Box,
   Typography,
-  TextField,
-  InputAdornment,
   Button,
   Avatar,
-  Menu,
-  MenuItem,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import Download from "@mui/icons-material/Download";
@@ -65,7 +61,6 @@ export default function PaymentsTab() {
   const [successOpen, setSuccessOpen] = useState(false);
   const [recordedAmount, setRecordedAmount] = useState("");
   const [selectedPayment, setSelectedPayment] = useState(null);
-
 
   // Handle Recording a New Payment
   const handleRecordPayment = (newPayment) => {
@@ -154,7 +149,7 @@ Thank you for your payment!
               fontWeight: 700,
               fontSize: "16px",
               lineHeight: "24px",
-              color: "#0D0F12",
+              color: "text.primary",
             }}
           >
             Payment Transactions
@@ -232,7 +227,7 @@ Thank you for your payment!
           {/* Table Data Rows */}
           {payments.length === 0 ? (
             <Box sx={{ py: 8, textAlign: "center", bgcolor: "#FFFFFF" }}>
-              <Typography fontSize="14px" fontWeight={500} color="#94A3B8">
+              <Typography fontSize="14px" fontWeight={400} color="#94A3B8">
                 No matching transactions found.
               </Typography>
             </Box>
@@ -257,7 +252,7 @@ Thank you for your payment!
                   }}
                 >
                   {/* Date */}
-                  <Typography fontSize="14px" color="#666666" fontWeight={500}>
+                  <Typography fontSize="14px" color="#666666" fontWeight={400}>
                     {p.date}
                   </Typography>
 
@@ -268,7 +263,7 @@ Thank you for your payment!
                         width: 32,
                         height: 32,
                         fontSize: "12px",
-                        fontWeight: 800,
+                        fontWeight: 700,
                         bgcolor: "#FFFFFF",
                         color: "#0EA5E9",
                       }}
@@ -278,19 +273,23 @@ Thank you for your payment!
                     <Typography
                       fontSize="14px"
                       fontWeight={700}
-                      color="#0D0F12"
+                      color="text.primary"
                     >
                       {p.client}
                     </Typography>
                   </Box>
 
                   {/* Method */}
-                  <Typography fontSize="14px" color="#475569" fontWeight={500}>
+                  <Typography fontSize="14px" color="#475569" fontWeight={400}>
                     {p.method}
                   </Typography>
 
                   {/* Amount */}
-                  <Typography fontSize="14px" fontWeight={700} color="#0D0F12">
+                  <Typography
+                    fontSize="14px"
+                    fontWeight={700}
+                    color="text.primary"
+                  >
                     {p.amount}
                   </Typography>
 
@@ -298,7 +297,7 @@ Thank you for your payment!
                   <Typography
                     fontSize="14px"
                     color="#666666"
-                    fontWeight={500}
+                    fontWeight={400}
                     fontFamily="Consolas"
                   >
                     {p.reference}

@@ -201,7 +201,7 @@ const AppointmentPopup = ({ shift, anchorRect }) => {
           boxShadow: "0px 10px 40px rgba(0, 0, 0, 0.12)",
         }}
       >
-        <Typography fontWeight={800} fontSize="20px" color="#0EA5E9" mb={3}>
+        <Typography fontWeight={700} fontSize="20px" color="#0EA5E9" mb={3}>
           Appointment
         </Typography>
 
@@ -222,7 +222,7 @@ const AppointmentPopup = ({ shift, anchorRect }) => {
             >
               {item.label}
             </Typography>
-            <Typography fontSize="13px" color="text.primary" fontWeight={800}>
+            <Typography fontSize="13px" color="text.primary" fontWeight={700}>
               {item.value}
             </Typography>
           </Box>
@@ -287,7 +287,7 @@ export default function RosteringPage() {
           <IconButton size="small">
             <ChevronLeftIcon />
           </IconButton>
-          <Typography fontWeight={800} fontSize="14px" sx={{ px: 2 }}>
+          <Typography fontWeight={700} fontSize="14px" sx={{ px: 2 }}>
             17 February 2026
           </Typography>
           <IconButton size="small">
@@ -297,7 +297,7 @@ export default function RosteringPage() {
           <Button
             sx={{
               color: "#0EA5E9",
-              fontWeight: 800,
+              fontWeight: 700,
               fontSize: "12px",
               textTransform: "none",
             }}
@@ -333,7 +333,7 @@ export default function RosteringPage() {
               sx={{
                 color: "text.grey",
                 textTransform: "none",
-                fontWeight: 800,
+                fontWeight: 700,
                 px: 3,
               }}
             >
@@ -359,7 +359,7 @@ export default function RosteringPage() {
               bgcolor: "#8AC642",
               color: "#fff",
               borderRadius: "16px",
-              fontWeight: 800,
+              fontWeight: 700,
               px: 3,
               py: 1.2,
               textTransform: "none",
@@ -395,7 +395,7 @@ export default function RosteringPage() {
         >
           <Box sx={{ width: 180, p: 2, borderRight: "1px solid #BAE6FD" }}>
             <Typography
-              fontWeight={800}
+              fontWeight={700}
               fontSize="10px"
               color="text.grey"
               sx={{ textTransform: "uppercase" }}
@@ -416,7 +416,7 @@ export default function RosteringPage() {
                 }}
               >
                 <Typography
-                  fontWeight={800}
+                  fontWeight={700}
                   fontSize="12px"
                   color="text.primary"
                 >
@@ -455,7 +455,7 @@ export default function RosteringPage() {
                     height: 36,
                     bgcolor: staff.color,
                     fontSize: "14px",
-                    fontWeight: 800,
+                    fontWeight: 700,
                   }}
                 >
                   {staff.name
@@ -465,7 +465,7 @@ export default function RosteringPage() {
                 </Avatar>
                 <Box>
                   <Typography
-                    fontWeight={800}
+                    fontWeight={700}
                     fontSize="13px"
                     color="text.primary"
                   >
@@ -474,7 +474,7 @@ export default function RosteringPage() {
                   <Typography
                     fontSize="10px"
                     color="text.grey"
-                    fontWeight={500}
+                    fontWeight={400}
                   >
                     {staff.role}
                   </Typography>
@@ -527,7 +527,7 @@ export default function RosteringPage() {
                       }}
                     >
                       <Typography
-                        fontWeight={800}
+                        fontWeight={700}
                         fontSize="11px"
                         color={styles.color}
                         noWrap
@@ -560,7 +560,7 @@ export default function RosteringPage() {
                         <Typography
                           fontSize="9px"
                           color="text.grey"
-                          fontWeight={800}
+                          fontWeight={700}
                         >
                           {shift.type}
                         </Typography>
@@ -615,14 +615,14 @@ export default function RosteringPage() {
                     bgcolor: s.color,
                   }}
                 />
-                <Typography fontSize="11px" color="text.grey" fontWeight={800}>
+                <Typography fontSize="11px" color="text.grey" fontWeight={700}>
                   {s.label}
                 </Typography>
               </Box>
             ))}
           </Box>
           <Box sx={{ display: "flex", gap: 1.5 }}>
-            <Typography fontSize="11px" color="text.primary" fontWeight={800}>
+            <Typography fontSize="11px" color="text.primary" fontWeight={700}>
               42{" "}
               <Typography
                 component="span"
@@ -633,7 +633,7 @@ export default function RosteringPage() {
                 Total Shifts Today
               </Typography>
             </Typography>
-            <Typography fontSize="11px" color="text.primary" fontWeight={800}>
+            <Typography fontSize="11px" color="text.primary" fontWeight={700}>
               • 12{" "}
               <Typography
                 component="span"
@@ -644,7 +644,7 @@ export default function RosteringPage() {
                 Completed
               </Typography>
             </Typography>
-            <Typography fontSize="11px" color="text.primary" fontWeight={800}>
+            <Typography fontSize="11px" color="text.primary" fontWeight={700}>
               • 2{" "}
               <Typography
                 component="span"

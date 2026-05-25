@@ -1,7 +1,12 @@
 import React from "react";
 import { Dialog, Box, Typography, Button } from "@mui/material";
 
-export default function PaymentRecordedSuccessModal({ open, onClose, amount }) {
+export default function PayrollProcessedSuccessModal({
+  open,
+  onClose,
+  staffCount = 12,
+  totalDisbursed = "£28,450.00",
+}) {
   return (
     <Dialog
       open={open}
@@ -9,8 +14,8 @@ export default function PaymentRecordedSuccessModal({ open, onClose, amount }) {
       PaperProps={{
         sx: {
           width: "100%",
-          maxWidth: 440, // Match RecordPaymentModal precisely!
-          borderRadius: "24px", // Match RecordPaymentModal precisely!
+          maxWidth: 440,
+          borderRadius: "24px",
           p: 4,
           textAlign: "center",
           boxShadow: "0px 25px 50px -12px rgba(0, 0, 0, 0.15)",
@@ -42,30 +47,24 @@ export default function PaymentRecordedSuccessModal({ open, onClose, amount }) {
             mx: "auto",
           }}
         >
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="12"
-                cy="12"
-                r="9"
-                stroke="#10B981"
-                strokeWidth="2.5"
-              />
-              <path
-                d="M8 12.5L10.5 15L16 9"
-                stroke="#10B981"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="12" cy="12" r="9" stroke="#10B981" strokeWidth="2.5" />
+            <path
+              d="M8 12.5L10.5 15L16 9"
+              stroke="#10B981"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </Box>
-          
+
         {/* Title & Subtitle */}
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           <Typography
@@ -74,17 +73,37 @@ export default function PaymentRecordedSuccessModal({ open, onClose, amount }) {
             color="text.primary"
             sx={{ lineHeight: 1.2 }}
           >
-            Payment Recorded!
+            Payroll Processed!
           </Typography>
           <Typography
             fontSize="16px"
-            color="text.light"
+            color="#64748B"
             fontWeight={400}
-            sx={{ lineHeight: 1.6, maxWidth: 340, mx: "auto" }}
+            sx={{ lineHeight: 1.6, maxWidth: 420, mx: "auto" }}
           >
-            The payment of{" "}
-              {amount}
-            has been successfully recorded and applied to the invoice.
+            The payroll cycle for Feb 01 - Feb 28, 2024 has been successfully
+            completed. {staffCount} staff members have been paid.
+          </Typography>
+        </Box>
+
+        {/* Total Disbursed Summary Card */}
+        <Box
+          sx={{
+            width: "100%",
+            bgcolor: "#F8FAFC",
+            borderRadius: "12px",
+            p: 2,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            border: "1px solid #F1F5F9",
+          }}
+        >
+          <Typography fontSize="14px" fontWeight={400} color="#475569">
+            Total Disbursed
+          </Typography>
+          <Typography fontSize="14px" fontWeight={700} color="text.primary">
+            {totalDisbursed}
           </Typography>
         </Box>
 
@@ -104,7 +123,7 @@ export default function PaymentRecordedSuccessModal({ open, onClose, amount }) {
             "&:hover": { bgcolor: "#0284C7" },
           }}
         >
-          Back to Payments
+          Done
         </Button>
       </Box>
     </Dialog>

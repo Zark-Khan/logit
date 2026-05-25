@@ -7,7 +7,6 @@ import {
   Button,
   TextField,
   InputAdornment,
-  Divider,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
@@ -62,7 +61,9 @@ const btnBase = {
 
 export default function ExportReportsModal({ open, onClose }) {
   const [exported, setExported] = useState(false);
-  const [selectedReport, setSelectedReport] = useState("Monthly Revenue Summary");
+  const [selectedReport, setSelectedReport] = useState(
+    "Monthly Revenue Summary",
+  );
 
   const handleClose = () => {
     setExported(false);
@@ -106,11 +107,22 @@ export default function ExportReportsModal({ open, onClose }) {
           >
             <CheckCircleIcon sx={{ color: "#059669", fontSize: 36 }} />
           </Box>
-          <Typography fontSize="24px" fontWeight={700} color="text.primary" mb={1}>
+          <Typography
+            fontSize="24px"
+            fontWeight={700}
+            color="text.primary"
+            mb={1}
+          >
             Report Exported!
           </Typography>
-          <Typography fontSize="16px" color="text.light" fontWeight={500} sx={{ mb: 4, maxWidth: 320, mx: "auto", lineHeight: 1.6 }}>
-            The finance summary report has been successfully exported to your downloads.
+          <Typography
+            fontSize="16px"
+            color="text.light"
+            fontWeight={400}
+            sx={{ mb: 4, maxWidth: 320, mx: "auto", lineHeight: 1.6 }}
+          >
+            The finance summary report has been successfully exported to your
+            downloads.
           </Typography>
           <Button
             onClick={handleClose}
@@ -120,7 +132,7 @@ export default function ExportReportsModal({ open, onClose }) {
               bgcolor: "#0EA5E9",
               color: "#fff",
               "&:hover": { bgcolor: "#0284C7" },
-              py:2
+              py: 2,
             }}
           >
             Go to Downloads
@@ -129,8 +141,22 @@ export default function ExportReportsModal({ open, onClose }) {
       ) : (
         <>
           {/* ── Header ── */}
-          <Box sx={{ px: 3, pt: 3, pb: 2.5, bgcolor: "#fff", borderBottom: "1px solid #F1F5F9" }}>
-            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <Box
+            sx={{
+              px: 3,
+              pt: 3,
+              pb: 2.5,
+              bgcolor: "#fff",
+              borderBottom: "1px solid #F1F5F9",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+              }}
+            >
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <Box
                   sx={{
@@ -144,18 +170,32 @@ export default function ExportReportsModal({ open, onClose }) {
                     border: "1px solid #F3E8FF",
                   }}
                 >
-                  <FileDownloadOutlinedIcon sx={{ color: "#A855F7", fontSize: 24 }} />
+                  <FileDownloadOutlinedIcon
+                    sx={{ color: "#A855F7", fontSize: 24 }}
+                  />
                 </Box>
                 <Box>
-                  <Typography fontSize="20px" fontWeight={700} color="text.primary">
+                  <Typography
+                    fontSize="20px"
+                    fontWeight={700}
+                    color="text.primary"
+                  >
                     Export Reports
                   </Typography>
-                  <Typography fontSize="14px" color="text.light" fontWeight={400}>
+                  <Typography
+                    fontSize="14px"
+                    color="text.light"
+                    fontWeight={400}
+                  >
                     Download financial summaries and detailed data exports
                   </Typography>
                 </Box>
               </Box>
-              <IconButton size="small" onClick={handleClose} sx={{ color: "text.grey" }}>
+              <IconButton
+                size="small"
+                onClick={handleClose}
+                sx={{ color: "text.grey" }}
+              >
                 <CloseIcon sx={{ fontSize: 20 }} />
               </IconButton>
             </Box>
@@ -163,7 +203,6 @@ export default function ExportReportsModal({ open, onClose }) {
 
           {/* ── Body ── */}
           <Box sx={{ display: "flex", flex: 1, minHeight: 0, bgcolor: "#fff" }}>
-            
             {/* Left Sidebar */}
             <Box
               sx={{
@@ -178,11 +217,15 @@ export default function ExportReportsModal({ open, onClose }) {
                 fontSize="12px"
                 fontWeight={700}
                 color="text.light"
-                sx={{ textTransform: "uppercase", letterSpacing: "0.06em", mb: 2 }}
+                sx={{
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                  mb: 2,
+                }}
               >
                 Categories
               </Typography>
-              
+
               <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                 {CATEGORIES.map((cat, i) => (
                   <Box
@@ -197,7 +240,11 @@ export default function ExportReportsModal({ open, onClose }) {
                       "&:hover": { bgcolor: "#F8FAFC" },
                     }}
                   >
-                    <Typography fontSize="14px" fontWeight={700} color="text.primary">
+                    <Typography
+                      fontSize="14px"
+                      fontWeight={700}
+                      color="text.primary"
+                    >
                       {cat.label}
                     </Typography>
                     <Box
@@ -217,23 +264,54 @@ export default function ExportReportsModal({ open, onClose }) {
 
               {/* Quick Filters */}
               <Box sx={{ p: 1.5, mt: 2 }}>
-                <Typography fontSize="12px" fontWeight={700} color="text.primary" mb={2}>
+                <Typography
+                  fontSize="12px"
+                  fontWeight={700}
+                  color="text.primary"
+                  mb={2}
+                >
                   Quick Filters
                 </Typography>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1.5, color: "text.light" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1.5,
+                    mb: 1.5,
+                    color: "text.light",
+                  }}
+                >
                   <CalendarTodayOutlinedIcon sx={{ fontSize: 14 }} />
-                  <Typography fontSize="12px" fontWeight={400}>Last 30 Days</Typography>
+                  <Typography fontSize="12px" fontWeight={400}>
+                    Last 30 Days
+                  </Typography>
                 </Box>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, color: "text.light" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1.5,
+                    color: "text.light",
+                  }}
+                >
                   <FilterAltOutlinedIcon sx={{ fontSize: 14 }} />
-                  <Typography fontSize="12px" fontWeight={400}>All Branches</Typography>
+                  <Typography fontSize="12px" fontWeight={400}>
+                    All Branches
+                  </Typography>
                 </Box>
               </Box>
             </Box>
 
             {/* Right Content */}
-            <Box sx={{ flex: 1, p: 4, overflowY: "auto", display: "flex", flexDirection: "column" }}>
-              
+            <Box
+              sx={{
+                flex: 1,
+                p: 4,
+                overflowY: "auto",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
               {/* Search Bar */}
               <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
                 <TextField
@@ -253,7 +331,9 @@ export default function ExportReportsModal({ open, onClose }) {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <SearchIcon sx={{ color: "text.light", fontSize: 20 }} />
+                        <SearchIcon
+                          sx={{ color: "text.light", fontSize: 20 }}
+                        />
                       </InputAdornment>
                     ),
                   }}
@@ -266,7 +346,7 @@ export default function ExportReportsModal({ open, onClose }) {
                     textTransform: "none",
                     fontWeight: 700,
                     px: 3,
-                    fontSize:"12px"
+                    fontSize: "12px",
                   }}
                 >
                   Filters
@@ -295,33 +375,60 @@ export default function ExportReportsModal({ open, onClose }) {
                         "&:hover": { bgcolor: isSelected ? "none" : "#FAF5FF" },
                       }}
                     >
-                      <Box sx={{ display: "flex", alignItems: "center", gap: 2.5 }}>
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 2.5 }}
+                      >
                         <Box
                           sx={{
                             width: 48,
                             height: 48,
-                            borderRadius: isSelected ? "12px": "none",
+                            borderRadius: isSelected ? "12px" : "none",
                             bgcolor: isSelected ? "#A855F7" : "transparent",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
                           }}
                         >
-                          <DescriptionOutlinedIcon sx={{ color: isSelected ? "#fff" : "#64748B", fontSize: 24 }} />
+                          <DescriptionOutlinedIcon
+                            sx={{
+                              color: isSelected ? "#fff" : "#64748B",
+                              fontSize: 24,
+                            }}
+                          />
                         </Box>
                         <Box>
-                          <Typography fontSize="14px" fontWeight={700} color="text.primary" mb={0.25}>
+                          <Typography
+                            fontSize="14px"
+                            fontWeight={700}
+                            color="text.primary"
+                            mb={0.25}
+                          >
                             {rep.title}
                           </Typography>
-                          <Typography fontSize="12px" color="text.light" fontWeight={400} mb={0.75}>
+                          <Typography
+                            fontSize="12px"
+                            color="text.light"
+                            fontWeight={400}
+                            mb={0.75}
+                          >
                             {rep.desc}
                           </Typography>
-                          <Typography fontSize="10px" fontWeight={700} color="text.grey" sx={{ letterSpacing: "0.05em" }}>
+                          <Typography
+                            fontSize="10px"
+                            fontWeight={700}
+                            color="text.grey"
+                            sx={{ letterSpacing: "0.05em" }}
+                          >
                             {rep.meta}
                           </Typography>
                         </Box>
                       </Box>
-                      <KeyboardArrowRightIcon sx={{ color: isSelected ? "#A855F7" : "#CBD5E1", fontSize: 20 }} />
+                      <KeyboardArrowRightIcon
+                        sx={{
+                          color: isSelected ? "#A855F7" : "#CBD5E1",
+                          fontSize: 20,
+                        }}
+                      />
                     </Box>
                   );
                 })}
@@ -352,7 +459,7 @@ export default function ExportReportsModal({ open, onClose }) {
               >
                 <MoreVertIcon sx={{ color: "#94A3B8", fontSize: 18 }} />
               </Box>
-              <Typography fontSize="12px" color="text.light" fontWeight={500}>
+              <Typography fontSize="12px" color="text.light" fontWeight={400}>
                 Select a report to configure export settings
               </Typography>
             </Box>

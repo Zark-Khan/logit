@@ -31,10 +31,30 @@ export default function AssessmentDetailDrawer({ open, onClose, assessment }) {
       }}
       sx={{ zIndex: 1301 }}
     >
-      <Box sx={{ display: "flex", flexDirection: "column", height: "100%", bgcolor: "#F8FAFC" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+          bgcolor: "#F8FAFC",
+        }}
+      >
         {/* Header */}
-        <Box sx={{ p: 4, pb: 3, bgcolor: "#fff", borderBottom: "1px solid #F1F5F9" }}>
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Box
+          sx={{
+            p: 4,
+            pb: 3,
+            bgcolor: "#fff",
+            borderBottom: "1px solid #F1F5F9",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <Box
                 sx={{
@@ -47,22 +67,42 @@ export default function AssessmentDetailDrawer({ open, onClose, assessment }) {
                   justifyContent: "center",
                 }}
               >
-                <AssignmentOutlinedIcon sx={{ color: "#9333EA", fontSize: 28 }} />
+                <AssignmentOutlinedIcon
+                  sx={{ color: "#9333EA", fontSize: 28 }}
+                />
               </Box>
               <Box>
-                <Typography fontSize="20px" fontWeight={700} color="text.primary">
+                <Typography
+                  fontSize="20px"
+                  fontWeight={700}
+                  color="text.primary"
+                >
                   {assessment.title}
                 </Typography>
-                <Typography fontSize="12px" color="text.light" fontWeight={500}>
+                <Typography fontSize="12px" color="text.light" fontWeight={400}>
                   {assessment.client} &bull; Ref: {assessment.ref}
                 </Typography>
               </Box>
             </Box>
             <Box sx={{ display: "flex", gap: 1 }}>
-              <IconButton size="small" sx={{ bgcolor: "#F8FAFC", "&:hover": { bgcolor: "#E2E8F0" }, width: 40, height: 40 }}>
-                <EditOutlinedIcon sx={{ fontSize: 20, color: "text.primary" }} />
+              <IconButton
+                size="small"
+                sx={{
+                  bgcolor: "#F8FAFC",
+                  "&:hover": { bgcolor: "#E2E8F0" },
+                  width: 40,
+                  height: 40,
+                }}
+              >
+                <EditOutlinedIcon
+                  sx={{ fontSize: 20, color: "text.primary" }}
+                />
               </IconButton>
-              <IconButton size="small" onClick={onClose} sx={{ width: 40, height: 40 }}>
+              <IconButton
+                size="small"
+                onClick={onClose}
+                sx={{ width: 40, height: 40 }}
+              >
                 <CloseIcon sx={{ fontSize: 24, color: "text.primary" }} />
               </IconButton>
             </Box>
@@ -73,22 +113,72 @@ export default function AssessmentDetailDrawer({ open, onClose, assessment }) {
         <Box sx={{ flex: 1, overflowY: "auto", p: 4 }}>
           {/* Stats Row */}
           <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
-            <Box sx={{ flex: 1, bgcolor: "#fff", p: 2.5, borderRadius: "24px", display: "flex", flexDirection: "column", gap: 1, border: "1px solid #F1F5F9" }}>
-              <Typography fontSize="10px" fontWeight={700} color="text.grey" sx={{ letterSpacing: "0.05em" }}>
+            <Box
+              sx={{
+                flex: 1,
+                bgcolor: "#fff",
+                p: 2.5,
+                borderRadius: "24px",
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+                border: "1px solid #F1F5F9",
+              }}
+            >
+              <Typography
+                fontSize="10px"
+                fontWeight={700}
+                color="text.grey"
+                sx={{ letterSpacing: "0.05em" }}
+              >
                 DATE
               </Typography>
               <Typography fontSize="14px" fontWeight={700} color="text.primary">
                 {assessment.date}
               </Typography>
             </Box>
-            <Box sx={{ flex: 1, bgcolor: "#fff", p: 2.5, borderRadius: "24px", display: "flex", flexDirection: "column", gap: 1, alignItems: "flex-start", border: "1px solid #F1F5F9" }}>
-              <Typography fontSize="10px" fontWeight={700} color="text.grey" sx={{ letterSpacing: "0.05em" }}>
+            <Box
+              sx={{
+                flex: 1,
+                bgcolor: "#fff",
+                p: 2.5,
+                borderRadius: "24px",
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+                alignItems: "flex-start",
+                border: "1px solid #F1F5F9",
+              }}
+            >
+              <Typography
+                fontSize="10px"
+                fontWeight={700}
+                color="text.grey"
+                sx={{ letterSpacing: "0.05em" }}
+              >
                 RISK LEVEL
               </Typography>
               <StatusBadge status={assessment.riskLevel} />
             </Box>
-            <Box sx={{ flex: 1, bgcolor: "#fff", p: 2.5, borderRadius: "24px", display: "flex", flexDirection: "column", gap: 1, alignItems: "flex-start", border: "1px solid #F1F5F9" }}>
-              <Typography fontSize="10px" fontWeight={700} color="text.grey" sx={{ letterSpacing: "0.05em" }}>
+            <Box
+              sx={{
+                flex: 1,
+                bgcolor: "#fff",
+                p: 2.5,
+                borderRadius: "24px",
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+                alignItems: "flex-start",
+                border: "1px solid #F1F5F9",
+              }}
+            >
+              <Typography
+                fontSize="10px"
+                fontWeight={700}
+                color="text.grey"
+                sx={{ letterSpacing: "0.05em" }}
+              >
                 STATUS
               </Typography>
               <StatusBadge status={assessment.status} />
@@ -96,22 +186,55 @@ export default function AssessmentDetailDrawer({ open, onClose, assessment }) {
           </Box>
 
           {/* Assessed By Row */}
-          <Box sx={{ bgcolor: "#fff", p: 3, borderRadius: "24px", display: "flex", justifyContent: "space-between", alignItems: "center", mb: 4 }}>
+          <Box
+            sx={{
+              bgcolor: "#fff",
+              p: 3,
+              borderRadius: "24px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 4,
+            }}
+          >
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <Avatar sx={{ width: 40, height: 40, fontSize: "14px", fontWeight: 700, bgcolor: "#F1F5F9", color: "text.primary" }}>
+              <Avatar
+                sx={{
+                  width: 40,
+                  height: 40,
+                  fontSize: "14px",
+                  fontWeight: 700,
+                  bgcolor: "#F1F5F9",
+                  color: "text.primary",
+                }}
+              >
                 {assessment.initials}
               </Avatar>
               <Box>
-                <Typography fontSize="10px" fontWeight={700} color="text.grey" sx={{ letterSpacing: "0.05em", mb: 0.5 }}>
+                <Typography
+                  fontSize="10px"
+                  fontWeight={700}
+                  color="text.grey"
+                  sx={{ letterSpacing: "0.05em", mb: 0.5 }}
+                >
                   ASSESSED BY
                 </Typography>
-                <Typography fontSize="14px" fontWeight={700} color="text.primary">
+                <Typography
+                  fontSize="14px"
+                  fontWeight={700}
+                  color="text.primary"
+                >
                   {assessment.assessedBy}
                 </Typography>
               </Box>
             </Box>
             <Box sx={{ textAlign: "right" }}>
-              <Typography fontSize="10px" fontWeight={700} color="text.grey" sx={{ letterSpacing: "0.05em", mb: 0.5 }}>
+              <Typography
+                fontSize="10px"
+                fontWeight={700}
+                color="text.grey"
+                sx={{ letterSpacing: "0.05em", mb: 0.5 }}
+              >
                 OUTCOME SCORE
               </Typography>
               <Typography fontSize="24px" fontWeight={700} color="#2563EB">
@@ -121,7 +244,9 @@ export default function AssessmentDetailDrawer({ open, onClose, assessment }) {
           </Box>
 
           <Box sx={{ bgcolor: "#fff", borderRadius: "24px", p: 3, mb: 4 }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 3 }}>
+            <Box
+              sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 3 }}
+            >
               <Box
                 sx={{
                   width: 32,
@@ -132,7 +257,9 @@ export default function AssessmentDetailDrawer({ open, onClose, assessment }) {
                   justifyContent: "center",
                 }}
               >
-                <AssignmentOutlinedIcon sx={{ color: "#A855F7", fontSize: 18 }} />
+                <AssignmentOutlinedIcon
+                  sx={{ color: "#A855F7", fontSize: 18 }}
+                />
               </Box>
               <Typography fontSize="16px" fontWeight={700} color="text.primary">
                 Assessment Details
@@ -143,15 +270,41 @@ export default function AssessmentDetailDrawer({ open, onClose, assessment }) {
               {assessment.details && assessment.details.length > 0 ? (
                 assessment.details.map((detail, index) => (
                   <Box key={index}>
-                    <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1, gap: 2 }}>
-                      <Typography fontSize="14px" fontWeight={700} color="text.primary">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        mb: 1,
+                        gap: 2,
+                      }}
+                    >
+                      <Typography
+                        fontSize="14px"
+                        fontWeight={700}
+                        color="text.primary"
+                      >
                         {detail.question}
                       </Typography>
-                      <Typography fontSize="12px" fontWeight={700} color="#0EA5E9" sx={{ bgcolor: "#EFF6FF", px: 2, py: 1, borderRadius: "12px", flexShrink: 0 }}>
+                      <Typography
+                        fontSize="12px"
+                        fontWeight={700}
+                        color="#0EA5E9"
+                        sx={{
+                          bgcolor: "#EFF6FF",
+                          px: 2,
+                          py: 1,
+                          borderRadius: "12px",
+                          flexShrink: 0,
+                        }}
+                      >
                         {detail.answer}
                       </Typography>
                     </Box>
-                    <Typography fontSize="12px" color="text.light" fontStyle="italic">
+                    <Typography
+                      fontSize="12px"
+                      color="text.light"
+                      fontStyle="italic"
+                    >
                       {detail.notes}
                     </Typography>
                     {index < assessment.details.length - 1 && (

@@ -32,7 +32,8 @@ const ASSESSMENT_DATA = [
       {
         question: "Can the client walk 50m without assistance?",
         answer: "Yes",
-        notes: '"Arthur is able to walk with a stick but requires standby assistance for longer distances."',
+        notes:
+          '"Arthur is able to walk with a stick but requires standby assistance for longer distances."',
       },
       {
         question: "Has the client had a fall in the last 6 months?",
@@ -42,9 +43,10 @@ const ASSESSMENT_DATA = [
       {
         question: "Is the client able to manage their own medication?",
         answer: "Partial",
-        notes: '"Requires prompting and supervision to ensure correct dosage is taken."',
+        notes:
+          '"Requires prompting and supervision to ensure correct dosage is taken."',
       },
-    ]
+    ],
   },
   {
     id: 2,
@@ -57,7 +59,7 @@ const ASSESSMENT_DATA = [
     assessedBy: "Sarah Thompson",
     initials: "ST",
     ref: "AS-002",
-    details: []
+    details: [],
   },
   {
     id: 3,
@@ -70,7 +72,7 @@ const ASSESSMENT_DATA = [
     assessedBy: "Emily Davis",
     initials: "ED",
     ref: "AS-003",
-    details: []
+    details: [],
   },
   {
     id: 4,
@@ -83,7 +85,7 @@ const ASSESSMENT_DATA = [
     assessedBy: "Michael Brown",
     initials: "MB",
     ref: "AS-004",
-    details: []
+    details: [],
   },
 ];
 
@@ -203,10 +205,15 @@ export default function AssessmentsTab() {
           overflow: "hidden",
         }}
       >
-        <Typography fontSize="16px" fontWeight={700} color="text.primary" sx={{ p: 3 }}>
+        <Typography
+          fontSize="16px"
+          fontWeight={700}
+          color="text.primary"
+          sx={{ p: 3 }}
+        >
           Recent Assessments
         </Typography>
-        
+
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           {ASSESSMENT_DATA.map((item, index) => (
             <Box
@@ -235,13 +242,24 @@ export default function AssessmentsTab() {
                     justifyContent: "center",
                   }}
                 >
-                  <AssignmentOutlinedIcon sx={{ color: "#A855F7", fontSize: 22 }} />
+                  <AssignmentOutlinedIcon
+                    sx={{ color: "#A855F7", fontSize: 22 }}
+                  />
                 </Box>
                 <Box>
-                  <Typography fontSize="15px" fontWeight={700} color="text.primary" mb={0.2}>
+                  <Typography
+                    fontSize="15px"
+                    fontWeight={700}
+                    color="text.primary"
+                    mb={0.2}
+                  >
                     {item.title}
                   </Typography>
-                  <Typography fontSize="13px" color="text.light" fontWeight={500}>
+                  <Typography
+                    fontSize="13px"
+                    color="text.light"
+                    fontWeight={400}
+                  >
                     {item.client} &bull; {item.date}
                   </Typography>
                 </Box>
@@ -249,23 +267,40 @@ export default function AssessmentsTab() {
 
               <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
                 <Box sx={{ textAlign: "center", minWidth: 60 }}>
-                  <Typography fontSize="14px" fontWeight={800} color="text.primary">
+                  <Typography
+                    fontSize="14px"
+                    fontWeight={700}
+                    color="text.primary"
+                  >
                     {item.score}
                   </Typography>
-                  <Typography fontSize="9px" fontWeight={800} color="text.grey" sx={{ mt: 0.2 }}>
+                  <Typography
+                    fontSize="9px"
+                    fontWeight={700}
+                    color="text.grey"
+                    sx={{ mt: 0.2 }}
+                  >
                     OUTCOME
                   </Typography>
                 </Box>
-                
-                <Box sx={{ minWidth: 90, display: "flex", justifyContent: "center" }}>
+
+                <Box
+                  sx={{
+                    minWidth: 90,
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
                   <StatusBadge status={item.riskLevel} />
                 </Box>
 
                 <IconButton size="small" sx={{ color: "#64748B", p: 0.5 }}>
                   <EditOutlinedIcon sx={{ fontSize: 20 }} />
                 </IconButton>
-                
-                <KeyboardArrowRightIcon sx={{ color: "#CBD5E1", fontSize: 24 }} />
+
+                <KeyboardArrowRightIcon
+                  sx={{ color: "#CBD5E1", fontSize: 24 }}
+                />
               </Box>
             </Box>
           ))}

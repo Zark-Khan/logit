@@ -239,7 +239,7 @@ function PlanCard({ plan, onView }) {
               <Typography fontSize="16px" fontWeight={700} color="text.primary">
                 {plan.name}
               </Typography>
-              <Typography fontSize="12px" color="text.light" fontWeight={500}>
+              <Typography fontSize="12px" color="text.light" fontWeight={400}>
                 Next review: {plan.nextReview}
               </Typography>
             </Box>

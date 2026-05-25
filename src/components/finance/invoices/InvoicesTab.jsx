@@ -10,7 +10,6 @@ import {
   Drawer,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import AddIcon from "@mui/icons-material/Add";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CloseIcon from "@mui/icons-material/Close";
@@ -23,11 +22,46 @@ import InvoicePreviewModal from "../modals/InvoicePreviewModal";
 import CreateInvoiceModal from "../modals/CreateInvoiceModal";
 
 const INVOICES = [
-  { id: "INV-2024-001", client: "Arthur Morgan", date: "Mar 01, 2024", amount: "£1,250.00", status: "PAID", color: "#0EA5E9" },
-  { id: "INV-2024-002", client: "Sadie Adler", date: "Feb 28, 2024", amount: "£840.00", status: "SENT", color: "#E11D48" },
-  { id: "INV-2024-003", client: "John Marston", date: "Feb 26, 2024", amount: "£2,100.00", status: "OVERDUE", color: "#D97706" },
-  { id: "INV-2024-004", client: "Charles Smith", date: "Feb 25, 2024", amount: "£950.00", status: "DRAFT", color: "#059669" },
-  { id: "INV-2024-005", client: "Bill Williamson", date: "Feb 24, 2024", amount: "£1,100.00", status: "PAID", color: "#7C3AED" },
+  {
+    id: "INV-2024-001",
+    client: "Arthur Morgan",
+    date: "Mar 01, 2024",
+    amount: "£1,250.00",
+    status: "PAID",
+    color: "#0EA5E9",
+  },
+  {
+    id: "INV-2024-002",
+    client: "Sadie Adler",
+    date: "Feb 28, 2024",
+    amount: "£840.00",
+    status: "SENT",
+    color: "#E11D48",
+  },
+  {
+    id: "INV-2024-003",
+    client: "John Marston",
+    date: "Feb 26, 2024",
+    amount: "£2,100.00",
+    status: "OVERDUE",
+    color: "#D97706",
+  },
+  {
+    id: "INV-2024-004",
+    client: "Charles Smith",
+    date: "Feb 25, 2024",
+    amount: "£950.00",
+    status: "DRAFT",
+    color: "#059669",
+  },
+  {
+    id: "INV-2024-005",
+    client: "Bill Williamson",
+    date: "Feb 24, 2024",
+    amount: "£1,100.00",
+    status: "PAID",
+    color: "#7C3AED",
+  },
 ];
 
 const STATUS_STYLES = {
@@ -180,13 +214,18 @@ export default function InvoicesTab() {
               borderBottom: "1px solid #F1F5F9",
             }}
           >
-            {["INVOICE ID", "CLIENT", "DATE", "AMOUNT", "STATUS", "ACTIONS"].map(
-              (h) => (
-                <Typography key={h} sx={labelSx}>
-                  {h}
-                </Typography>
-              ),
-            )}
+            {[
+              "INVOICE ID",
+              "CLIENT",
+              "DATE",
+              "AMOUNT",
+              "STATUS",
+              "ACTIONS",
+            ].map((h) => (
+              <Typography key={h} sx={labelSx}>
+                {h}
+              </Typography>
+            ))}
           </Box>
 
           {/* Data Rows */}
@@ -208,7 +247,11 @@ export default function InvoicesTab() {
                 onClick={() => setSelected(inv)}
               >
                 {/* Invoice ID */}
-                <Typography fontSize="14px" fontWeight={700} color="text.primary">
+                <Typography
+                  fontSize="14px"
+                  fontWeight={700}
+                  color="text.primary"
+                >
                   {inv.id}
                 </Typography>
 
@@ -219,25 +262,33 @@ export default function InvoicesTab() {
                       width: 32,
                       height: 32,
                       fontSize: "12px",
-                      fontWeight: 800,
+                      fontWeight: 700,
                       bgcolor: "#ffffff",
                       color: "text.primary",
                     }}
                   >
                     {inv.client[0]}
                   </Avatar>
-                  <Typography fontSize="14px" fontWeight={600} color="text.grey">
+                  <Typography
+                    fontSize="14px"
+                    fontWeight={600}
+                    color="text.grey"
+                  >
                     {inv.client}
                   </Typography>
                 </Box>
 
                 {/* Date */}
-                <Typography fontSize="14px" color="text.light" fontWeight={500}>
+                <Typography fontSize="14px" color="text.light" fontWeight={400}>
                   {inv.date}
                 </Typography>
 
                 {/* Amount */}
-                <Typography fontSize="14px" fontWeight={700} color="text.primary">
+                <Typography
+                  fontSize="14px"
+                  fontWeight={700}
+                  color="text.primary"
+                >
                   {inv.amount}
                 </Typography>
 
@@ -290,19 +341,21 @@ export default function InvoicesTab() {
         anchor="right"
         open={!!selected}
         onClose={() => setSelected(null)}
-      PaperProps={{
-        sx: {
-          width: { xs: "100%", sm: 672 },
-          p: 0,
-          backgroundColor: "#f8fafc",
-          overflow: "hidden",
-          zIndex: 1301,
-        },
-      }}
-      sx={{ zIndex: 1301 }}
+        PaperProps={{
+          sx: {
+            width: { xs: "100%", sm: 672 },
+            p: 0,
+            backgroundColor: "#f8fafc",
+            overflow: "hidden",
+            zIndex: 1301,
+          },
+        }}
+        sx={{ zIndex: 1301 }}
       >
         {selected && (
-          <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+          <Box
+            sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+          >
             {/* Header */}
             <Box
               sx={{
@@ -341,27 +394,49 @@ export default function InvoicesTab() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
-                    <path d="M14 2V8H20" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M8 13H16" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M8 17H16" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M8 9H10" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path
+                      d="M14 2V8H20"
+                      stroke="#059669"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M8 13H16"
+                      stroke="#059669"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M8 17H16"
+                      stroke="#059669"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M8 9H10"
+                      stroke="#059669"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </Box>
                 </Box>
                 <Box>
                   <Typography
                     sx={{
-                      
                       fontSize: "20px",
                       fontWeight: 700,
                       lineHeight: "28px",
-                      color: "#0D0F12",
+                      color: "text.primary",
                     }}
                   >
                     {selected.id}
                   </Typography>
                   <Typography
                     sx={{
-                      
                       fontSize: "14px",
                       fontWeight: 400,
                       lineHeight: "20px",
@@ -382,7 +457,7 @@ export default function InvoicesTab() {
                   "&:hover": { bgcolor: "#F8FAFC" },
                 }}
               >
-                <CloseIcon sx={{ fontSize: 20, color: "#0D0F12" }} />
+                <CloseIcon sx={{ fontSize: 20, color: "text.primary" }} />
               </IconButton>
             </Box>
 
@@ -402,11 +477,12 @@ export default function InvoicesTab() {
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <CheckCircleOutlinedIcon sx={{ color: "#059669", fontSize: 24 }} />
+                  <CheckCircleOutlinedIcon
+                    sx={{ color: "#059669", fontSize: 24 }}
+                  />
                   <Box>
                     <Typography
                       sx={{
-                        
                         fontSize: "14px",
                         fontWeight: 700,
                         lineHeight: "20px",
@@ -419,7 +495,6 @@ export default function InvoicesTab() {
                     </Typography>
                     <Typography
                       sx={{
-                        
                         fontSize: "12px",
                         fontWeight: 400,
                         lineHeight: "16px",
@@ -433,7 +508,6 @@ export default function InvoicesTab() {
                 </Box>
                 <Typography
                   sx={{
-                    
                     fontSize: "24px",
                     fontWeight: 700,
                     lineHeight: "32px",
@@ -472,7 +546,6 @@ export default function InvoicesTab() {
                     <Icon sx={{ color: "#475569", fontSize: 20 }} />
                     <Typography
                       sx={{
-                        
                         fontSize: "12px",
                         fontWeight: 700,
                         lineHeight: "16px",
@@ -489,7 +562,6 @@ export default function InvoicesTab() {
               {/* Invoice Details Section */}
               <Typography
                 sx={{
-                  
                   fontSize: "12px",
                   fontWeight: 700,
                   lineHeight: "16px",
@@ -511,11 +583,22 @@ export default function InvoicesTab() {
                 }}
               >
                 {/* Detail rows */}
-                <Box sx={{ p: 3, display: "flex", flexDirection: "column", gap: 2 }}>
+                <Box
+                  sx={{
+                    p: 3,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                  }}
+                >
                   {[
                     { label: "Billing Period", value: DETAIL.billingPeriod },
                     { label: "Payment Method", value: DETAIL.paymentMethod },
-                    { label: "Funding Source", value: DETAIL.fundingSource, highlight: true },
+                    {
+                      label: "Funding Source",
+                      value: DETAIL.fundingSource,
+                      highlight: true,
+                    },
                   ].map(({ label, value, highlight }) => (
                     <Box
                       key={label}
@@ -527,9 +610,8 @@ export default function InvoicesTab() {
                     >
                       <Typography
                         sx={{
-                          
                           fontSize: "14px",
-                          fontWeight: 500,
+                          fontWeight: 400,
                           lineHeight: "20px",
                           color: "#475569",
                         }}
@@ -538,11 +620,10 @@ export default function InvoicesTab() {
                       </Typography>
                       <Typography
                         sx={{
-                          
                           fontSize: "14px",
                           fontWeight: 700,
                           lineHeight: "20px",
-                          color: highlight ? "#2563EB" : "#0D0F12",
+                          color: highlight ? "#2563EB" : "text.primary",
                         }}
                       >
                         {value}
@@ -571,7 +652,6 @@ export default function InvoicesTab() {
                       <Typography
                         key={h}
                         sx={{
-                          
                           fontSize: "11px",
                           fontWeight: 700,
                           lineHeight: "16px",
@@ -600,18 +680,16 @@ export default function InvoicesTab() {
                     >
                       <Typography
                         sx={{
-                          
                           fontSize: "14px",
-                          fontWeight: 500,
+                          fontWeight: 400,
                           lineHeight: "20px",
-                          color: "#0D0F12",
+                          color: "text.primary",
                         }}
                       >
                         {ln.desc}
                       </Typography>
                       <Typography
                         sx={{
-                          
                           fontSize: "14px",
                           fontWeight: 400,
                           lineHeight: "20px",
@@ -622,11 +700,10 @@ export default function InvoicesTab() {
                       </Typography>
                       <Typography
                         sx={{
-                          
                           fontSize: "14px",
                           fontWeight: 700,
                           lineHeight: "20px",
-                          color: "#0D0F12",
+                          color: "text.primary",
                           textAlign: "right",
                         }}
                       >
@@ -666,7 +743,7 @@ export default function InvoicesTab() {
                             fontSize: "14px",
                             fontWeight: 700,
                             lineHeight: "20px",
-                            color: "#0D0F12",
+                            color: "text.primary",
                             textAlign: "right",
                           }}
                         >
@@ -689,7 +766,7 @@ export default function InvoicesTab() {
                           fontWeight: 700,
                           fontStyle: "italic",
                           lineHeight: "20px",
-                          color: "#0D0F12",
+                          color: "text.primary",
                         }}
                       >
                         TOTAL
@@ -700,7 +777,7 @@ export default function InvoicesTab() {
                           fontWeight: 700,
                           fontStyle: "italic",
                           lineHeight: "20px",
-                          color: "#0D0F12",
+                          color: "text.primary",
                           textAlign: "right",
                         }}
                       >
@@ -727,4 +804,3 @@ export default function InvoicesTab() {
     </Box>
   );
 }
-

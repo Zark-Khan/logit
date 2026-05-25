@@ -6,7 +6,6 @@ import {
   Drawer,
   Divider,
   Paper,
-  Grid,
   Button,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -135,7 +134,7 @@ export default function VisitDetailDrawer({ open, onClose, log }) {
             <Typography fontSize="20px" fontWeight={700} color="text.primary">
               Visit Detail
             </Typography>
-            <Typography fontSize="12px" color="text.grey" fontWeight={500}>
+            <Typography fontSize="12px" color="text.grey" fontWeight={400}>
               Ref: VST-2026-0301-042
             </Typography>
           </Box>
@@ -296,7 +295,7 @@ export default function VisitDetailDrawer({ open, onClose, log }) {
                   fontWeight={700}
                   color="text.primary"
                 >
-                  Paracetamol 500mg
+                  Paracetamol 400mg
                 </Typography>
                 <StatusBadge status="GIVEN" />
               </Box>
@@ -310,7 +309,7 @@ export default function VisitDetailDrawer({ open, onClose, log }) {
                 <Box sx={{ display: "flex", alignItems: "center", gap: "4px" }}>
                   <Typography
                     fontSize="12px"
-                    fontWeight={500}
+                    fontWeight={400}
                     color="text.grey"
                   >
                     Dosage:
@@ -333,7 +332,7 @@ export default function VisitDetailDrawer({ open, onClose, log }) {
                 >
                   <Typography
                     fontSize="12px"
-                    fontWeight={500}
+                    fontWeight={400}
                     color="text.grey"
                   >
                     Time:

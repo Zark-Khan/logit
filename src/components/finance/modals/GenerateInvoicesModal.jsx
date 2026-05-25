@@ -114,7 +114,7 @@ export default function GenerateInvoicesModal({ open, onClose }) {
           <Typography
             fontSize="16px"
             color="text.grey"
-            fontWeight={500}
+            fontWeight={400}
             sx={{ lineHeight: 1.7, mb: 3 }}
           >
             12 invoices have now been generated and are ready to invoice.
@@ -127,27 +127,26 @@ export default function GenerateInvoicesModal({ open, onClose }) {
               border: "1px solid #F1F5F9",
               mb: 3,
               display: "flex",
-              flexDirection:"column",
-              gap:2 ,
+              flexDirection: "column",
+              gap: 2,
             }}
           >
-            <Box sx={{display:"flex",justifyContent: "space-between",}}>
-            <Typography fontSize="14px" color="text.grey" fontWeight={500}>
-              Total amount
-            </Typography>
-            <Typography fontSize="14px" fontWeight={700} color="text.primary">
-              £14,250.00
-            </Typography>
-          </Box>
-                     <Box sx={{display:"flex",justifyContent: "space-between",}}>
-
-            <Typography fontSize="14px" color="text.grey" fontWeight={500}>
-              Period
-            </Typography>
-            <Typography fontSize="14px" fontWeight={700} color="text.primary">
-              Mar 01 – Mar 15, 2024
-            </Typography>
-          </Box>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography fontSize="14px" color="text.grey" fontWeight={400}>
+                Total amount
+              </Typography>
+              <Typography fontSize="14px" fontWeight={700} color="text.primary">
+                £14,250.00
+              </Typography>
+            </Box>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography fontSize="14px" color="text.grey" fontWeight={400}>
+                Period
+              </Typography>
+              <Typography fontSize="14px" fontWeight={700} color="text.primary">
+                Mar 01 – Mar 15, 2024
+              </Typography>
+            </Box>
           </Box>
           <Button
             onClick={handleClose}
@@ -374,7 +373,7 @@ export default function GenerateInvoicesModal({ open, onClose }) {
                     py: 1.75,
                   }}
                 >
-                  <Typography fontSize="14px" color="#64748B" fontWeight={500}>
+                  <Typography fontSize="14px" color="#64748B" fontWeight={400}>
                     Total Billable Hours
                   </Typography>
                   <Typography fontSize="18px" fontWeight={700} color="#0EA5E9">
@@ -389,7 +388,7 @@ export default function GenerateInvoicesModal({ open, onClose }) {
                     py: 1.75,
                   }}
                 >
-                  <Typography fontSize="14px" color="#64748B" fontWeight={500}>
+                  <Typography fontSize="14px" color="#64748B" fontWeight={400}>
                     Estimated Revenue
                   </Typography>
                   <Typography fontSize="18px" fontWeight={700} color="#0EA5E9">
@@ -445,7 +444,7 @@ export default function GenerateInvoicesModal({ open, onClose }) {
                   >
                     <Typography
                       fontSize="14px"
-                      fontWeight={500}
+                      fontWeight={400}
                       color="text.primary"
                     >
                       {c.name}
