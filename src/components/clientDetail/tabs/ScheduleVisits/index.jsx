@@ -27,11 +27,9 @@ const TIMES = [
 export default function ScheduleVisitsTab({ client }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedVisit, setSelectedVisit] = useState(null);
 
   const handleVisitClick = (event, visit) => {
     setAnchorEl(event.currentTarget);
-    setSelectedVisit(visit);
   };
 
   const handleClosePopover = () => {

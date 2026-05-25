@@ -9,7 +9,6 @@ import {
   Button,
   Checkbox,
   IconButton,
-  Grid,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import GroupsIcon from "@mui/icons-material/Groups";
