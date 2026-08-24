@@ -11,6 +11,7 @@ import ClientDetailsTab from "./tabs/ClientDetails";
 import CareAssessmentTab from "./tabs/CareAssessment";
 import CareFeedTab from "./tabs/CareFeed";
 import CarePlanTab from "./tabs/CarePlan";
+import TaskPlannerTab from "./tabs/TaskPlanner";
 import MedicationTab from "./tabs/Medication";
 import ScheduleVisitsTab from "./tabs/ScheduleVisits";
 import CareTeamTab from "./tabs/CareTeam";
@@ -20,6 +21,9 @@ import NotesRecordsTab from "./tabs/NotesRecords";
 import RisksIncidentsTab from "./tabs/RisksIncidents";
 import FundingFinanceTab from "./tabs/FundingFinance";
 import { ScheduleVisitModal } from "./ScheduleVisitModal";
+import { CONTENT_CARD_SX } from "./clientDetailStyles";
+import { useClientDetailsStore } from "../../store/useClientDetailsStore";
+import { NAVBAR_HEIGHT } from "../dashboard/Navbar";
 
 const CLIENTS_MAP = {
   "0041": {
@@ -40,6 +44,38 @@ const CLIENTS_MAP = {
     status: "ACTIVE",
     risk: "MED RISK",
   },
+  // No "Client details" data yet — opening the Client Details tab for these
+  // shows the step-by-step form (see tabs/ClientDetails/ClientDetailsForm.jsx)
+  // instead of the read-only view.
+  "0089": {
+    id: "0089",
+    name: "John Doe",
+    phone: "+44 7700 900444",
+    address: "18 Birch Street, London, NW3 6RT",
+    coordinator: "Alex Marshall",
+    status: "ON HOLD",
+    risk: "LOW RISK",
+  },
+  "0092": {
+    id: "0092",
+    name: "Emma Davis",
+    phone: "+44 7700 900555",
+    address: "27 Maple Avenue, London, N4 8QW",
+    coordinator: "James Wilson",
+    status: "ACTIVE",
+    risk: "HIGH RISK",
+  },
+};
+
+const STATUS_BG = {
+  ACTIVE: "#528910",
+  "ON HOLD": "#FEA400",
+};
+
+const RISK_COLOR = {
+  "LOW RISK": "text.light",
+  "MED RISK": "#FEA400",
+  "HIGH RISK": "#EF4444",
 };
 
 const PLACEHOLDER_CONTENT = ({ tab, name }) => (
@@ -58,8 +94,18 @@ export default function ClientDetailPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("Overview");
   const [visitModalOpen, setVisitModalOpen] = useState(false);
+  const detailsComplete = useClientDetailsStore((s) => s.isComplete(id));
+  const showsDetailsForm = activeTab === "Client Details" && !detailsComplete;
 
-  const client = CLIENTS_MAP[id] ?? CLIENTS_MAP["0041"];
+  const client = CLIENTS_MAP[id] ?? {
+    id,
+    name: "New Client",
+    phone: "—",
+    address: "—",
+    coordinator: "—",
+    status: "ACTIVE",
+    risk: "LOW RISK",
+  };
 
   const renderTab = () => {
     if (activeTab === "Overview") return <ClientOverviewTab client={client} />;
@@ -69,6 +115,8 @@ export default function ClientDetailPage() {
       return <CareAssessmentTab client={client} />;
     if (activeTab === "Care Feed") return <CareFeedTab client={client} />;
     if (activeTab === "Care Plan") return <CarePlanTab client={client} />;
+    if (activeTab === "Task Planner")
+      return <TaskPlannerTab key={client.id} client={client} />;
     if (activeTab === "Medication") return <MedicationTab client={client} />;
     if (activeTab === "Schedule & Visits")
       return <ScheduleVisitsTab client={client} />;
@@ -154,7 +202,7 @@ export default function ClientDetailPage() {
                   label={client.status}
                   size="small"
                   sx={{
-                    bgcolor: "#528910",
+                    bgcolor: STATUS_BG[client.status] ?? "#94A3B8",
                     color: "#fff",
                     fontWeight: 700,
                     fontSize: "10px",
@@ -167,8 +215,8 @@ export default function ClientDetailPage() {
                   label={client.risk}
                   size="small"
                   sx={{
-                    bgcolor: "#ffffff", // lighter green text for low risk
-                    color: "text.light",
+                    bgcolor: "#ffffff",
+                    color: RISK_COLOR[client.risk] ?? "text.light",
                     fontWeight: 700,
                     fontSize: "10px",
                     height: 20,
@@ -266,34 +314,27 @@ export default function ClientDetailPage() {
         <Grid container spacing={4}>
           <Grid 
             size={{ xs: 12, md: 3 }} 
-            sx={{ 
-              position: "sticky", 
-              top: 80, // increased to avoid hiding behind the main AppBar
+            sx={{
+              position: "sticky",
+              // Clear the fixed AppBar, plus a small breathing gap.
+              top: `${NAVBAR_HEIGHT + 16}px`,
               alignSelf: "flex-start",
-              maxHeight: "calc(100vh - 120px)",
-              overflowY: "auto",
-              "&::-webkit-scrollbar": { display: "none" },
-              msOverflowStyle: "none",
-              scrollbarWidth: "none",
+              // No max-height/overflow here on purpose: the nav renders at its
+              // natural height like the design. Capping it clipped the last
+              // items, which read as the page cutting the nav off in white.
             }}
           >
             <ClientDetailNav activeTab={activeTab} onTabChange={setActiveTab} />
           </Grid>
 
-          {/* Right content area */}
+          {/* Right content area — the Client Details form supplies its own card
+              so its Previous / Save buttons can sit outside it. */}
           <Grid size={{ xs: 12, md: 9 }}>
-            <Box
-              sx={{
-                bgcolor: "rgba(138, 198, 66, 0.15)",
-                border: "1px solid #8AC642",
-                borderRadius: "16px",
-                px: 3,
-                py: 2.5,
-                minHeight: 420,
-              }}
-            >
-              {renderTab()}
-            </Box>
+            {showsDetailsForm ? (
+              renderTab()
+            ) : (
+              <Box sx={CONTENT_CARD_SX}>{renderTab()}</Box>
+            )}
           </Grid>
         </Grid>
       </Box>

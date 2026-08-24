@@ -8,6 +8,7 @@ const NAV_TABS = [
   "Care Assessment",
   "Care Feed",
   "Care Plan",
+  "Task Planner",
   "Medication",
   "Schedule & Visits",
   "Care Team",

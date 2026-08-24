@@ -16,6 +16,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import NavLogo from "../../assets/NavLogo.svg";
 
+// Height of the fixed top nav. Pages must reserve this much top space (and
+// sticky sidebars must offset by it) or content slides under the white bar.
+export const NAVBAR_HEIGHT = 64.8;
+
 const NAV_LINKS = [
   { label: "Staff", path: "/staff" },
   { label: "Clients", path: "/clients" },
@@ -47,7 +51,7 @@ export default function Navbar() {
       <Toolbar
         sx={{
           gap: 3,
-          minHeight: "64.8px !important",
+          minHeight: `${NAVBAR_HEIGHT}px !important`,
           padding: "unset !important",
         }}
       >

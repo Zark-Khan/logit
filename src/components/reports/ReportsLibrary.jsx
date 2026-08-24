@@ -18,7 +18,7 @@ const CATEGORIES = [
 const REPORTS = [
   { id: "roster", title: "Roster", description: "View and manage client rosters and schedules." },
   { id: "diary", title: "Diary", description: "Daily logs and notes for client care." },
-  { id: "respite", title: "Respite", description: "Track respite care hours and usage." },
+  { id: "respite", title: "Respite", description: "Track respite care hours and usage.", directReportId: "respite" },
   { id: "checklist", title: "Checklist", description: "Daily, weekly, and monthly care checklists." },
   { id: "medication", title: "Medication", description: "Medication administration records and schedules." },
   { id: "other", title: "Other", description: "Additional client-related reports and documents." },
@@ -136,7 +136,9 @@ export default function ReportsLibrary() {
           {REPORTS.map((report) => (
             <Box
               key={report.id}
-              onClick={() => navigate(`/reports/${report.id}`)}
+              onClick={() => report.directReportId
+                ? navigate(`/reports/${report.id}/${report.directReportId}`)
+                : navigate(`/reports/${report.id}`)}
               sx={{
                 bgcolor: "#8AC64233",
                 border: "1px solid #8AC642",

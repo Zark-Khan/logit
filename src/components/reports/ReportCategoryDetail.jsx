@@ -49,6 +49,34 @@ const CATEGORY_DATA = {
       },
     ],
   },
+  checklist: {
+    title: "Checklist Reports",
+    description:
+      "Select a specific report type from the options below to view detailed analytics and records.",
+    category: "CLIENT",
+    reports: [
+      {
+        id: "care_plans",
+        title: "Care Plans",
+        description: "View and manage active care plans for clients.",
+      },
+      {
+        id: "outstanding_checklist",
+        title: "Outstanding Checklist Items",
+        description: "Track incomplete or pending checklist tasks.",
+      },
+      {
+        id: "checklist_history",
+        title: "Checklist History",
+        description: "Comprehensive log of all completed checklist items.",
+      },
+      {
+        id: "checklist_history_by_date",
+        title: "Checklist History by Date",
+        description: "View checklist completion records organized by date.",
+      },
+    ],
+  },
   // Adding a fallback for others just to prevent errors
   default: {
     title: "Category Reports",

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Box, Typography, Paper } from "@mui/material";
 import EditIcon from "@mui/icons-material/EditOutlined";
+import ClientDetailsForm from "./ClientDetailsForm";
+import { useClientDetailsStore } from "../../../../store/useClientDetailsStore";
 
 const SUB_TABS = [
   "Personal details",
@@ -89,6 +91,14 @@ function DetailCard({ title, items, actionLabel = "Edit" }) {
 
 export default function ClientDetailsTab({ client }) {
   const [activeSubTab, setActiveSubTab] = useState("Personal details");
+  const isComplete = useClientDetailsStore((s) => s.isComplete(client.id));
+
+  // No client-details data yet — show the step-by-step form instead of the
+  // read-only view. Once the form is finished (all 5 steps) this flips to
+  // the sections below automatically.
+  if (!isComplete) {
+    return <ClientDetailsForm client={client} />;
+  }
 
   const personalDetailsSections = [
     {

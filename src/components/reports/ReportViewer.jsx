@@ -44,7 +44,7 @@ export default function ReportViewer() {
   const renderFilterInput = (filter) => {
     if (filter.type === "dateRange") {
       return (
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: "100%" }}>
           <TextField
             size="small"
             placeholder="04/09/2026"
@@ -56,7 +56,7 @@ export default function ReportViewer() {
               ),
             }}
             sx={{
-              width: 140,
+              flex: 1,
               bgcolor: "#fff",
               borderRadius: "8px",
               "& .MuiOutlinedInput-root": { borderRadius: "8px" },
@@ -76,7 +76,88 @@ export default function ReportViewer() {
               ),
             }}
             sx={{
-              width: 140,
+              flex: 1,
+              bgcolor: "#fff",
+              borderRadius: "8px",
+              "& .MuiOutlinedInput-root": { borderRadius: "8px" },
+            }}
+          />
+        </Box>
+      );
+    }
+    // dateRangeAnd — shows AND between two date inputs (Checklist History by Date)
+    if (filter.type === "dateRangeAnd") {
+      return (
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: "100%" }}>
+          <TextField
+            size="small"
+            placeholder="04/13/2021"
+            InputProps={{
+              endAdornment: (
+                <CalendarTodayIcon sx={{ fontSize: 16, color: "text.primary" }} />
+              ),
+            }}
+            sx={{
+              flex: 1,
+              bgcolor: "#fff",
+              borderRadius: "8px",
+              "& .MuiOutlinedInput-root": { borderRadius: "8px" },
+            }}
+          />
+          <Typography fontSize="12px" fontWeight={700} color="text.primary">
+            AND
+          </Typography>
+          <TextField
+            size="small"
+            placeholder="04/14/2026"
+            InputProps={{
+              endAdornment: (
+                <CalendarTodayIcon sx={{ fontSize: 16, color: "text.primary" }} />
+              ),
+            }}
+            sx={{
+              flex: 1,
+              bgcolor: "#fff",
+              borderRadius: "8px",
+              "& .MuiOutlinedInput-root": { borderRadius: "8px" },
+            }}
+          />
+        </Box>
+      );
+    }
+    // dateRangeLabeled — shows UNTIL as a small stacked label between inputs (Respite)
+    if (filter.type === "dateRangeLabeled") {
+      return (
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <TextField
+            size="small"
+            placeholder="04/10/2026"
+            InputProps={{
+              endAdornment: (
+                <CalendarTodayIcon sx={{ fontSize: 16, color: "text.primary" }} />
+              ),
+            }}
+            sx={{
+              flex: 1,
+              bgcolor: "#fff",
+              borderRadius: "8px",
+              "& .MuiOutlinedInput-root": { borderRadius: "8px" },
+            }}
+          />
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
+            <Typography fontSize="9px" fontWeight={700} color="text.primary" sx={{ lineHeight: 1 }}>UNTIL</Typography>
+            <Typography fontSize="16px" color="#EF4444" sx={{ lineHeight: 1 }}>•</Typography>
+          </Box>
+          <TextField
+            size="small"
+            placeholder="04/10/2026"
+            InputProps={{
+              endAdornment: (
+                <CalendarTodayIcon sx={{ fontSize: 16, color: "text.primary" }} />
+              ),
+            }}
+            sx={{
+              flex: 1,
               bgcolor: "#fff",
               borderRadius: "8px",
               "& .MuiOutlinedInput-root": { borderRadius: "8px" },
@@ -96,7 +177,7 @@ export default function ReportViewer() {
             ),
           }}
           sx={{
-            width: 180,
+            width: "100%",
             bgcolor: "#fff",
             borderRadius: "8px",
             "& .MuiOutlinedInput-root": { borderRadius: "8px" },
@@ -105,20 +186,41 @@ export default function ReportViewer() {
       );
     }
 
-    // Default select/multiselect look
-    return (
-      <TextField
-        size="small"
-        placeholder={filter.placeholder}
-        InputProps={{
-          endAdornment:
-            filter.type === "select" ? (
-              <AddIcon sx={{ fontSize: 16, color: "#0EA5E9" }} />
-            ) : (
-              <AddIcon sx={{ fontSize: 16, color: "#0EA5E9" }} />
+    // Dropdown type (GROUP BY) — plain input, no chip, no "+"
+    if (filter.type === "dropdown") {
+      return (
+        <TextField
+          size="small"
+          value={filter.placeholder}
+          InputProps={{ readOnly: true }}
+          sx={{
+            width: "100%",
+            bgcolor: "#fff",
+            borderRadius: "8px",
+            "& .MuiOutlinedInput-root": { borderRadius: "8px" },
+            "& input": { fontSize: "13px" },
+          }}
+        />
+      );
+    }
+
+    // Select type — chip inside input + "+" as endAdornment
+    if (filter.type === "select") {
+      return (
+        <TextField
+          size="small"
+          InputProps={{
+            endAdornment: (
+              <AddIcon
+                sx={{
+                  fontSize: 18,
+                  color: "#0EA5E9",
+                  cursor: "pointer",
+                  "&:hover": { color: "#0284C7" },
+                }}
+              />
             ),
-          startAdornment:
-            filter.type === "select" && filter.placeholder.includes("All") ? (
+            startAdornment: filter.placeholder.includes("All") ? (
               <Box
                 sx={{
                   display: "flex",
@@ -127,8 +229,9 @@ export default function ReportViewer() {
                   px: 1,
                   py: 0.25,
                   borderRadius: "4px",
-                  mr: 1,
+                  mr: 0.5,
                   gap: 0.5,
+                  whiteSpace: "nowrap",
                 }}
               >
                 <Typography fontSize="12px" color="text.primary">
@@ -139,10 +242,40 @@ export default function ReportViewer() {
                 />
               </Box>
             ) : null,
+          }}
+          placeholder={
+            filter.placeholder.includes("All") ? "" : filter.placeholder
+          }
+          sx={{
+            width: "100%",
+            bgcolor: "#fff",
+            borderRadius: "8px",
+            "& .MuiOutlinedInput-root": { borderRadius: "8px" },
+            "& input": { fontSize: "13px" },
+          }}
+        />
+      );
+    }
+
+    // Multiselect type (SHOW COLUMNS) — placeholder input + "+" as endAdornment
+    return (
+      <TextField
+        size="small"
+        placeholder={filter.placeholder}
+        InputProps={{
+          endAdornment: (
+            <AddIcon
+              sx={{
+                fontSize: 18,
+                color: "#0EA5E9",
+                cursor: "pointer",
+                "&:hover": { color: "#0284C7" },
+              }}
+            />
+          ),
         }}
         sx={{
-          minWidth: 200,
-          flex: filter.type === "multiselect" ? 1 : "none",
+          width: "100%",
           bgcolor: "#fff",
           borderRadius: "8px",
           "& .MuiOutlinedInput-root": { borderRadius: "8px" },
@@ -164,7 +297,7 @@ export default function ReportViewer() {
         }}
       >
         <Box
-          onClick={() => navigate(`/reports/${categoryId}`)}
+          onClick={() => navigate(config.categoryBackPath || `/reports/${categoryId}`)}
           sx={{
             display: "inline-flex",
             alignItems: "center",
@@ -204,6 +337,23 @@ export default function ReportViewer() {
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
+          {config.category && (
+            <>
+              <Box
+                sx={{
+                  bgcolor: "#fff",
+                  px: 1,
+                  py: 0.25,
+                  borderRadius: "4px",
+                }}
+              >
+                <Typography fontSize="10px" fontWeight={700} color="#528910" letterSpacing="0.05em">
+                  {config.category}
+                </Typography>
+              </Box>
+              <Typography sx={{ color: "#475569" }}>•</Typography>
+            </>
+          )}
           <Box
             sx={{ width: 12, height: 4, bgcolor: "#fff", borderRadius: "2px" }}
           />
@@ -244,47 +394,124 @@ export default function ReportViewer() {
           mb: 3,
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 3,
-            mb: 4,
-            pb: 4,
-            borderBottom: "1.5px solid #8AC64280",
-          }}
-        >
-          {config.filters.map((filter) => (
+        {config.filtersInline ? (
+          /* All filters in a single row (Client Schedule, Unassigned Appts) */
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 3,
+              alignItems: "flex-end",
+            }}
+          >
+            {config.filters.map((filter) => (
+              <Box
+                key={filter.id}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 1,
+                  flex: (filter.type === "dateRangeLabeled" || filter.type === "dateRangeAnd") ? 2 : 1,
+                }}
+              >
+                <Typography
+                  fontSize="10px"
+                  fontWeight={700}
+                  color="text.primary"
+                  sx={{ textTransform: "uppercase" }}
+                >
+                  {filter.label.replace("*", "")}{" "}
+                  <span style={{ color: "#EF4444" }}>
+                    {filter.label.includes("*") ? "*" : ""}
+                  </span>
+                </Typography>
+                {renderFilterInput(filter)}
+              </Box>
+            ))}
+          </Box>
+        ) : (
+          /* Split layout: top filters + SHOW COLUMNS below divider (Client Roster) */
+          <>
             <Box
-              key={filter.id}
               sx={{
                 display: "flex",
-                flexDirection: "column",
-                gap: 1,
-                flex: filter.type === "multiselect" ? 1 : "none",
+                flexWrap: "wrap",
+                gap: 3,
+                mb: 0,
               }}
             >
-              <Typography
-                fontSize="10px"
-                fontWeight={700}
-                color="text.primary"
-                sx={{ textTransform: "uppercase" }}
-              >
-                {filter.label.replace("*", "")}{" "}
-                <span style={{ color: "#EF4444" }}>
-                  {filter.label.includes("*") ? "*" : ""}
-                </span>
-              </Typography>
-              {renderFilterInput(filter)}
+              {config.filters
+                .filter((f) => f.type !== "multiselect")
+                .map((filter) => (
+                  <Box
+                    key={filter.id}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 1,
+                    }}
+                  >
+                    <Typography
+                      fontSize="10px"
+                      fontWeight={700}
+                      color="text.primary"
+                      sx={{ textTransform: "uppercase" }}
+                    >
+                      {filter.label.replace("*", "")}{" "}
+                      <span style={{ color: "#EF4444" }}>
+                        {filter.label.includes("*") ? "*" : ""}
+                      </span>
+                    </Typography>
+                    {renderFilterInput(filter)}
+                  </Box>
+                ))}
             </Box>
-          ))}
-        </Box>
 
+            {config.filters.some((f) => f.type === "multiselect") && (
+              <Box
+                sx={{
+                  borderTop: "1.5px solid #8AC64280",
+                  mt: 3,
+                  pt: 3,
+                }}
+              >
+                {config.filters
+                  .filter((f) => f.type === "multiselect")
+                  .map((filter) => (
+                    <Box
+                      key={filter.id}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 1,
+                      }}
+                    >
+                      <Typography
+                        fontSize="10px"
+                        fontWeight={700}
+                        color="text.primary"
+                        sx={{ textTransform: "uppercase" }}
+                      >
+                        {filter.label.replace("*", "")}{" "}
+                        <span style={{ color: "#EF4444" }}>
+                          {filter.label.includes("*") ? "*" : ""}
+                        </span>
+                      </Typography>
+                      {renderFilterInput(filter)}
+                    </Box>
+                  ))}
+              </Box>
+            )}
+          </>
+        )}
+
+        {/* Run Report + Actions/Export bar */}
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            mt: 3,
           }}
         >
           <Button
@@ -483,7 +710,6 @@ export default function ReportViewer() {
                 sx={{
                   "&:last-child td, &:last-child th": { border: 0 },
                   "& td": { borderBottom: "1px solid rgba(138, 198, 66, 0.2)" },
-                  "&:hover": { bgcolor: "rgba(138, 198, 66, 0.4)" },
                 }}
               >
                 {Object.values(row).map((cellVal, j) => {
@@ -492,6 +718,7 @@ export default function ReportViewer() {
                   let fontWeight = 400;
                   let isLink = false;
 
+                  // Red for cancelled/unassigned/carer required
                   if (
                     cellVal === "Unassigned" ||
                     cellVal === "Carer required" ||
@@ -500,16 +727,55 @@ export default function ReportViewer() {
                   ) {
                     color = "#EF4444";
                   }
+                  // Blue links for client names, actionable items, and document files
                   if (
                     typeof cellVal === "string" &&
                     (cellVal === "View Recommendations" ||
                       cellVal === "Edit entry" ||
                       config.columns[j] === "CLIENT" ||
-                      config.columns[j] === "CLIENTS INVOLVED")
+                      config.columns[j] === "CLIENTS INVOLVED" ||
+                      config.columns[j] === "DOCUMENT")
                   ) {
                     color = "#0EA5E9";
                     isLink = true;
                     fontWeight = 700;
+                  }
+                  // Green for carer names (non-error carer values)
+                  if (
+                    (config.columns[j] === "CARER(S)" ||
+                      config.columns[j] === "CARER") &&
+                    cellVal !== "Carer required" &&
+                    cellVal !== "Unassigned" &&
+                    cellVal
+                  ) {
+                    color = "#65A30D";
+                  }
+
+                  // Special rendering for cells containing **CANCELLED**
+                  if (
+                    typeof cellVal === "string" &&
+                    cellVal.includes("**CANCELLED**")
+                  ) {
+                    const parts = cellVal.split("**CANCELLED**");
+                    return (
+                      <TableCell key={j} sx={{ px: 3, py: 2 }}>
+                        <Typography
+                          fontSize="13px"
+                          color="#475569"
+                          component="span"
+                        >
+                          {parts[0]}
+                        </Typography>
+                        <Typography
+                          fontSize="13px"
+                          color="#EF4444"
+                          fontWeight={700}
+                          component="span"
+                        >
+                          {"  **CANCELLED**"}
+                        </Typography>
+                      </TableCell>
+                    );
                   }
 
                   return (
@@ -525,9 +791,7 @@ export default function ReportViewer() {
                             : {},
                         }}
                       >
-                        {typeof cellVal === "string"
-                          ? cellVal.replace("**CANCELLED**", "CANCELLED")
-                          : cellVal}
+                        {cellVal}
                       </Typography>
                     </TableCell>
                   );

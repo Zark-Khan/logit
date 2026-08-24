@@ -95,7 +95,7 @@ const allClientsRows = [
     avatar: "M",
     status: "ACTIVE",
     risk: "Low Risk",
-    riskColor: "#8AC642", // green
+    riskColor: "#666666", // green
     careDetails: "Personal Care",
     branch: "Central Branch",
     assignedTeam: { initials: "AM", name: "Alex Marshall" },
@@ -122,7 +122,7 @@ const allClientsRows = [
     status: "ON HOLD",
     statusColor: "#FEA400", // orange
     risk: "Low Risk",
-    riskColor: "#8AC642",
+    riskColor: "#666666",
     careDetails: "Home Help",
     branch: "Central Branch",
     assignedTeam: { initials: "AM", name: "Alex Marshall" },
