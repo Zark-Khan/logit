@@ -9,11 +9,13 @@ import {
   Grid,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import CloseIcon from "@mui/icons-material/Close";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import TaskFilters from "./TaskFilters";
 import TasksHistory from "./TasksHistory";
 import AddTaskModal from "./AddTaskModal";
+import EditTaskModal from "./EditTaskModal";
 import {
   DAYS,
   TIME_GROUPS,
@@ -21,7 +23,7 @@ import {
   INITIAL_HISTORY,
 } from "./taskPlannerData";
 
-function TaskCard({ task, onRemove }) {
+function TaskCard({ task, onEdit, onRemove }) {
   return (
     <Box
       sx={{
@@ -30,17 +32,27 @@ function TaskCard({ task, onRemove }) {
         border: "1px solid #F1F5F9",
         borderRadius: "12px",
         p: 2,
-        pr: 5,
+        pr: 8,
       }}
     >
-      <IconButton
-        size="small"
-        onClick={onRemove}
-        aria-label={`Remove ${task.title}`}
-        sx={{ position: "absolute", top: 8, right: 8, color: "#94A3B8" }}
-      >
-        <CloseIcon sx={{ fontSize: 15 }} />
-      </IconButton>
+      <Box sx={{ position: "absolute", top: 6, right: 6, display: "flex", gap: 0.25 }}>
+        <IconButton
+          size="small"
+          onClick={onEdit}
+          aria-label={`Edit description for ${task.title}`}
+          sx={{ color: "#94A3B8", "&:hover": { color: "#0EA5E9", bgcolor: "#F0F9FF" } }}
+        >
+          <EditOutlinedIcon sx={{ fontSize: 15 }} />
+        </IconButton>
+        <IconButton
+          size="small"
+          onClick={onRemove}
+          aria-label={`Delete ${task.title}`}
+          sx={{ color: "#94A3B8", "&:hover": { color: "#EF4444", bgcolor: "#FEF2F2" } }}
+        >
+          <DeleteOutlineIcon sx={{ fontSize: 15 }} />
+        </IconButton>
+      </Box>
 
       <Typography fontSize="13px" fontWeight={700} color="text.primary">
         {task.title}
@@ -67,7 +79,7 @@ function TaskCard({ task, onRemove }) {
   );
 }
 
-function DaySection({ day, tasks, onRemoveTask }) {
+function DaySection({ day, tasks, onEditTask, onRemoveTask }) {
   return (
     <Box sx={{ mb: 4 }}>
       {/* Day header bar */}
@@ -120,7 +132,12 @@ function DaySection({ day, tasks, onRemoveTask }) {
 
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
               {groupTasks.map((task) => (
-                <TaskCard key={task.id} task={task} onRemove={() => onRemoveTask(task.id)} />
+                <TaskCard
+                  key={task.id}
+                  task={task}
+                  onEdit={() => onEditTask(task)}
+                  onRemove={() => onRemoveTask(task.id)}
+                />
               ))}
             </Box>
           </Box>
@@ -139,6 +156,7 @@ export default function TaskPlannerTab({ client }) {
   const [dayFilter, setDayFilter] = useState("All");
   const [typeFilters, setTypeFilters] = useState([]);
   const [addOpen, setAddOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
 
   const logHistory = (action, task) =>
     setHistory((prev) => {
@@ -153,6 +171,13 @@ export default function TaskPlannerTab({ client }) {
     const id = `t${Date.now()}`;
     setTasks((prev) => [...prev, { id, ...draft }]);
     logHistory("Created", draft.title);
+  };
+
+  const handleEditDescription = (id, description) => {
+    const task = tasks.find((t) => t.id === id);
+    if (!task || task.description === description) return;
+    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, description } : t)));
+    logHistory("Edited", task.title);
   };
 
   const handleRemoveTask = (id) => {
@@ -255,6 +280,7 @@ export default function TaskPlannerTab({ client }) {
                 key={day}
                 day={day}
                 tasks={dayTasks}
+                onEditTask={setEditingTask}
                 onRemoveTask={handleRemoveTask}
               />
             ))
@@ -280,6 +306,13 @@ export default function TaskPlannerTab({ client }) {
       </Grid>
 
       <AddTaskModal open={addOpen} onClose={() => setAddOpen(false)} onAdd={handleAddTask} />
+
+      <EditTaskModal
+        open={Boolean(editingTask)}
+        task={editingTask}
+        onClose={() => setEditingTask(null)}
+        onSave={handleEditDescription}
+      />
     </Box>
   );
 }

@@ -20,13 +20,16 @@ import NavLogo from "../../assets/NavLogo.svg";
 // sticky sidebars must offset by it) or content slides under the white bar.
 export const NAVBAR_HEIGHT = 64.8;
 
+// Only Clients is navigable for now — every other section is disabled until its
+// screens are ready. The routes still exist, so re-enabling one is a matter of
+// dropping its `disabled` flag. The logo remains a live link to /dashboard.
 const NAV_LINKS = [
-  { label: "Staff", path: "/staff" },
+  { label: "Staff", path: "/staff", disabled: true },
   { label: "Clients", path: "/clients" },
-  { label: "Rostering", path: "/rostering" },
-  { label: "Care Delivery", path: "/care-delivery" },
-  { label: "Finance", path: "/finance" },
-  { label: "Reports", path: "/reports" },
+  { label: "Rostering", path: "/rostering", disabled: true },
+  { label: "Care Delivery", path: "/care-delivery", disabled: true },
+  { label: "Finance", path: "/finance", disabled: true },
+  { label: "Reports", path: "/reports", disabled: true },
   { label: "Settings", path: "/settings", disabled: true },
 ];
 

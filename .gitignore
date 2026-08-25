@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Client-supplied assessment source documents - local reference only, never committed
+docs/care-assessment/
