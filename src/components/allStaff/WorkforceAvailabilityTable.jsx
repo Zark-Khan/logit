@@ -89,10 +89,7 @@ function WeeklyCoverage({ days }) {
             width: 20,
             height: 20,
             borderRadius: "4px",
-            bgcolor: active ? "rgba(14,165,233,0.18)" : "background.default",
-            border: active
-              ? "1.5px solid rgba(14,165,233,0.5)"
-              : "1.5px solid background.default",
+            bgcolor: "background.default",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -192,7 +189,7 @@ export default function WorkforceAvailabilityTable() {
           </Typography>
           <TextField
             size="small"
-            placeholder="Search staff"
+            placeholder="Search staff..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             InputProps={{
@@ -311,9 +308,11 @@ export default function WorkforceAvailabilityTable() {
                       sx={{ display: "flex", alignItems: "center", gap: 1.5 }}
                     >
                       <Avatar
+                        variant="rounded"
                         sx={{
                           width: 32,
                           height: 32,
+                          borderRadius: "8px",
                           fontSize: "12px",
                           bgcolor: "text.paper",
                           fontWeight: 700,
@@ -332,7 +331,7 @@ export default function WorkforceAvailabilityTable() {
                         </Typography>
                         <Typography
                           fontSize="10px"
-                          fontWeight="400"
+                          fontWeight={600}
                           color="text.light"
                         >
                           {row.role}
@@ -376,7 +375,7 @@ export default function WorkforceAvailabilityTable() {
                       {row.nextAvailable}
                     </Typography>
                   </TableCell>
-                  <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
+                  <TableCell align="right" sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
                     <Button
                       size="small"
                       variant="text"

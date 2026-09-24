@@ -7,10 +7,10 @@ import { AddNewClientModal } from "../components/allClients/AddNewClientModal";
 const TABS = [
   { label: "Overview", path: "/clients" },
   { label: "All Clients", path: "/clients/all-clients" },
-  { label: "Assessments", path: "/clients/assessments" },
-  { label: "Care Plans", path: "/clients/care-plans" },
-  { label: "Medical Records", path: "/clients/medical-records" },
-  { label: "Funding & Billing", path: "/clients/funding-billing" },
+  // { label: "Assessments", path: "/clients/assessments" },
+  // { label: "Care Plans", path: "/clients/care-plans" },
+  // { label: "Medical Records", path: "/clients/medical-records" },
+  // { label: "Funding & Billing", path: "/clients/funding-billing" },
 ];
 
 export default function ClientsLayout() {

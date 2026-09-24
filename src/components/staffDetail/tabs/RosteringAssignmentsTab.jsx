@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, Tooltip } from "@mui/material";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
@@ -90,34 +90,77 @@ const SummaryCard = ({ title, icon, rows }) => (
   </Box>
 );
 
-const AppointmentPopover = () => (
-  <Box
-    sx={{
-      position: "absolute",
-      top: 100, // adjust these coordinates based on the UI layout to float it
-      left: "40%",
-      bgcolor: "#fff",
-      boxShadow: "0px 10px 40px rgba(0,0,0,0.08)",
-      borderRadius: "12px",
-      width: 260,
-      p: 2.5,
-      zIndex: 10,
-    }}
-  >
+const EVENT_VARIANTS = {
+  green: {
+    bgcolor: "#DCFCE7",
+    border: "1px solid #86EFAC",
+    title: "#166534",
+    text: "#16A34A",
+  },
+  grey: {
+    bgcolor: "#F1F5F9",
+    border: "1px solid #94A3B8",
+    title: "text.primary",
+    text: "text.secondary",
+  },
+};
+
+// Mock roster: dayIdx/colIdx position each shift in the week grid
+const ROSTER_EVENTS = [
+  {
+    id: 1,
+    dayIdx: 0,
+    colIdx: 1,
+    carer: "Sarah Thompson",
+    time: "08:00 - 09:15",
+    tag: "MORNING CALL",
+    variant: "green",
+    appointment: {
+      client: "Margaret Hall",
+      address: "35 Muirhead Lane, London, SE15 3TR",
+      phone: "07495879485",
+      time: "08:00 - 09:15",
+      duration: "1 hour 15 mins",
+      carer1: "Sarah Thompson",
+      carer2: "Ruth Omoregie",
+    },
+  },
+  {
+    id: 2,
+    dayIdx: 2,
+    colIdx: 2,
+    carer: "James Wilson",
+    time: "10:00 - 11:15",
+    tag: "MEDICATION",
+    variant: "grey",
+    appointment: {
+      client: "Arthur Bennett",
+      address: "12 Elm Grove, London, SE22 8PL",
+      phone: "07700900412",
+      time: "10:00 - 11:15",
+      duration: "1 hour 15 mins",
+      carer1: "James Wilson",
+      carer2: "Sarah Thompson",
+    },
+  },
+];
+
+const AppointmentCard = ({ appointment }) => (
+  <Box sx={{ width: 220, p: 1 }}>
     <Typography fontSize="14px" fontWeight={700} color="#0EA5E9" mb={2}>
       Appointment
     </Typography>
     <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
       {[
-        { label: "Client:", value: "Margaret Hall" },
-        { label: "Address:", value: "35 Muirhead Lane, London, SE15 3TR" },
-        { label: "Phone:", value: "07495879485" },
-        { label: "Time:", value: "09:00 - 10:00" },
-        { label: "Duration:", value: "1 hour" },
-        { label: "Carer 1:", value: "James Wilson" },
-        { label: "Carer 2:", value: "Ruth Omoregie" },
-      ].map((item, i) => (
-        <Box key={i} sx={{ display: "flex", alignItems: "flex-start" }}>
+        { label: "Client:", value: appointment.client },
+        { label: "Address:", value: appointment.address },
+        { label: "Phone:", value: appointment.phone },
+        { label: "Time:", value: appointment.time },
+        { label: "Duration:", value: appointment.duration },
+        { label: "Carer 1:", value: appointment.carer1 },
+        { label: "Carer 2:", value: appointment.carer2 },
+      ].map((item) => (
+        <Box key={item.label} sx={{ display: "flex", alignItems: "flex-start" }}>
           <Typography fontSize="11px" color="text.light" sx={{ width: 80 }}>
             {item.label}
           </Typography>
@@ -132,20 +175,67 @@ const AppointmentPopover = () => (
         </Box>
       ))}
     </Box>
-    {/* Small pointer triangle on bottom */}
-    <Box
-      sx={{
-        position: "absolute",
-        bottom: -6,
-        left: "50%",
-        transform: "translateX(-50%) rotate(45deg)",
-        width: 12,
-        height: 12,
-        bgcolor: "#fff",
-      }}
-    />
   </Box>
 );
+
+const RosterEvent = ({ event }) => {
+  const v = EVENT_VARIANTS[event.variant];
+  return (
+    <Tooltip
+      title={<AppointmentCard appointment={event.appointment} />}
+      placement="top"
+      arrow
+      enterDelay={100}
+      slotProps={{
+        tooltip: {
+          sx: {
+            bgcolor: "#fff",
+            color: "text.primary",
+            borderRadius: "12px",
+            boxShadow: "0px 10px 40px rgba(0,0,0,0.12)",
+            p: 1.5,
+            maxWidth: "none",
+          },
+        },
+        arrow: { sx: { color: "#fff" } },
+      }}
+    >
+      <Box
+        sx={{
+          width: "95%",
+          height: "80%",
+          bgcolor: v.bgcolor,
+          border: v.border,
+          borderRadius: "6px",
+          p: 0.8,
+          display: "flex",
+          flexDirection: "column",
+          gap: 0.3,
+          minWidth: 0,
+          cursor: "pointer",
+          transition: "box-shadow 0.15s ease",
+          "&:hover": { boxShadow: "0 4px 12px rgba(15,23,42,0.12)" },
+        }}
+      >
+        <Typography fontSize="10px" fontWeight={700} color={v.title} noWrap>
+          {event.carer}
+        </Typography>
+        <Typography fontSize="9px" color={v.text} noWrap>
+          {event.time}
+        </Typography>
+        <Typography
+          fontSize="8px"
+          fontWeight={700}
+          color={v.text}
+          noWrap
+          sx={{ mt: "auto" }}
+        >
+          • {event.tag}
+        </Typography>
+      </Box>
+    </Tooltip>
+  );
+};
 
 export default function RosteringAssignmentsTab({ staff }) {
   const columns = ["00:00 - 07:00", "08:00", " ", "12:00", "13:00", " "];
@@ -248,8 +338,6 @@ export default function RosteringAssignmentsTab({ staff }) {
           mb: 4,
         }}
       >
-        <AppointmentPopover />
-
         <Box sx={{ display: "flex", borderBottom: "1px solid #E2E8F0" }}>
           <Box
             sx={{
@@ -320,79 +408,9 @@ export default function RosteringAssignmentsTab({ staff }) {
 
             {/* Cells */}
             {columns.map((col, cIdx) => {
-              let eventContent = null;
-              if (dIdx === 0 && cIdx === 1) {
-                eventContent = (
-                  <Box
-                    sx={{
-                      width: "95%",
-                      height: "80%",
-                      bgcolor: "#DCFCE7",
-                      border: "1px solid #86EFAC",
-                      borderRadius: "6px",
-                      p: 0.8,
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 0.3,
-                    }}
-                  >
-                    <Typography
-                      fontSize="10px"
-                      fontWeight={700}
-                      color="#166534"
-                    >
-                      Sarah Th...
-                    </Typography>
-                    <Typography fontSize="9px" color="#16A34A">
-                      08:00 - 09:15
-                    </Typography>
-                    <Typography
-                      fontSize="8px"
-                      fontWeight={700}
-                      color="#16A34A"
-                      sx={{ mt: "auto" }}
-                    >
-                      • MORNING...
-                    </Typography>
-                  </Box>
-                );
-              } else if (dIdx === 2 && cIdx === 2) {
-                // Wednesday, col 3 " "
-                eventContent = (
-                  <Box
-                    sx={{
-                      width: "100%",
-                      height: "80%",
-                      bgcolor: "#F1F5F9",
-                      border: "1px solid #94A3B8",
-                      borderRadius: "6px",
-                      p: 0.8,
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 0.3,
-                    }}
-                  >
-                    <Typography
-                      fontSize="10px"
-                      fontWeight={700}
-                      color="text.primary"
-                    >
-                      James Wilson
-                    </Typography>
-                    <Typography fontSize="9px" color="text.secondary">
-                      10:00 - 11:15
-                    </Typography>
-                    <Typography
-                      fontSize="8px"
-                      fontWeight={700}
-                      color="text.secondary"
-                      sx={{ mt: "auto" }}
-                    >
-                      • MEDICATION
-                    </Typography>
-                  </Box>
-                );
-              }
+              const event = ROSTER_EVENTS.find(
+                (e) => e.dayIdx === dIdx && e.colIdx === cIdx,
+              );
 
               return (
                 <Box
@@ -409,7 +427,7 @@ export default function RosteringAssignmentsTab({ staff }) {
                     alignItems: "center",
                   }}
                 >
-                  {eventContent}
+                  {event && <RosterEvent event={event} />}
                 </Box>
               );
             })}

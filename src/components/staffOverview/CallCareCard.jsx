@@ -1,32 +1,30 @@
 import React from "react";
 import { Box, Typography, Chip } from "@mui/material";
-import FlashOnOutlinedIcon from "@mui/icons-material/FlashOnOutlined";
-import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
-import NightlightOutlinedIcon from "@mui/icons-material/NightlightOutlined";
 import { GradCard, Label } from "./StaffCommon";
+import { CheckCircleIcon, BoltIcon, MoonIcon } from "./LineIcons";
 
 export default function CallCareCard({ sx = {} }) {
   const rows = [
     {
-      icon: <FlashOnOutlinedIcon sx={{ fontSize: 21 }} />,
+      icon: <CheckCircleIcon />,
       label: "THIS WEEK",
       pct: "57%",
-      detail: "(28/51)",
+      detail: "(29/51)",
       avg: "Avg Lateness: 4 mins",
     },
     {
-      icon: <AccessTimeOutlinedIcon sx={{ fontSize: 21 }} />,
+      icon: <BoltIcon />,
       label: "LAST WEEK",
       pct: "100%",
-      detail: "(56/56)",
-      avg: "Avg Lateness: 0 mins",
+      detail: "(55/55)",
+      avg: "Avg Lateness: 3 mins",
     },
     {
-      icon: <NightlightOutlinedIcon sx={{ fontSize: 21 }} />,
+      icon: <MoonIcon />,
       label: "LAST MONTH",
       pct: "100%",
-      detail: "(72/72)",
-      avg: "Avg Lateness: 0 mins",
+      detail: "(173/173)",
+      avg: "Avg Lateness: 1 min",
     },
   ];
 
@@ -73,11 +71,10 @@ export default function CallCareCard({ sx = {} }) {
           fontSize: "12px",
           opacity: 0.7,
           mb: 2,
-          textTransform: "uppercase",
           fontWeight: 400,
         }}
       >
-        Last updated: just now
+        Last updated just now
       </Typography>
 
       <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>

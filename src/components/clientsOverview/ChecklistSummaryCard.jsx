@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Typography, IconButton } from "@mui/material";
-import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+import { ClockIcon, CalendarIcon } from "../staffOverview/LineIcons";
 import { GradCard } from "../staffOverview/StaffCommon";
 import plusIcon from "../../assets/plusIcon.svg";
 
@@ -61,7 +60,7 @@ export default function ChecklistSummaryCard({ sx = {} }) {
                 justifyContent: "center",
               }}
             >
-              <AccessTimeOutlinedIcon sx={{ fontSize: 21 }} />
+              <ClockIcon size={22} />
             </Box>
             <Box>
               <Typography
@@ -97,7 +96,7 @@ export default function ChecklistSummaryCard({ sx = {} }) {
                 justifyContent: "center",
               }}
             >
-              <CalendarTodayOutlinedIcon sx={{ fontSize: 21 }} />
+              <CalendarIcon size={22} />
             </Box>
             <Box>
               <Typography

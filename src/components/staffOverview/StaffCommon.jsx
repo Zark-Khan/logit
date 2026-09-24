@@ -40,7 +40,8 @@ export function Label({ children, sx = {} }) {
 }
 
 // ── Big Stat (Used by AppointmentStats) ──────────────────────────────────────
-export function BigStat({ label, value, sub }) {
+// compact: smaller white sub-lines (Clients overview design)
+export function BigStat({ label, value, sub, compact = false }) {
   return (
     <Box>
       <Typography
@@ -76,11 +77,21 @@ export function BigStat({ label, value, sub }) {
       </Typography>
 
       <Box sx={{ display: "flex", flexDirection: "column", mt: 0.4 }}>
-        <Typography sx={{ fontSize: "20px", fontWeight: 400 }}>
+        <Typography
+          sx={
+            compact
+              ? { fontSize: "12px", fontWeight: 500 }
+              : { fontSize: "20px", fontWeight: 400 }
+          }
+        >
           {sub.appointments}
         </Typography>
         <Typography
-          sx={{ fontSize: "12px", fontWeight: 400, color: "#240046" }}
+          sx={
+            compact
+              ? { fontSize: "10px", fontWeight: 400, opacity: 0.75 }
+              : { fontSize: "12px", fontWeight: 400, color: "#240046" }
+          }
         >
           {sub.carers}
         </Typography>

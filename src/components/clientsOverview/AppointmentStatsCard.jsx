@@ -6,17 +6,17 @@ const stats = [
   {
     label: "This Week",
     value: { hours: "98h", minutes: "45m" },
-    sub: { appointments: "41 Appointments", carers: "5 Active clients" },
+    sub: { appointments: "41 Appointments", carers: "8 Active clients" },
   },
   {
     label: "Last Week",
     value: { hours: "167h" },
-    sub: { appointments: "43 Appointments", carers: "8 Active clients" },
+    sub: { appointments: "42 Appointments", carers: "9 Active clients" },
   },
   {
     label: "Last Month",
     value: { hours: "429h" },
-    sub: { appointments: "130 Appointments", carers: "15 Active clients" },
+    sub: { appointments: "136 Appointments", carers: "8 Active clients" },
   },
 ];
 
@@ -43,10 +43,11 @@ export default function AppointmentStatsCard() {
           sx={{
             bgcolor: "rgba(255,255,255,0.25)",
             color: "#fff",
-            fontSize: "12px",
+            fontSize: "10px",
             fontWeight: 700,
-            height: 20,
+            height: 22,
             letterSpacing: 0.5,
+            "& .MuiChip-label": { px: 1.25 },
           }}
         />
       </Box>
@@ -66,6 +67,7 @@ export default function AppointmentStatsCard() {
               label={stat.label}
               value={stat.value}
               sub={stat.sub}
+              compact
             />
           </Box>
         ))}

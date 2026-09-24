@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
+import { BookOpenIcon } from "../staffOverview/LineIcons";
 import { GradCard, Label } from "../staffOverview/StaffCommon";
 
 export default function DiarySummaryCard({ sx = {} }) {
@@ -39,14 +39,14 @@ export default function DiarySummaryCard({ sx = {} }) {
           sx={{
             width: 36,
             height: 36,
-            borderRadius: "10px",
+            borderRadius: "50%",
             bgcolor: "rgba(255,255,255,0.2)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
-          <MenuBookOutlinedIcon sx={{ fontSize: 20 }} />
+          <BookOpenIcon size={18} />
         </Box>
       </Box>
       <Typography
@@ -54,7 +54,6 @@ export default function DiarySummaryCard({ sx = {} }) {
           fontSize: "12px",
           opacity: 0.7,
           mb: 2,
-          textTransform: "uppercase",
           fontWeight: 400,
         }}
       >

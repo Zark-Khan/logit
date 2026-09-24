@@ -379,7 +379,7 @@ export default function TimesheetReviewTable() {
           // variant="contained"
           size="small"
           sx={{
-            borderRadius: 4,
+            borderRadius: 3,
             textTransform: "none",
             fontSize: "12px",
             fontWeight: 700,

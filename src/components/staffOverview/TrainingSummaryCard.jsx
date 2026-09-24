@@ -1,8 +1,7 @@
 import React from "react";
 import { Box, Typography, IconButton } from "@mui/material";
-import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
-import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import { GradCard } from "./StaffCommon";
+import { ClockIcon, CalendarIcon } from "./LineIcons";
 import plusIcon from "../../assets/plusIcon.svg";
 
 export default function TrainingSummaryCard() {
@@ -60,7 +59,7 @@ export default function TrainingSummaryCard() {
                 justifyContent: "center",
               }}
             >
-              <AccessTimeOutlinedIcon sx={{ fontSize: 21 }} />
+              <ClockIcon size={22} />
             </Box>
             <Box>
               <Typography
@@ -96,7 +95,7 @@ export default function TrainingSummaryCard() {
                 justifyContent: "center",
               }}
             >
-              <AssignmentOutlinedIcon sx={{ fontSize: 21 }} />
+              <CalendarIcon size={22} />
             </Box>
             <Box>
               <Typography

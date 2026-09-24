@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
+import { FlaskIcon } from "../staffOverview/LineIcons";
 import { GradCard, Label } from "../staffOverview/StaffCommon";
 
 export default function MedicationStatsCard({ sx = {} }) {
@@ -22,8 +22,8 @@ export default function MedicationStatsCard({ sx = {} }) {
         </Typography>
         <Box
           sx={{
-            width: 32,
-            height: 32,
+            width: 36,
+            height: 36,
             borderRadius: "50%",
             bgcolor: "rgba(255,255,255,0.2)",
             display: "flex",
@@ -31,7 +31,7 @@ export default function MedicationStatsCard({ sx = {} }) {
             justifyContent: "center",
           }}
         >
-          <ScienceOutlinedIcon sx={{ fontSize: 18 }} />
+          <FlaskIcon size={16} />
         </Box>
       </Box>
 
@@ -53,7 +53,7 @@ export default function MedicationStatsCard({ sx = {} }) {
           >
             <Label
               sx={{
-                fontSize: "12px",
+                fontSize: "10px",
                 color: "#fff",
                 fontWeight: 700,
                 mb: 0.5,
@@ -64,10 +64,11 @@ export default function MedicationStatsCard({ sx = {} }) {
             </Label>
             <Typography
               sx={{
-                fontSize: "14px",
+                fontSize: "12px",
                 fontWeight: 400,
+                fontStyle: "italic",
                 color: "rgba(255,255,255,0.9)",
-                mt: 1,
+                mt: 0.5,
               }}
             >
               No outcomes submitted

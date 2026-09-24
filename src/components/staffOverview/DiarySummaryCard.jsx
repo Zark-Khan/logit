@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import BookOutlinedIcon from "@mui/icons-material/BookOutlined";
 import { GradCard, Label } from "./StaffCommon";
+import { BookOpenIcon } from "./LineIcons";
 
 export default function DiarySummaryCard({ sx = {} }) {
   return (
@@ -23,7 +23,7 @@ export default function DiarySummaryCard({ sx = {} }) {
             justifyContent: "center",
           }}
         >
-          <BookOutlinedIcon sx={{ fontSize: 18 }} />
+          <BookOpenIcon size={20} />
         </Box>
         <Typography fontWeight={600} fontSize="20px">
           Diary Summary

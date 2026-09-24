@@ -481,15 +481,16 @@ export function AddNewClientModal({ open, onClose }) {
           />
           <Typography
             sx={{
-              fontSize: "0.75rem",
+              fontSize: "11px",
               color: "#0284C7",
               lineHeight: 1.5,
               fontWeight: 400,
             }}
-          >
+          ><i>
             After creation, the client profile will be partially populated. You
             will need to complete the initial <strong>Risk Assessment</strong>{" "}
             and <strong>Care Plan</strong> before scheduling visits.
+          </i>
           </Typography>
         </Box>
       </DialogContent>

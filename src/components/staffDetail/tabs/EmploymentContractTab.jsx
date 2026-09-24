@@ -1,49 +1,147 @@
-import React from "react";
-import { Box, Typography, Button, Chip } from "@mui/material";
-import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Box,
+  Typography,
+  Button,
+  Chip,
+  IconButton,
+  LinearProgress,
+} from "@mui/material";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import DetailCard from "./DetailCard";
 
-const DetailCard = ({ label, value, sub, children, sx }) => (
-  <Box
-    sx={{
-      flex: 1,
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "start",
-      gap: 0.5,
-      bgcolor: "#fff",
-      borderRadius: "12px",
-      minHeight: "72px",
-      px: 2.5,
-      py: 1.5,
-      ...sx,
-    }}
-  >
-    {label && (
-      <Typography
-        fontSize="10px"
-        fontWeight={700}
-        color="text.grey"
-        textTransform="uppercase"
+const formatSize = (bytes) =>
+  bytes >= 1024 * 1024
+    ? `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+    : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+
+function UploadRow({ upload, onRemove }) {
+  const done = upload.progress >= 100;
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 1.5,
+        p: 1.5,
+        bgcolor: "#F0F7FF",
+        border: "1px solid #93C5FD",
+        borderRadius: "10px",
+      }}
+    >
+      <Box
+        sx={{
+          width: 28,
+          height: 28,
+          flexShrink: 0,
+          alignSelf: "flex-start",
+          borderRadius: "6px",
+          bgcolor: "#DBEAFE",
+          color: "#3B82F6",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        {label}
-      </Typography>
-    )}
-    {value && (
-      <Typography fontSize="14px" fontWeight={700} color="text.primary">
-        {value}
-      </Typography>
-    )}
-    {sub && (
-      <Typography fontSize="10px" fontWeight={400} color="text.grey" mt={0.3}>
-        {sub}
-      </Typography>
-    )}
-    {children}
-  </Box>
-);
+        <ArrowUpwardRoundedIcon sx={{ fontSize: 16 }} />
+      </Box>
+      <Box sx={{ flex: 1, minWidth: 0 }}>
+        <Typography
+          fontSize="13px"
+          fontWeight={500}
+          color="text.primary"
+          noWrap
+        >
+          {upload.name}
+        </Typography>
+        <Typography fontSize="10px" color="text.light" mt={0.2} mb={0.8}>
+          {formatSize(upload.size)} •{" "}
+          {done ? "Upload complete" : `Uploading... ${upload.progress}%`}
+        </Typography>
+        <LinearProgress
+          variant="determinate"
+          value={upload.progress}
+          sx={{
+            width: "70%",
+            height: 4,
+            borderRadius: 2,
+            bgcolor: "#E2E8F0",
+            "& .MuiLinearProgress-bar": {
+              borderRadius: 2,
+              bgcolor: done ? "#22C55E" : "#3B82F6",
+            },
+          }}
+        />
+      </Box>
+      <IconButton
+        size="small"
+        onClick={onRemove}
+        aria-label={done ? "Remove file" : "Cancel upload"}
+        sx={{
+          width: 24,
+          height: 24,
+          bgcolor: "#fff",
+          border: "1px solid #E2E8F0",
+          color: "#94A3B8",
+          "&:hover": { bgcolor: "#F8FAFC", color: "text.primary" },
+        }}
+      >
+        <CloseRoundedIcon sx={{ fontSize: 14 }} />
+      </IconButton>
+    </Box>
+  );
+}
 
 export default function EmploymentContractTab({ staff }) {
+  const fileInputRef = useRef(null);
+  const timersRef = useRef({});
+  const [uploads, setUploads] = useState([]);
+
+  // Clear any simulated uploads still running when the tab unmounts
+  useEffect(() => {
+    const timers = timersRef.current;
+    return () => Object.values(timers).forEach(clearInterval);
+  }, []);
+
+  const stopTimer = (id) => {
+    clearInterval(timersRef.current[id]);
+    delete timersRef.current[id];
+  };
+
+  // No backend: simulate upload progress for the selected file
+  const handleFileSelect = (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // allow re-selecting the same file
+    if (!file) return;
+
+    const id = `${Date.now()}-${file.name}`;
+    setUploads((prev) => [
+      ...prev,
+      { id, name: file.name, size: file.size, progress: 0 },
+    ]);
+
+    timersRef.current[id] = setInterval(() => {
+      setUploads((prev) =>
+        prev.map((u) => {
+          if (u.id !== id) return u;
+          const progress = Math.min(
+            100,
+            u.progress + Math.ceil(Math.random() * 12),
+          );
+          if (progress === 100) stopTimer(id);
+          return { ...u, progress };
+        }),
+      );
+    }, 300);
+  };
+
+  const removeUpload = (id) => {
+    stopTimer(id);
+    setUploads((prev) => prev.filter((u) => u.id !== id));
+  };
+
   return (
     <Box>
       <Typography
@@ -59,7 +157,7 @@ export default function EmploymentContractTab({ staff }) {
         contract.
       </Typography>
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 3.5 }}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {/* Top 4 Details */}
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <Box sx={{ display: "flex", gap: 2 }}>
@@ -73,26 +171,27 @@ export default function EmploymentContractTab({ staff }) {
         </Box>
 
         {/* Employment Documents */}
-        <Box>
+        <Box sx={{ bgcolor: "#fff", borderRadius: "12px", px: 2.5, py: 2 }}>
           <Typography
             fontSize="14px"
             fontWeight={700}
             color="text.primary"
-            mb={1.5}
+            mb={2}
           >
             Employment Documents
           </Typography>
-          <DetailCard
+          <Box
             sx={{
-              flexDirection: "row",
+              display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              py: 2.5,
-              px: { xs: 2, sm: 3 },
+              gap: 2,
+              px: { xs: 0, sm: 2 },
+              py: 1,
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center", gap: 2.5 }}>
-              <InsertDriveFileOutlinedIcon
+              <DescriptionOutlinedIcon
                 sx={{ color: "#94A3B8", fontSize: "20px" }}
               />
               <Box>
@@ -122,7 +221,15 @@ export default function EmploymentContractTab({ staff }) {
                   px: 0.5,
                 }}
               />
+              <input
+                ref={fileInputRef}
+                type="file"
+                hidden
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                onChange={handleFileSelect}
+              />
               <Button
+                onClick={() => fileInputRef.current?.click()}
                 sx={{
                   color: "#0EA5E9",
                   fontWeight: 700,
@@ -137,7 +244,21 @@ export default function EmploymentContractTab({ staff }) {
                 Upload New
               </Button>
             </Box>
-          </DetailCard>
+          </Box>
+
+          {uploads.length > 0 && (
+            <Box
+              sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 2 }}
+            >
+              {uploads.map((u) => (
+                <UploadRow
+                  key={u.id}
+                  upload={u}
+                  onRemove={() => removeUpload(u.id)}
+                />
+              ))}
+            </Box>
+          )}
         </Box>
       </Box>
     </Box>

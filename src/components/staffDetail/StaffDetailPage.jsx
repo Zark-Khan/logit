@@ -9,7 +9,7 @@ import {
   Grid, // ← add this import
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import EditIcon from "@mui/icons-material/Edit";
+import { SquarePenIcon } from "../staffOverview/LineIcons";
 import PhoneIcon from "@mui/icons-material/PhoneOutlined";
 import EmailIcon from "@mui/icons-material/EmailOutlined";
 import LocationOnIcon from "@mui/icons-material/LocationOnOutlined";
@@ -128,9 +128,9 @@ export default function StaffDetailPage() {
       >
         <ArrowBackIcon
           sx={{
-            width: 8,
-            height: 24,
+            fontSize: 18,
             color: "#94A3B8",
+            mr: 0.5,
           }}
         />
         <Typography fontSize="14px" color="text.secondary" fontWeight={400}>
@@ -163,14 +163,17 @@ export default function StaffDetailPage() {
         {/* Left: avatar + info */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, p: 2 }}>
           <Avatar
+            variant="rounded"
             sx={{
-              width: 58,
-              height: 58,
-              fontSize: "20px",
+              width: 64,
+              height: 64,
+              borderRadius: "14px",
+              fontSize: "22px",
               fontWeight: 700,
-              bgcolor: "rgba(14,165,233,0.15)",
+              bgcolor: "#E0F2FE",
               color: "#0EA5E9",
-              border: "2px solid #83D8FF",
+              border: "3px solid #fff",
+              boxShadow: "0 2px 8px rgba(15,23,42,0.08)",
             }}
           >
             {staff.name[0]}
@@ -246,7 +249,7 @@ export default function StaffDetailPage() {
 
         {/* Right: Edit Profile */}
         <Button
-          startIcon={<EditIcon sx={{ fontSize: 13 }} />}
+          startIcon={<SquarePenIcon size={16} />}
           variant="contained"
           sx={{
             background: "linear-gradient(90deg, #8AC642 0%, #528910 100%)",
@@ -280,6 +283,8 @@ export default function StaffDetailPage() {
               px: 3,
               py: 2.5,
               minHeight: 420,
+              height: "100%",
+              boxSizing: "border-box",
             }}
           >
             {renderTab()}

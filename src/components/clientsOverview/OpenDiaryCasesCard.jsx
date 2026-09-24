@@ -11,7 +11,7 @@ export default function OpenDiaryCasesCard({ sx = {} }) {
         borderRadius: "40px",
         p: 3,
         color: "#fff",
-        background: "linear-gradient(135deg, #38BDF8 0%, #22D3EE 100%)",
+        background: "linear-gradient(135deg, #2F80ED 0%, #38A8F8 100%)",
         width: "100%",
         ...sx,
       }}
@@ -25,7 +25,7 @@ export default function OpenDiaryCasesCard({ sx = {} }) {
           mb: 1.5,
         }}
       >
-        <Typography fontWeight={600} fontSize="20px">
+        <Typography fontWeight={600} fontSize="16px">
           Open Diary Cases
         </Typography>
         <Chip
@@ -34,10 +34,10 @@ export default function OpenDiaryCasesCard({ sx = {} }) {
           sx={{
             bgcolor: "rgba(255,255,255,0.35)",
             color: "#fff",
-            fontSize: "11px",
+            fontSize: "9px",
             fontWeight: 700,
-            height: 28,
-            borderRadius: "14px",
+            height: 20,
+            borderRadius: "6px",
             letterSpacing: 0.3,
           }}
         />
@@ -46,10 +46,10 @@ export default function OpenDiaryCasesCard({ sx = {} }) {
       {/* Subtitle */}
       <Typography
         sx={{
-          fontSize: "14px",
+          fontSize: "11px",
           color: "rgba(255,255,255,0.9)",
           fontWeight: 400,
-          mb: 3,
+          mb: 2.5,
         }}
       >
         All client diary cases are currently resolved.
@@ -59,10 +59,10 @@ export default function OpenDiaryCasesCard({ sx = {} }) {
       <Box
         sx={{
           width: "100%",
-          height: 6,
+          height: 4,
           borderRadius: 3,
           bgcolor: "rgba(255,255,255,0.25)",
-          mb: 2,
+          mb: 1.25,
         }}
       >
         <Box
@@ -85,7 +85,7 @@ export default function OpenDiaryCasesCard({ sx = {} }) {
       >
         <Typography
           sx={{
-            fontSize: "11px",
+            fontSize: "9px",
             fontWeight: 700,
             letterSpacing: 0.5,
             textTransform: "uppercase",
@@ -95,7 +95,7 @@ export default function OpenDiaryCasesCard({ sx = {} }) {
         </Typography>
         <Typography
           sx={{
-            fontSize: "11px",
+            fontSize: "9px",
             fontWeight: 700,
             letterSpacing: 0.5,
             textTransform: "uppercase",

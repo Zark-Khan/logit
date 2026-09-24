@@ -1,8 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import ChecklistOutlinedIcon from "@mui/icons-material/ChecklistOutlined";
-import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import { GradCard } from "./StaffCommon";
+import { ClipboardCheckIcon } from "./LineIcons";
 
 export default function ChecklistSummaryCard({ sx = {} }) {
   return (
@@ -17,12 +16,12 @@ export default function ChecklistSummaryCard({ sx = {} }) {
       <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
         {[
           {
-            icon: <ChecklistOutlinedIcon sx={{ fontSize: 15 }} />,
+            icon: <ClipboardCheckIcon size={20} />,
             value: 0,
             label: "Expired / Required",
           },
           {
-            icon: <AssignmentOutlinedIcon sx={{ fontSize: 15 }} />,
+            icon: <ClipboardCheckIcon size={20} />,
             value: 0,
             label: "Expiring Within 1 Month",
           },

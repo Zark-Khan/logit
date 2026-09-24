@@ -7,7 +7,7 @@ import OpenDiaryCasesCard from "../components/clientsOverview/OpenDiaryCasesCard
 
 export default function ClientsOverview() {
   return (
-    <Box sx={{ py: 3 }}>
+    <Box sx={{ pb: 3 }}>
       <Grid container spacing={3} sx={{ alignItems: "stretch" }}>
         {/* ROW 1: Appointment + Medication (Left) == Diary Summary (Right) */}
         <Grid size={{ xs: 12, md: 8 }} sx={{ display: "flex" }}>

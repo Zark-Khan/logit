@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 const StatCard = ({ label, value, sub, subColor }) => (
   <Box
@@ -58,7 +57,7 @@ export default function OverviewTab({ staff }) {
         <StatCard
           label="Hours Worked (MTD)"
           value="142.5"
-          sub="+26 vs last month"
+          sub="+12% vs last month"
         />
         <StatCard
           label="Compliance Rating"
@@ -68,37 +67,35 @@ export default function OverviewTab({ staff }) {
         <StatCard
           label="Reliability Score"
           value="4.9"
-          sub="Based on 62 visits"
+          sub="Based on 52 visits"
         />
       </Box>
 
       {/* Summary info + Quick View */}
       <Box
-        sx={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}
+        sx={{
+          display: "flex",
+          gap: 3,
+          width: "100%",
+          alignItems: "flex-start",
+          flexWrap: "wrap",
+        }}
       >
         {/* Summary Info */}
-        <Box
-          sx={{
-            px: 2.5,
-            py: 2,
-            flex: 1,
-          }}
-        >
+        <Box sx={{ flex: 1, minWidth: 240, pt: 1 }}>
           <Typography
             fontSize="14px"
             fontWeight={700}
-            color="text.secondary"
-            textTransform="uppercase"
-            letterSpacing="0.06em"
+            color="text.primary"
             mb={1.5}
           >
             Summary Info
           </Typography>
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              flexWrap: "wrap",
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 2,
             }}
           >
             <Box>
@@ -124,6 +121,7 @@ export default function OverviewTab({ staff }) {
         <Box
           sx={{
             flex: 1,
+            minWidth: 240,
             bgcolor: "#fff",
             border: "1px solid #E0F2FE",
             borderRadius: "16px",
@@ -140,18 +138,15 @@ export default function OverviewTab({ staff }) {
             fontSize="12px"
             fontWeight={700}
             color="primary.main"
-            textTransform="uppercase"
+            mb={1}
           >
             Today's Quick View
           </Typography>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
-            <AccessTimeIcon sx={{ fontSize: 13, color: "#0EA5E9" }} />
-            <Typography fontSize="14px" fontWeight={700} color="text.primary">
-              Shift: 14:00 – 18:00
-            </Typography>
-          </Box>
+          <Typography fontSize="14px" fontWeight={700} color="text.primary">
+            Shift: 14:00 - 18:00
+          </Typography>
           <Typography fontSize="12px" color="text.light">
-            Client: Margaret Hill (Central Area)
+            Client: Margaret Hall (Central Area)
           </Typography>
         </Box>
       </Box>

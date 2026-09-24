@@ -210,9 +210,11 @@ export default function AllStaffTable() {
                       sx={{ display: "flex", alignItems: "center", gap: 1.5 }}
                     >
                       <Avatar
+                        variant="rounded"
                         sx={{
                           width: 32,
                           height: 32,
+                          borderRadius: "8px",
                           fontSize: "12px",
                           bgcolor: "text.paper",
                           fontWeight: 700,

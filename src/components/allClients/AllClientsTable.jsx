@@ -23,7 +23,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
-import PublishOutlinedIcon from "@mui/icons-material/PublishOutlined";
+import SortRoundedIcon from "@mui/icons-material/SortRounded";
 
 const CLIENT_HEADER_BORDER = "1px solid rgba(138, 198, 66, 0.5)";
 const CLIENT_TABLE_BG = "rgba(138, 198, 66, 0.15)";
@@ -91,6 +91,7 @@ const tableHeaderSx = {
 const allClientsRows = [
   {
     id: "0041",
+    code: "CL-8821",
     name: "Margaret Hall",
     avatar: "M",
     status: "ACTIVE",
@@ -104,6 +105,7 @@ const allClientsRows = [
   },
   {
     id: "0045",
+    code: "CL-8845",
     name: "Arthur Reed",
     avatar: "A",
     status: "ACTIVE",
@@ -117,6 +119,7 @@ const allClientsRows = [
   },
   {
     id: "0089",
+    code: "CL-8910",
     name: "John Doe",
     avatar: "J",
     status: "ON HOLD",
@@ -131,6 +134,7 @@ const allClientsRows = [
   },
   {
     id: "0092",
+    code: "CL-9022",
     name: "Emma Davis",
     avatar: "E",
     status: "ACTIVE",
@@ -149,6 +153,17 @@ export default function AllClientsTable() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [branchFilter, setBranchFilter] = useState("All Branches");
+
+  const query = search.trim().toLowerCase();
+  const filteredRows = allClientsRows.filter(
+    (r) =>
+      (!query ||
+        r.name.toLowerCase().includes(query) ||
+        r.code.toLowerCase().includes(query)) &&
+      (statusFilter === "All Status" ||
+        r.status === statusFilter.toUpperCase()) &&
+      (branchFilter === "All Branches" || r.branch.startsWith(branchFilter)),
+  );
 
   return (
     <Paper
@@ -218,7 +233,7 @@ export default function AllClientsTable() {
               "&:hover": { bgcolor: "#E2E8F0" },
             }}
           >
-            <PublishOutlinedIcon sx={{ fontSize: 18, color: "#94A3B8" }} />
+            <SortRoundedIcon sx={{ fontSize: 18, color: "#94A3B8" }} />
           </IconButton>
         </Box>
       </Box>
@@ -235,7 +250,11 @@ export default function AllClientsTable() {
                 "Next Visit",
                 "Actions",
               ].map((h) => (
-                <TableCell key={h} sx={tableHeaderSx}>
+                <TableCell
+                  key={h}
+                  align={h === "Actions" ? "right" : "left"}
+                  sx={tableHeaderSx}
+                >
                   {h}
                 </TableCell>
               ))}
@@ -243,7 +262,16 @@ export default function AllClientsTable() {
           </TableHead>
 
           <TableBody sx={{ backgroundColor: CLIENT_TABLE_BG }}>
-            {allClientsRows.map((row) => (
+            {filteredRows.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={6} align="center" sx={{ py: 5, border: "none" }}>
+                  <Typography color="text.secondary" fontSize="0.88rem">
+                    No clients found.
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            )}
+            {filteredRows.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{
@@ -256,9 +284,11 @@ export default function AllClientsTable() {
                 <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                     <Avatar
+                      variant="rounded"
                       sx={{
-                        width: 36,
-                        height: 36,
+                        width: 32,
+                        height: 32,
+                        borderRadius: "8px",
                         fontSize: "14px",
                         bgcolor: "rgba(0,0,0,0.6)",
                         fontWeight: 700,
@@ -279,7 +309,7 @@ export default function AllClientsTable() {
                         fontWeight="600"
                         color="text.secondary"
                       >
-                        ID: {row.id}
+                        {row.code}
                       </Typography>
                     </Box>
                   </Box>
@@ -310,14 +340,16 @@ export default function AllClientsTable() {
                       mt: 0.5,
                     }}
                   >
-                    <Box
-                      sx={{
-                        width: 6,
-                        height: 6,
-                        borderRadius: "50%",
-                        bgcolor: row.riskColor,
-                      }}
-                    />
+                    {row.risk !== "Low Risk" && (
+                      <Box
+                        sx={{
+                          width: 6,
+                          height: 6,
+                          borderRadius: "50%",
+                          bgcolor: row.riskColor,
+                        }}
+                      />
+                    )}
                     <Typography
                       fontSize="10px"
                       fontWeight={600}
@@ -383,8 +415,11 @@ export default function AllClientsTable() {
                 </TableCell>
 
                 {/* Actions */}
-                <TableCell sx={{ borderBottom: ROW_BORDER, py: 1.8 }}>
-                  <Box sx={{ display: "flex", gap: 1 }}>
+                <TableCell
+                  align="right"
+                  sx={{ borderBottom: ROW_BORDER, py: 1.8 }}
+                >
+                  <Box sx={{ display: "inline-flex", gap: 1 }}>
                     <IconButton
                       size="small"
                       onClick={() => navigate(`/clients/all-clients/${row.id}`)}
@@ -392,11 +427,14 @@ export default function AllClientsTable() {
                         bgcolor: "#fff",
                         color: "#0EA5E9",
                         borderRadius: "8px",
-                        p: 0.5,
+                        width: 28,
+                        height: 28,
+                        border: "1px solid #EEF2F6",
+                        boxShadow: "0 1px 2px rgba(15,23,42,0.06)",
                         "&:hover": { bgcolor: "#f0f9ff" },
                       }}
                     >
-                      <PersonOutlineOutlinedIcon sx={{ fontSize: 18 }} />
+                      <PersonOutlineOutlinedIcon sx={{ fontSize: 16 }} />
                     </IconButton>
                     <IconButton
                       size="small"
@@ -404,11 +442,14 @@ export default function AllClientsTable() {
                         bgcolor: "#fff",
                         color: "#FEA400",
                         borderRadius: "8px",
-                        p: 0.5,
+                        width: 28,
+                        height: 28,
+                        border: "1px solid #EEF2F6",
+                        boxShadow: "0 1px 2px rgba(15,23,42,0.06)",
                         "&:hover": { bgcolor: "#fffbf0" },
                       }}
                     >
-                      <DescriptionOutlinedIcon sx={{ fontSize: 18 }} />
+                      <DescriptionOutlinedIcon sx={{ fontSize: 16 }} />
                     </IconButton>
                     <IconButton
                       size="small"
@@ -416,11 +457,14 @@ export default function AllClientsTable() {
                         bgcolor: "#fff",
                         color: "#94A3B8",
                         borderRadius: "8px",
-                        p: 0.5,
+                        width: 28,
+                        height: 28,
+                        border: "1px solid #EEF2F6",
+                        boxShadow: "0 1px 2px rgba(15,23,42,0.06)",
                         "&:hover": { bgcolor: "#f8fafc" },
                       }}
                     >
-                      <PersonAddOutlinedIcon sx={{ fontSize: 18 }} />
+                      <PersonAddOutlinedIcon sx={{ fontSize: 16 }} />
                     </IconButton>
                   </Box>
                 </TableCell>

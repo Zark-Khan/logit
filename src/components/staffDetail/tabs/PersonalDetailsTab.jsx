@@ -1,46 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-
-const DetailCard = ({ label, value, sub, children, sx }) => (
-  <Box
-    sx={{
-      flex: 1,
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "start",
-      gap: 0.5,
-      bgcolor: "#fff",
-      borderRadius: "12px",
-      minHeight: "72px",
-      px: 2.5,
-      py: 1.5,
-      ...sx,
-    }}
-  >
-    {label && (
-      <Typography
-        fontSize="10px"
-        fontWeight={700}
-        color="text.grey"
-        textTransform="uppercase"
-      >
-        {label}
-      </Typography>
-    )}
-    {value && (
-      <Typography fontSize="14px" fontWeight={700} color="text.primary">
-        {value}
-      </Typography>
-    )}
-    {sub && (
-      <Typography fontSize="10px" fontWeight={400} color="text.grey" mt={0.3}>
-        {sub}
-      </Typography>
-    )}
-    {children}
-  </Box>
-);
+import DetailCard from "./DetailCard";
 
 export default function PersonalDetailsTab({ staff }) {
   return (

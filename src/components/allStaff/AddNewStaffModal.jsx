@@ -89,6 +89,11 @@ export function AddNewStaffModal({ open, onClose }) {
     phone: "",
     role: "",
     branch: "",
+    dateOfBirth: "",
+    address: "",
+    emergencyContactName: "",
+    emergencyPhone: "",
+    relationship: "",
     inviteToSystem: true,
     permissionLevel: "carer",
     initialStatus: "ONBOARDING",
@@ -226,7 +231,7 @@ export function AddNewStaffModal({ open, onClose }) {
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             gap: 2,
-            mb: 3,
+            mb: 2,
           }}
         >
           <Box>
@@ -281,9 +286,122 @@ export function AddNewStaffModal({ open, onClose }) {
           </Box>
         </Box>
 
-        {/* ── Section 2: Account & Access ── */}
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 2,
+            mb: 3,
+          }}
+        >
+          <Box>
+            <Typography component="label" sx={labelSx}>
+              Date of Birth
+            </Typography>
+            <TextField
+              fullWidth
+              size="small"
+              type="date"
+              value={form.dateOfBirth}
+              onChange={set("dateOfBirth")}
+              sx={inputSx}
+            />
+          </Box>
+        </Box>
+
+        {/* ── Section 2: Residential Address ── */}
         <SectionHeader
           number="2"
+          label="Residential Address"
+          bgcolor="#FCE7F3"
+          color="#EC4899"
+        />
+
+        <Box sx={{ mb: 3 }}>
+          <Typography component="label" sx={labelSx}>
+            Address <span style={{ color: "#dc2626" }}>*</span>
+          </Typography>
+          <TextField
+            fullWidth
+            multiline
+            minRows={2}
+            placeholder="e.g. 42 Willow Lane, Central District, London, E1 4PL"
+            value={form.address}
+            onChange={set("address")}
+            sx={inputSx}
+          />
+        </Box>
+
+        {/* ── Section 3: Emergency Contact ── */}
+        <SectionHeader
+          number="3"
+          label="Emergency Contact"
+          bgcolor="#FAE8FF"
+          color="#C026D3"
+        />
+
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 2,
+            mb: 2,
+          }}
+        >
+          <Box>
+            <Typography component="label" sx={labelSx}>
+              Contact Name <span style={{ color: "#dc2626" }}>*</span>
+            </Typography>
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="e.g. Robert Thompson"
+              value={form.emergencyContactName}
+              onChange={set("emergencyContactName")}
+              sx={inputSx}
+            />
+          </Box>
+          <Box>
+            <Typography component="label" sx={labelSx}>
+              Emergency Phone <span style={{ color: "#dc2626" }}>*</span>
+            </Typography>
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="e.g. +44 7700 900555"
+              value={form.emergencyPhone}
+              onChange={set("emergencyPhone")}
+              sx={inputSx}
+            />
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 2,
+            mb: 3,
+          }}
+        >
+          <Box>
+            <Typography component="label" sx={labelSx}>
+              Relationship
+            </Typography>
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="e.g. Spouse, Parent, Sibling"
+              value={form.relationship}
+              onChange={set("relationship")}
+              sx={inputSx}
+            />
+          </Box>
+        </Box>
+
+        {/* ── Section 4: Account & Access ── */}
+        <SectionHeader
+          number="4"
           label="Account & Access"
           bgcolor="#FFEDD5"
           color="#F97316"
@@ -328,10 +446,29 @@ export function AddNewStaffModal({ open, onClose }) {
               onChange={(e) =>
                 setForm((f) => ({ ...f, inviteToSystem: e.target.checked }))
               }
+              disableRipple
               sx={{
-                "& .MuiSwitch-switchBase.Mui-checked": { color: "#0EA5E9" },
-                "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-                  bgcolor: "#0EA5E9",
+                width: 44,
+                height: 24,
+                p: 0,
+                "& .MuiSwitch-switchBase": {
+                  p: "2px",
+                  "&.Mui-checked": {
+                    transform: "translateX(20px)",
+                    color: "#fff",
+                    "& + .MuiSwitch-track": { bgcolor: "#0EA5E9", opacity: 1 },
+                  },
+                },
+                "& .MuiSwitch-thumb": {
+                  width: 20,
+                  height: 20,
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+                },
+                "& .MuiSwitch-track": {
+                  borderRadius: 12,
+                  bgcolor: "#CBD5E1",
+                  opacity: 1,
+                  transition: "background-color 200ms",
                 },
               }}
             />
@@ -365,9 +502,9 @@ export function AddNewStaffModal({ open, onClose }) {
           </Box>
         </Box>
 
-        {/* ── Section 3: Initial Setup ── */}
+        {/* ── Section 5: Initial Setup ── */}
         <SectionHeader
-          number="3"
+          number="5"
           label="Initial Setup"
           bgcolor="#DCFCE7"
           color="#8AC642"
@@ -451,8 +588,8 @@ export function AddNewStaffModal({ open, onClose }) {
                 <Typography
                   sx={{
                     fontSize: "0.75rem",
-                    color: "text.secondary",
-                    fontWeight: 400,
+                    color: "text.primary",
+                    fontWeight: 600,
                   }}
                 >
                   Assignable to shifts
