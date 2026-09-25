@@ -11,88 +11,36 @@ import SearchIcon from "@mui/icons-material/Search";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { FileIcon, PencilIcon } from "../../staffOverview/LineIcons";
 import StatusBadge from "../shared/StatusBadge";
 import AssessmentDetailDrawer from "./AssessmentDetailDrawer";
 import CreateAssessmentModal from "./CreateAssessmentModal";
-
-const ASSESSMENT_DATA = [
-  {
-    id: 1,
-    title: "Mobility Assessment",
-    client: "Arthur Morgan",
-    date: "26 Feb 2026",
-    score: "18/30",
-    riskLevel: "MEDIUM RISK",
-    status: "COMPLETED",
-    assessedBy: "Sarah Thompson",
-    initials: "ST",
-    ref: "AS-001",
-    details: [
-      {
-        question: "Can the client walk 50m without assistance?",
-        answer: "Yes",
-        notes:
-          '"Arthur is able to walk with a stick but requires standby assistance for longer distances."',
-      },
-      {
-        question: "Has the client had a fall in the last 6 months?",
-        answer: "No",
-        notes: '"No falls reported since last assessment."',
-      },
-      {
-        question: "Is the client able to manage their own medication?",
-        answer: "Partial",
-        notes:
-          '"Requires prompting and supervision to ensure correct dosage is taken."',
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "Falls Risk Assessment",
-    client: "John Marston",
-    date: "25 Feb 2026",
-    score: "24/30",
-    riskLevel: "HIGH RISK",
-    status: "COMPLETED",
-    assessedBy: "Sarah Thompson",
-    initials: "ST",
-    ref: "AS-002",
-    details: [],
-  },
-  {
-    id: 3,
-    title: "Medication Risk",
-    client: "Sadie Adler",
-    date: "20 Feb 2026",
-    score: "Low Risk",
-    riskLevel: "LOW RISK",
-    status: "COMPLETED",
-    assessedBy: "Emily Davis",
-    initials: "ED",
-    ref: "AS-003",
-    details: [],
-  },
-  {
-    id: 4,
-    title: "Nutrition Assessment",
-    client: "Charles Smith",
-    date: "15 Feb 2026",
-    score: "Normal",
-    riskLevel: "MEDIUM RISK",
-    status: "COMPLETED",
-    assessedBy: "Michael Brown",
-    initials: "MB",
-    ref: "AS-004",
-    details: [],
-  },
-];
+import { INITIAL_ASSESSMENTS } from "./assessmentData";
 
 export default function AssessmentsTab() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedAssessment, setSelectedAssessment] = useState(null);
+  const [assessments, setAssessments] = useState(INITIAL_ASSESSMENTS);
+  const [search, setSearch] = useState("");
+
+  const query = search.trim().toLowerCase();
+  const visible = assessments.filter(
+    (a) =>
+      !query ||
+      [a.title, a.client, a.assessedBy].some((v) =>
+        v.toLowerCase().includes(query),
+      ),
+  );
+
+  const handleCreate = (assessment) => {
+    // Newest first, matching "Recent Assessments"
+    setAssessments((prev) => [
+      { ...assessment, id: Math.max(0, ...prev.map((a) => a.id)) + 1 },
+      ...prev,
+    ]);
+    setCreateModalOpen(false);
+  };
 
   const handleOpenDrawer = (assessment) => {
     setSelectedAssessment(assessment);
@@ -105,9 +53,9 @@ export default function AssessmentsTab() {
       <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 3 }}>
         <Box
           sx={{
-            width: 32,
-            height: 32,
-            borderRadius: "50%",
+            width: 34,
+            height: 34,
+            borderRadius: "10px",
             bgcolor: "#F3E8FF", // Light purple
             display: "flex",
             alignItems: "center",
@@ -139,6 +87,8 @@ export default function AssessmentsTab() {
           fullWidth
           placeholder="Search by assessment, client or carer..."
           size="small"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -153,7 +103,8 @@ export default function AssessmentsTab() {
               bgcolor: "#fff",
               "& fieldset": { border: "none" },
             },
-            "& input": { fontSize: "14px", color: "#9CA3AF" },
+            "& input": { fontSize: "14px", color: "text.primary" },
+            "& input::placeholder": { color: "#9CA3AF", opacity: 1 },
           }}
         />
 
@@ -215,10 +166,28 @@ export default function AssessmentsTab() {
         </Typography>
 
         <Box sx={{ display: "flex", flexDirection: "column" }}>
-          {ASSESSMENT_DATA.map((item, index) => (
+          {visible.length === 0 && (
+            <Typography
+              fontSize="14px"
+              color="text.secondary"
+              sx={{ px: 3, pb: 3 }}
+            >
+              No assessments match "{search}".
+            </Typography>
+          )}
+          {visible.map((item) => (
             <Box
               key={item.id}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleOpenDrawer(item);
+                }
+              }}
               sx={{
+                "&:hover": { bgcolor: "rgba(255,255,255,0.45)" },
                 p: 2,
                 px: 3,
                 display: "flex",
@@ -242,9 +211,9 @@ export default function AssessmentsTab() {
                     justifyContent: "center",
                   }}
                 >
-                  <AssignmentOutlinedIcon
-                    sx={{ color: "#A855F7", fontSize: 22 }}
-                  />
+                  <Box sx={{ color: "#A855F7", display: "flex" }}>
+                    <FileIcon size={20} />
+                  </Box>
                 </Box>
                 <Box>
                   <Typography
@@ -294,8 +263,16 @@ export default function AssessmentsTab() {
                   <StatusBadge status={item.riskLevel} />
                 </Box>
 
-                <IconButton size="small" sx={{ color: "#64748B", p: 0.5 }}>
-                  <EditOutlinedIcon sx={{ fontSize: 20 }} />
+                <IconButton
+                  size="small"
+                  aria-label={`Edit ${item.title} for ${item.client}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleOpenDrawer(item);
+                  }}
+                  sx={{ color: "#64748B", p: 0.75 }}
+                >
+                  <PencilIcon size={16} />
                 </IconButton>
 
                 <KeyboardArrowRightIcon
@@ -308,6 +285,7 @@ export default function AssessmentsTab() {
       </Box>
 
       <AssessmentDetailDrawer
+        key={selectedAssessment?.id ?? "none"}
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         assessment={selectedAssessment}
@@ -316,6 +294,7 @@ export default function AssessmentsTab() {
       <CreateAssessmentModal
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
+        onCreate={handleCreate}
       />
     </Box>
   );

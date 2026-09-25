@@ -27,11 +27,11 @@ export const NAVBAR_HEIGHT = 64.8;
 const NAV_LINKS = [
   { label: "Staff", path: "/staff" },
   { label: "Clients", path: "/clients" },
-  { label: "Rostering", path: "/rostering", disabled: true },
-  { label: "Care Delivery", path: "/care-delivery", disabled: true },
-  { label: "Finance", path: "/finance", disabled: true },
-  { label: "Reports", path: "/reports", disabled: true },
-  { label: "Settings", path: "/settings", disabled: true },
+  { label: "Rostering", path: "/rostering",  },
+  { label: "Care Delivery", path: "/care-delivery",  },
+  { label: "Finance", path: "/finance",  },
+  { label: "Reports", path: "/reports",  },
+  { label: "Settings", path: "/settings",},
 ];
 
 export default function Navbar() {

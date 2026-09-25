@@ -1,101 +1,36 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Typography,
-  Button,
-  TextField,
-  MenuItem,
-  SvgIcon,
-} from "@mui/material";
+import { Box, Typography, Button, TextField, MenuItem } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddMedicationModal from "./AddMedicationModal";
 import MedicationDetailDrawer from "./MedicationDetailDrawer";
-
-function PillIcon(props) {
-  return (
-    <SvgIcon
-      {...props}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M10.5 20.5l-6-6a4.95 4.95 0 1 1 7-7l6 6a4.95 4.95 0 1 1-7 7z" />
-      <line x1="8.5" y1="8.5" x2="15.5" y2="15.5" />
-    </SvgIcon>
-  );
-}
-
-const MEDICATION_DATA = [
-  {
-    id: 1,
-    name: "Paracetamol 400mg",
-    client: "Arthur Morgan",
-    frequency: "Twice Daily",
-    time: "Today, 09:15 AM",
-    status: "ON TRACK",
-    prescribedBy: "Dr. Miller",
-    startDate: "2026-01-01",
-    endDate: "Ongoing",
-    route: "Oral (Tablet/Capsule)",
-    reason: "",
-    reportedBy: "",
-    reportedAt: "",
-  },
-  {
-    id: 2,
-    name: "Amlodipine 5mg",
-    client: "Sadie Adler",
-    frequency: "Once Daily",
-    time: "Today, 08:30 AM",
-    status: "ON TRACK",
-    prescribedBy: "Dr. Smith",
-    startDate: "2026-01-15",
-    endDate: "Ongoing",
-    route: "Oral (Tablet/Capsule)",
-    reason: "",
-    reportedBy: "",
-    reportedAt: "",
-  },
-  {
-    id: 3,
-    name: "Metformin 400mg",
-    client: "John Marston",
-    frequency: "Three Times Daily",
-    time: "Yesterday, 06:00 PM",
-    status: "MISSED",
-    prescribedBy: "Dr. Miller",
-    startDate: "2026-01-01",
-    endDate: "Ongoing",
-    route: "Oral (Tablet/Capsule)",
-    reason:
-      "Client was asleep during the scheduled time and carer decided not to wake them as per care plan guidelines for non-critical medication.",
-    reportedBy: "Sarah Thompson",
-    reportedAt: "Today, 07:30 AM",
-  },
-  {
-    id: 4,
-    name: "Warfarin 3mg",
-    client: "Charles Smith",
-    frequency: "Once Daily",
-    time: "Today, 10:00 AM",
-    status: "ON TRACK",
-    prescribedBy: "Dr. Brown",
-    startDate: "2026-02-10",
-    endDate: "Ongoing",
-    route: "Oral (Tablet/Capsule)",
-    reason: "",
-    reportedBy: "",
-    reportedAt: "",
-  },
-];
+import { PillIcon } from "../../staffOverview/LineIcons";
+import { INITIAL_MEDICATIONS, STATUS_FILTERS } from "./medicationData";
 
 export default function MedicationTab() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [selectedMedication, setSelectedMedication] = useState(null);
+  const [medications, setMedications] = useState(INITIAL_MEDICATIONS);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All Status");
+
+  const query = search.trim().toLowerCase();
+  const visible = medications.filter(
+    (m) =>
+      (statusFilter === "All Status" ||
+        m.status === statusFilter.toUpperCase()) &&
+      (!query ||
+        `${m.name} ${m.dose}`.toLowerCase().includes(query) ||
+        m.client.toLowerCase().includes(query)),
+  );
+
+  const handleAdd = (med) => {
+    setMedications((prev) => [
+      ...prev,
+      { ...med, id: Math.max(0, ...prev.map((m) => m.id)) + 1 },
+    ]);
+    setAddModalOpen(false);
+  };
 
   const handleOpenDrawer = (med) => {
     setSelectedMedication(med);
@@ -116,7 +51,9 @@ export default function MedicationTab() {
             justifyContent: "center",
           }}
         >
-          <PillIcon sx={{ color: "#F43F5E", fontSize: 20 }} />
+          <Box sx={{ color: "#F43F5E", display: "flex" }}>
+            <PillIcon size={18} />
+          </Box>
         </Box>
         <Typography fontSize="18px" fontWeight={700} color="text.primary">
           Medication Management
@@ -138,6 +75,9 @@ export default function MedicationTab() {
       >
         <TextField
           placeholder="Search by medicine or client ..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          inputProps={{ "aria-label": "Search by medicine or client" }}
           InputProps={{
             startAdornment: (
               <SearchIcon sx={{ color: "#94A3B8", mr: 1, fontSize: 20 }} />
@@ -163,7 +103,9 @@ export default function MedicationTab() {
         <Box sx={{ display: "flex", gap: 2 }}>
           <TextField
             select
-            defaultValue="Missed"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            inputProps={{ "aria-label": "Filter by status" }}
             sx={{
               width: 140,
               "& .MuiOutlinedInput-root": {
@@ -173,14 +115,22 @@ export default function MedicationTab() {
                 "& fieldset": { border: "none" },
               },
               "& .MuiSelect-select": {
-                color: "#EF4444",
+                color:
+                  statusFilter === "Missed"
+                    ? "#EF4444"
+                    : statusFilter === "On Track"
+                      ? "#10B981"
+                      : "text.primary",
                 fontWeight: 700,
                 fontSize: "14px",
               },
             }}
           >
-            <MenuItem value="Missed">Missed</MenuItem>
-            <MenuItem value="All">All Status</MenuItem>
+            {STATUS_FILTERS.map((s) => (
+              <MenuItem key={s} value={s} sx={{ fontSize: "14px" }}>
+                {s}
+              </MenuItem>
+            ))}
           </TextField>
 
           <TextField
@@ -210,7 +160,7 @@ export default function MedicationTab() {
             startIcon={<span>+</span>}
             sx={{
               borderRadius: "12px",
-              background: "linear-gradient(135deg, #8AC642 0%, #0EA5E9 100%)",
+              background: "linear-gradient(135deg, #0EA5E9 0%, #8AC642 100%)",
               textTransform: "none",
               fontWeight: 700,
               px: 3,
@@ -246,15 +196,35 @@ export default function MedicationTab() {
             Active Medications
           </Typography>
           <Typography fontSize="12px" fontWeight={700} color="text.grey">
-            Showing all clients
+            {statusFilter === "All Status"
+              ? "Showing all clients"
+              : `Showing ${statusFilter.toLowerCase()} only`}
           </Typography>
         </Box>
 
         <Box sx={{ display: "flex", flexDirection: "column" }}>
-          {MEDICATION_DATA.map((item, index) => (
+          {visible.length === 0 && (
+            <Typography
+              fontSize="14px"
+              color="text.secondary"
+              sx={{ px: 3, pb: 3 }}
+            >
+              No medications match your search and filter.
+            </Typography>
+          )}
+          {visible.map((item) => (
             <Box
               key={item.id}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleOpenDrawer(item);
+                }
+              }}
               sx={{
+                "&:hover": { bgcolor: "rgba(255,255,255,0.45)" },
                 p: 2,
                 px: 3,
                 display: "flex",
@@ -278,7 +248,9 @@ export default function MedicationTab() {
                     justifyContent: "center",
                   }}
                 >
-                  <PillIcon sx={{ color: "#F43F5E", fontSize: 22 }} />
+                  <Box sx={{ color: "#F43F5E", display: "flex" }}>
+                    <PillIcon size={18} />
+                  </Box>
                 </Box>
                 <Box>
                   <Typography
@@ -287,7 +259,7 @@ export default function MedicationTab() {
                     color="text.primary"
                     mb={0.2}
                   >
-                    {item.name}
+                    {item.name} {item.dose}
                   </Typography>
                   <Typography
                     fontSize="12px"
@@ -325,9 +297,11 @@ export default function MedicationTab() {
       <AddMedicationModal
         open={addModalOpen}
         onClose={() => setAddModalOpen(false)}
+        onAdd={handleAdd}
       />
 
       <MedicationDetailDrawer
+        key={selectedMedication?.id ?? "none"}
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         medication={selectedMedication}

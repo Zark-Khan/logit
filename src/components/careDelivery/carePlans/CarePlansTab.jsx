@@ -13,59 +13,31 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import FolderSharedOutlinedIcon from "@mui/icons-material/FolderSharedOutlined";
+import { TargetIcon, PencilIcon } from "../../staffOverview/LineIcons";
 import StatusBadge from "../shared/StatusBadge";
 import CarePlanDetailDrawer from "./CarePlanDetailDrawer";
 import CreateCarePlanModal from "./CreateCarePlanModal";
-
-const PLAN_DATA = [
-  {
-    id: 1,
-    name: "Arthur Morgan",
-    initials: "AM",
-    nextReview: "15 Mar 2026",
-    goals: 4,
-    tasks: 12,
-    risk: "Medium",
-    status: "ACTIVE",
-  },
-  {
-    id: 2,
-    name: "Sadie Adler",
-    initials: "SA",
-    nextReview: "20 Mar 2026",
-    goals: 3,
-    tasks: 8,
-    risk: "Low",
-    status: "ACTIVE",
-  },
-  {
-    id: 3,
-    name: "John Marston",
-    initials: "JM",
-    nextReview: "01 Mar 2026",
-    goals: 5,
-    tasks: 15,
-    risk: "High",
-    status: "REVIEW REQUIRED",
-  },
-  {
-    id: 4,
-    name: "Charles Smith",
-    initials: "CS",
-    nextReview: "N/A",
-    goals: 2,
-    tasks: 6,
-    risk: "Medium",
-    status: "DRAFT",
-  },
-];
+import { INITIAL_PLANS, RISK_COLORS } from "./carePlanData";
 
 export default function CarePlansTab() {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [createModalOpen, setCreateModalOpen] = React.useState(false);
   const [selectedPlan, setSelectedPlan] = React.useState(null);
+  const [plans, setPlans] = React.useState(INITIAL_PLANS);
+  const [search, setSearch] = React.useState("");
+
+  const query = search.trim().toLowerCase();
+  const visiblePlans = plans.filter(
+    (p) => !query || p.name.toLowerCase().includes(query),
+  );
+
+  const handleCreatePlan = (plan) => {
+    setPlans((prev) => [
+      ...prev,
+      { ...plan, id: Math.max(0, ...prev.map((p) => p.id)) + 1 },
+    ]);
+    setCreateModalOpen(false);
+  };
 
   const handleViewPlan = (plan) => {
     setSelectedPlan(plan);
@@ -78,17 +50,17 @@ export default function CarePlansTab() {
       <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 3 }}>
         <Box
           sx={{
-            width: 32,
-            height: 32,
-            borderRadius: "50%",
-            bgcolor: "#fff",
+            width: 34,
+            height: 34,
+            borderRadius: "10px",
+            bgcolor: "#EFF6FF",
+            color: "#2563EB",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            border: "1px solid #E2E8F0",
           }}
         >
-          <FolderSharedOutlinedIcon sx={{ color: "#666666", fontSize: 18 }} />
+          <TargetIcon size={18} />
         </Box>
         <Typography fontSize="20px" fontWeight={700} color="text.primary">
           Care Plans
@@ -113,6 +85,8 @@ export default function CarePlansTab() {
           fullWidth
           placeholder="Search by client or carer..."
           size="small"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -127,7 +101,8 @@ export default function CarePlansTab() {
               bgcolor: "#fff",
               "& fieldset": { border: "none" },
             },
-            "& input": { fontSize: "14px", color: "#9CA3AF" },
+            "& input": { fontSize: "14px", color: "text.primary" },
+            "& input::placeholder": { color: "#9CA3AF", opacity: 1 },
           }}
         />
 
@@ -172,14 +147,24 @@ export default function CarePlansTab() {
 
       {/* Plan Cards Grid */}
       <Grid container spacing={3} sx={{ flexWrap: "wrap" }}>
-        {PLAN_DATA.map((plan) => (
-          <Grid size={{ xs: 6, md: 4 }} key={plan.id}>
+        {visiblePlans.map((plan) => (
+          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={plan.id}>
             <PlanCard plan={plan} onView={() => handleViewPlan(plan)} />
           </Grid>
         ))}
       </Grid>
+      {visiblePlans.length === 0 && (
+        <Typography
+          fontSize="14px"
+          color="text.secondary"
+          sx={{ py: 6, textAlign: "center" }}
+        >
+          No care plans match "{search}".
+        </Typography>
+      )}
 
       <CarePlanDetailDrawer
+        key={selectedPlan?.id ?? "none"}
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         plan={selectedPlan}
@@ -188,17 +173,14 @@ export default function CarePlansTab() {
       <CreateCarePlanModal
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
+        onCreate={handleCreatePlan}
       />
     </Box>
   );
 }
 
 function PlanCard({ plan, onView }) {
-  const riskColors = {
-    Low: "#059669",
-    Medium: "#D97706",
-    High: "#E11D48",
-  };
+  const riskColors = RISK_COLORS;
 
   return (
     <Paper
@@ -259,7 +241,7 @@ function PlanCard({ plan, onView }) {
         >
           <Box sx={{ textAlign: "center", flex: 1 }}>
             <Typography fontSize="18px" fontWeight={700} color="text.primary">
-              {plan.goals}
+              {plan.goalsList.length}
             </Typography>
             <Typography fontSize="10px" fontWeight={700} color="text.light">
               GOALS
@@ -274,7 +256,7 @@ function PlanCard({ plan, onView }) {
           />
           <Box sx={{ textAlign: "center", flex: 1 }}>
             <Typography fontSize="18px" fontWeight={700} color="text.primary">
-              {plan.tasks}
+              {plan.routine.length}
             </Typography>
             <Typography fontSize="10px" fontWeight={700} color="text.light">
               TASKS
@@ -311,8 +293,12 @@ function PlanCard({ plan, onView }) {
           }}
         >
           <Box
+            component="button"
+            type="button"
             onClick={onView}
             sx={{
+              border: "none",
+              fontFamily: "inherit",
               flex: 1,
               height: 44,
               bgcolor: "#fff",
@@ -333,6 +319,8 @@ function PlanCard({ plan, onView }) {
           </Box>
           <IconButton
             size="small"
+            aria-label={`Edit ${plan.name}'s care plan`}
+            onClick={onView}
             sx={{
               width: 44,
               height: 44,
@@ -342,7 +330,7 @@ function PlanCard({ plan, onView }) {
               "&:hover": { bgcolor: "#f8fafc" },
             }}
           >
-            <EditOutlinedIcon sx={{ fontSize: 20 }} />
+            <PencilIcon size={16} />
           </IconButton>
         </Box>
       </Box>

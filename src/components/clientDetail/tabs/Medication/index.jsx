@@ -10,27 +10,47 @@ import MedicalInformation from "./MedicalInformation";
 
 export default function MedicationTab({ client }) {
   const [view, setView] = useState("dashboard"); // dashboard, add-med, schedule, mar-chart, medical-info
+  const [selectedMedication, setSelectedMedication] = useState(null);
+  const backToDashboard = () => setView("dashboard");
+
+  const handleSelectMedication = (label) => {
+    setSelectedMedication(label);
+    setView("add-med");
+  };
 
   const renderView = () => {
     switch (view) {
-      case "dashboard":
-        return <MedicationDashboard setView={setView} client={client} />;
       case "add-med":
-        return <AddMedicationForm onBack={() => setView("dashboard")} />;
+        return (
+          <AddMedicationForm
+            client={client}
+            medication={selectedMedication}
+            onBack={backToDashboard}
+          />
+        );
       case "schedule":
-        return <MedicationSchedule onBack={() => setView("dashboard")} />;
+        return (
+          <MedicationSchedule
+            client={client}
+            onBack={backToDashboard}
+            onViewMedication={() => setView("mar-chart")}
+          />
+        );
       case "mar-chart":
-        return <MARChart onBack={() => setView("dashboard")} />;
+        return <MARChart client={client} onBack={backToDashboard} />;
       case "medical-info":
-        return <MedicalInformation onBack={() => setView("dashboard")} />;
+        return <MedicalInformation client={client} onBack={backToDashboard} />;
+      case "dashboard":
       default:
-        return <MedicationDashboard setView={setView} client={client} />;
+        return (
+          <MedicationDashboard
+            setView={setView}
+            client={client}
+            onSelectMedication={handleSelectMedication}
+          />
+        );
     }
   };
 
-  return (
-    <Box>
-      {renderView()}
-    </Box>
-  );
+  return <Box>{renderView()}</Box>;
 }

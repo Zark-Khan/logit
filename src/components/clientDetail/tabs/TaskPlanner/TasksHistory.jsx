@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Typography, Divider } from "@mui/material";
 import HistoryIcon from "@mui/icons-material/HistoryOutlined";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 export default function TasksHistory({ history }) {
   return (
@@ -28,8 +27,17 @@ export default function TasksHistory({ history }) {
             {group.date}
           </Typography>
           {group.entries.map((entry, i) => (
-            <Box key={i} sx={{ display: "flex", alignItems: "flex-start", gap: 0.3, mb: 0.6 }}>
-              <ArrowRightIcon sx={{ fontSize: 14, color: "#8AC642", mt: "1px", flexShrink: 0 }} />
+            <Box key={i} sx={{ display: "flex", alignItems: "flex-start", gap: 1, mb: 0.6 }}>
+              <Box
+                sx={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: "50%",
+                  bgcolor: "#0EA5E9",
+                  mt: "7px",
+                  flexShrink: 0,
+                }}
+              />
               <Typography fontSize="11px" color="text.light" sx={{ lineHeight: 1.5 }}>
                 {entry.action} task {entry.task}
               </Typography>

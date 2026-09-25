@@ -1,17 +1,24 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Typography,
-  Button,
-  Avatar,
-  IconButton,
-  Paper,
-} from "@mui/material";
+import { Box, Typography, Button, Avatar, IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import AddIcon from "@mui/icons-material/Add";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
 import VisitDetailModal from "../components/rostering/VisitDetailModal";
+import AppointmentTooltip from "../components/rostering/AppointmentTooltip";
+import CreateShiftModal from "../components/rostering/CreateShiftModal";
+
+// Staff offered by the "Create New Shift" matching step (skills/distance are mock)
+const MATCH_CANDIDATES = [
+  { id: 1, name: "Sarah Thompson", skill: "Dementia+", distance: "1.2m" },
+  { id: 2, name: "James Wilson", skill: "Nursing", distance: "2.4m" },
+  { id: 3, name: "Emily Barker", skill: "Supervisor", distance: "0.8m" },
+  { id: 4, name: "Michael Chen", skill: "Entry", distance: "3.1m" },
+];
+
+// The board shows a single day; new shifts default to it
+const BOARD_DATE = "2026-02-17";
 
 const STAFF = [
   { id: 1, name: "Sarah Thompson", role: "Senior Carer", color: "#EF4444" },
@@ -137,122 +144,109 @@ const getStatusStyles = (status) => {
     case "conflict":
       return { bg: "#FEE2E2", border: "#EF4444", color: "#B91C1C" };
     case "planned":
-      return { bg: "#F1F5F9", border: "#94A3B8", color: "#334155" };
+      return { bg: "#FFFFFF", border: "#64748B", color: "#334155" };
     default:
       return { bg: "#F1F5F9", border: "#94A3B8", color: "#334155" };
   }
 };
 
-const AppointmentPopup = ({ shift, anchorRect }) => {
-  if (!shift) return null;
+// Mock client contact details used in the appointment hover card
+const CLIENT_DETAILS = {
+  "Margaret Hall": {
+    address: "35 Nunhead Lane, London, SE15 3TR",
+    phone: "07465679465",
+  },
+  "Arthur Reed": {
+    address: "12 Elm Grove, London, SE22 8PL",
+    phone: "07700900412",
+  },
+  "John Doe": {
+    address: "8 Albion Street, London, SE16 7JX",
+    phone: "07700900518",
+  },
+  "Emma Davis": {
+    address: "41 Rye Lane, London, SE15 4ST",
+    phone: "07700900233",
+  },
+  "Alice Smith": {
+    address: "19 Bellenden Road, London, SE15 5BB",
+    phone: "07700900377",
+  },
+  "William Wilson": {
+    address: "35 Nunhead Lane, London, SE15 3TR",
+    phone: "07465679465",
+  },
+};
 
-  const popupWidth = 260;
-  const popupHeight = 320;
-  const padding = 20;
+const toMinutes = (hhmm) => {
+  const [h, m] = hhmm.split(":").map(Number);
+  return h * 60 + m;
+};
+const toHHMM = (mins) =>
+  `${String(Math.floor(mins / 60) % 24).padStart(2, "0")}:${String(mins % 60).padStart(2, "0")}`;
+const formatDuration = (mins) => {
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  const parts = [];
+  if (h) parts.push(`${h} hour${h > 1 ? "s" : ""}`);
+  if (m) parts.push(`${m} mins`);
+  return parts.join(" ");
+};
 
-  // Base center position
-  let top = anchorRect.top + anchorRect.height / 2 - popupHeight / 2;
-
-  // Clamp to viewport
-  if (top + popupHeight > window.innerHeight - padding) {
-    top = window.innerHeight - popupHeight - padding;
-  }
-  if (top < padding) {
-    top = padding;
-  }
-
-  const left = anchorRect.left - popupWidth - 40;
-  const popupMidY = top + popupHeight / 2;
-  const anchorY = anchorRect.top + anchorRect.height / 2;
-  const midX = anchorRect.left - 40;
-
-  return (
-    <>
-      <svg
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          pointerEvents: "none",
-          zIndex: 999,
-        }}
-      >
-        <path
-          d={`M ${anchorRect.left} ${anchorY} L ${midX} ${anchorY} L ${midX} ${popupMidY} L ${left + popupWidth} ${popupMidY}`}
-          fill="none"
-          stroke="#F97316"
-          strokeWidth="3"
-          strokeLinecap="round"
-        />
-        <circle cx={anchorRect.left} cy={anchorY} r="5" fill="#F97316" />
-      </svg>
-      <Paper
-        elevation={10}
-        sx={{
-          position: "fixed",
-          top,
-          left,
-          width: popupWidth,
-          borderRadius: "16px",
-          p: 3,
-          zIndex: 1000,
-          boxShadow: "0px 10px 40px rgba(0, 0, 0, 0.12)",
-        }}
-      >
-        <Typography fontWeight={700} fontSize="20px" color="#0EA5E9" mb={3}>
-          Appointment
-        </Typography>
-
-        {[
-          { label: "Client:", value: shift.client },
-          { label: "Address:", value: "35 Nunhead Lane, London, SE15 3TR" },
-          { label: "Phone:", value: "07465679465" },
-          { label: "Time:", value: `${shift.start} - 11:00` },
-          { label: "Duration:", value: "1 hour" },
-          { label: "Carer 1:", value: "Sarah Thompson" },
-          { label: "Carer 2:", value: "Ruth Omoregie" },
-        ].map((item, i) => (
-          <Box key={i} sx={{ display: "flex", mb: 2 }}>
-            <Typography
-              fontSize="13px"
-              color="#94A3B8"
-              sx={{ width: 80, flexShrink: 0 }}
-            >
-              {item.label}
-            </Typography>
-            <Typography fontSize="13px" color="text.primary" fontWeight={700}>
-              {item.value}
-            </Typography>
-          </Box>
-        ))}
-      </Paper>
-    </>
-  );
+const buildAppointment = (shift, staffName) => {
+  const mins = parseInt(shift.duration, 10);
+  const start = toMinutes(shift.start);
+  const contact = CLIENT_DETAILS[shift.client] || { address: "-", phone: "-" };
+  return {
+    client: shift.client,
+    address: contact.address,
+    phone: contact.phone,
+    time: `${shift.start} - ${toHHMM(start + mins)}`,
+    duration: formatDuration(mins),
+    carer1: staffName,
+    carer2: "Ruth Omoregie",
+  };
 };
 
 export default function RosteringPage() {
-  const [hoveredShift, setHoveredShift] = useState(null);
-  const [anchorRect, setAnchorRect] = useState(null);
+  const [shifts, setShifts] = useState(SHIFTS);
+  const [createOpen, setCreateOpen] = useState(false);
+
+  const handleCreateShift = (shift) => {
+    setShifts((prev) => [
+      ...prev,
+      {
+        id: Math.max(0, ...prev.map((s) => s.id)) + 1,
+        staffId: shift.staffId,
+        client: shift.client,
+        start: shift.start,
+        duration: shift.duration,
+        type: shift.type,
+        status: "planned",
+      },
+    ]);
+    setCreateOpen(false);
+  };
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedShift, setSelectedShift] = useState(null);
-
-  const handleMouseEnter = (e, shift) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setAnchorRect(rect);
-    setHoveredShift(shift);
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredShift(null);
-    setAnchorRect(null);
-  };
 
   const handleShiftClick = (shift) => {
     setSelectedShift(shift);
     setModalOpen(true);
   };
+
+  // Confirming "Cancel Appointment" in the visit modal takes the shift off the board
+  const handleCancelVisit = () => {
+    if (!selectedShift) return;
+    setShifts((prev) => prev.filter((s) => s.id !== selectedShift.id));
+  };
+
+  const selectedStaff = selectedShift
+    ? STAFF.find((s) => s.id === selectedShift.staffId)
+    : null;
+  const selectedAppointment = selectedShift
+    ? buildAppointment(selectedShift, selectedStaff?.name)
+    : null;
 
   return (
     <Box
@@ -298,8 +292,8 @@ export default function RosteringPage() {
             sx={{
               color: "#0EA5E9",
               fontWeight: 700,
-              fontSize: "12px",
-              textTransform: "none",
+              fontSize: "11px",
+              letterSpacing: 0.5,
             }}
           >
             Today
@@ -355,6 +349,7 @@ export default function RosteringPage() {
           <Button
             variant="contained"
             startIcon={<AddIcon />}
+            onClick={() => setCreateOpen(true)}
             sx={{
               bgcolor: "#8AC642",
               color: "#fff",
@@ -393,7 +388,14 @@ export default function RosteringPage() {
             bgcolor: "rgba(255,255,255,0.4)",
           }}
         >
-          <Box sx={{ width: 180, p: 2, borderRight: "1px solid #BAE6FD" }}>
+          <Box
+            sx={{
+              width: 200,
+              flexShrink: 0,
+              p: 2,
+              borderRight: "1px solid #BAE6FD",
+            }}
+          >
             <Typography
               fontWeight={700}
               fontSize="10px"
@@ -440,8 +442,9 @@ export default function RosteringPage() {
             >
               <Box
                 sx={{
-                  width: 180,
-                  bgcolor: "#fff",
+                  width: 200,
+                  flexShrink: 0,
+                  bgcolor: "transparent",
                   p: 2,
                   display: "flex",
                   alignItems: "center",
@@ -463,11 +466,12 @@ export default function RosteringPage() {
                     .map((n) => n[0])
                     .join("")}
                 </Avatar>
-                <Box>
+                <Box sx={{ minWidth: 0 }}>
                   <Typography
                     fontWeight={700}
                     fontSize="13px"
                     color="text.primary"
+                    noWrap
                   >
                     {staff.name}
                   </Typography>
@@ -493,7 +497,7 @@ export default function RosteringPage() {
                   />
                 ))}
 
-                {SHIFTS.filter((s) => s.staffId === staff.id).map((shift) => {
+                {shifts.filter((s) => s.staffId === staff.id).map((shift) => {
                   const h = parseInt(shift.start.split(":")[0]);
                   const m = parseInt(shift.start.split(":")[1]);
                   const start = (h - 8 + m / 60) * (100 / HOURS.length);
@@ -502,82 +506,95 @@ export default function RosteringPage() {
                   const styles = getStatusStyles(shift.status);
 
                   return (
-                    <Box
+                    <AppointmentTooltip
                       key={shift.id}
-                      onMouseEnter={(e) => handleMouseEnter(e, shift)}
-                      onMouseLeave={handleMouseLeave}
-                      onClick={() => handleShiftClick(shift)}
-                      sx={{
-                        position: "absolute",
-                        left: `${start}%`,
-                        top: 10,
-                        width: `${width}%`,
-                        height: 65,
-                        bgcolor: styles.bg,
-                        borderLeft: `4px solid ${styles.border}`,
-                        borderRadius: "16px",
-                        p: 1,
-                        zIndex: 10,
-                        cursor: "pointer",
-                        transition: "all 0.2s",
-                        "&:hover": {
-                          transform: "translateY(-2px)",
-                          boxShadow: "0px 4px 12px rgba(0,0,0,0.08)",
-                        },
-                      }}
+                      appointment={buildAppointment(shift, staff.name)}
                     >
-                      <Typography
-                        fontWeight={700}
-                        fontSize="11px"
-                        color={styles.color}
-                        noWrap
-                      >
-                        {shift.client}
-                      </Typography>
-                      <Typography
-                        fontSize="9px"
-                        color="text.grey"
-                        sx={{ mt: 0.1 }}
-                      >
-                        {shift.start} ({shift.duration})
-                      </Typography>
                       <Box
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`${shift.client}, ${shift.start}. Open visit details`}
+                        onClick={() => handleShiftClick(shift)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            handleShiftClick(shift);
+                          }
+                        }}
                         sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 0.5,
-                          mt: 0.5,
+                          position: "absolute",
+                          left: `${start}%`,
+                          top: 10,
+                          width: `${width}%`,
+                          height: 62,
+                          bgcolor: styles.bg,
+                          borderLeft: `3px solid ${styles.border}`,
+                          borderRadius: "6px",
+                          boxShadow: "0 1px 3px rgba(15,23,42,0.08)",
+                          p: 1,
+                          zIndex: 10,
+                          cursor: "pointer",
+                          transition: "all 0.2s",
+                          "&:hover, &:focus-visible": {
+                            transform: "translateY(-2px)",
+                            boxShadow: "0px 4px 12px rgba(0,0,0,0.08)",
+                            outline: "none",
+                          },
                         }}
                       >
-                        <Box
-                          sx={{
-                            width: 4,
-                            height: 4,
-                            borderRadius: "50%",
-                            bgcolor: "#94A3B8",
-                          }}
-                        />
+                        <Typography
+                          fontWeight={700}
+                          fontSize="11px"
+                          color={styles.color}
+                          noWrap
+                        >
+                          {shift.client}
+                        </Typography>
                         <Typography
                           fontSize="9px"
                           color="text.grey"
-                          fontWeight={700}
+                          sx={{ mt: 0.1 }}
                         >
-                          {shift.type}
+                          {shift.start} ({shift.duration})
                         </Typography>
-                      </Box>
-                      {shift.status === "conflict" && (
                         <Box
                           sx={{
-                            position: "absolute",
-                            top: 4,
-                            right: 4,
-                            color: "#EF4444",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 0.5,
+                            mt: 0.5,
                           }}
                         >
-                          <WarningAmberIcon sx={{ fontSize: 14 }} />
+                          <Box
+                            sx={{
+                              width: 4,
+                              height: 4,
+                              borderRadius: "50%",
+                              bgcolor: "#94A3B8",
+                            }}
+                          />
+                          <Typography
+                            fontSize="9px"
+                            color="text.grey"
+                            fontWeight={700}
+                          >
+                            {shift.type}
+                          </Typography>
                         </Box>
-                      )}
-                    </Box>
+                        {shift.status === "conflict" && (
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              top: 4,
+                              right: 4,
+                              color: "#EF4444",
+                            }}
+                          >
+                            <ErrorRoundedIcon sx={{ fontSize: 14 }} />
+                          </Box>
+                        )}
+                      </Box>
+                    </AppointmentTooltip>
                   );
                 })}
               </Box>
@@ -659,13 +676,10 @@ export default function RosteringPage() {
         </Box>
       </Box>
 
-      {/* Hover Popup */}
-      {hoveredShift && anchorRect && (
-        <AppointmentPopup shift={hoveredShift} anchorRect={anchorRect} />
-      )}
-
       {/* Visit Detail Modal */}
       <VisitDetailModal
+        // Remount per shift so times/tabs reset to the clicked visit
+        key={selectedShift?.id ?? "none"}
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         client={
@@ -673,6 +687,27 @@ export default function RosteringPage() {
             ? { name: selectedShift.client }
             : { name: "Margaret Hall" }
         }
+        visit={
+          selectedAppointment
+            ? {
+                start: selectedAppointment.time.split(" - ")[0],
+                end: selectedAppointment.time.split(" - ")[1],
+                carer1: selectedAppointment.carer1,
+                carer2: selectedAppointment.carer2,
+              }
+            : undefined
+        }
+        onCancelVisit={handleCancelVisit}
+      />
+
+      <CreateShiftModal
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+        onCreate={handleCreateShift}
+        clients={Object.keys(CLIENT_DETAILS)}
+        candidates={MATCH_CANDIDATES}
+        shifts={shifts}
+        defaultDate={BOARD_DATE}
       />
     </Box>
   );

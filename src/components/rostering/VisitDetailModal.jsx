@@ -8,15 +8,58 @@ import {
   IconButton,
   Dialog,
   TextField,
+  Checkbox,
+  Divider,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CancelAppointmentModal from "./CancelAppointmentModal";
+import { VISIT_TASKS, TASK_STATUS_STYLES } from "./visitMockData";
 
-export default function VisitDetailModal({ open, onClose, client }) {
+const DEFAULT_VISIT = {
+  start: "09:00",
+  end: "10:00",
+  carer1: "Sarah Thompson",
+  carer2: "Ruth Omoregie",
+};
+
+const toMinutes = (hhmm) => {
+  const [h, m] = (hhmm || "").split(":").map(Number);
+  return Number.isFinite(h) && Number.isFinite(m) ? h * 60 + m : null;
+};
+
+// "1 hour", "2 hours 30 mins"; blank if the end isn't after the start
+const formatDuration = (start, end) => {
+  const a = toMinutes(start);
+  const b = toMinutes(end);
+  if (a === null || b === null || b <= a) return "—";
+  const h = Math.floor((b - a) / 60);
+  const m = (b - a) % 60;
+  return [h && `${h} hour${h > 1 ? "s" : ""}`, m && `${m} mins`]
+    .filter(Boolean)
+    .join(" ");
+};
+
+export default function VisitDetailModal({
+  open,
+  onClose,
+  client,
+  visit = DEFAULT_VISIT,
+  onCancelVisit,
+}) {
   const [tab, setTab] = useState(0);
+  const [startTime, setStartTime] = useState(visit.start);
+  const [endTime, setEndTime] = useState(visit.end);
+  const [cancelOpen, setCancelOpen] = useState(false);
+  const carers = [visit.carer1, visit.carer2].filter(Boolean);
+
+  const handleConfirmCancel = (details) => {
+    setCancelOpen(false);
+    onCancelVisit?.(details);
+    onClose();
+  };
 
   return (
     <Dialog
@@ -28,7 +71,7 @@ export default function VisitDetailModal({ open, onClose, client }) {
         sx: {
           borderRadius: "32px",
           p: 0,
-          height: "85vh",
+          maxHeight: "90vh",
           display: "flex",
           flexDirection: "column",
         },
@@ -113,6 +156,7 @@ export default function VisitDetailModal({ open, onClose, client }) {
               icon={<CloseIcon sx={{ fontSize: 16 }} />}
               label="Cancel"
               color="#475569"
+              onClick={() => setCancelOpen(true)}
             />
             <ActionLink
               icon={<DeleteOutlineIcon sx={{ fontSize: 16 }} />}
@@ -120,7 +164,7 @@ export default function VisitDetailModal({ open, onClose, client }) {
               color="#EF4444"
             />
             <ActionLink
-              icon={<OpenInNewIcon sx={{ fontSize: 16 }} />}
+              icon={<AutorenewIcon sx={{ fontSize: 16 }} />}
               label="View in schedule"
               color="#475569"
             />
@@ -133,7 +177,7 @@ export default function VisitDetailModal({ open, onClose, client }) {
         {tab === 0 && (
           <Grid container spacing={8}>
             {/* Left Column */}
-            <Grid item xs={12} md={5}>
+            <Grid size={{ xs: 12, md: 5 }}>
               <Box sx={{ display: "flex", flexDirection: "column", gap: 3.5 }}>
                 <Box
                   sx={{
@@ -156,15 +200,11 @@ export default function VisitDetailModal({ open, onClose, client }) {
                   </Typography>
                   <TextField
                     fullWidth
-                    value="09:00"
+                    type="time"
+                    value={startTime}
+                    onChange={(e) => setStartTime(e.target.value)}
                     size="small"
-                    InputProps={{
-                      endAdornment: (
-                        <AccessTimeIcon
-                          sx={{ color: "#94A3B8", fontSize: 20 }}
-                        />
-                      ),
-                    }}
+                    inputProps={{ "aria-label": "Start time" }}
                     sx={{ ...inputSx, maxWidth: 200 }}
                   />
                 </Box>
@@ -189,15 +229,11 @@ export default function VisitDetailModal({ open, onClose, client }) {
                   </Typography>
                   <TextField
                     fullWidth
-                    value="10:00"
+                    type="time"
+                    value={endTime}
+                    onChange={(e) => setEndTime(e.target.value)}
                     size="small"
-                    InputProps={{
-                      endAdornment: (
-                        <AccessTimeIcon
-                          sx={{ color: "#94A3B8", fontSize: 20 }}
-                        />
-                      ),
-                    }}
+                    inputProps={{ "aria-label": "End time" }}
                     sx={{ ...inputSx, maxWidth: 200 }}
                   />
                 </Box>
@@ -215,27 +251,29 @@ export default function VisitDetailModal({ open, onClose, client }) {
                     fontWeight={700}
                     color="text.primary"
                   >
-                    1 hours
+                    {formatDuration(startTime, endTime)}
                   </Typography>
                 </Box>
               </Box>
             </Grid>
 
             {/* Right Column */}
-            <Grid item xs={12} md={7}>
+            <Grid size={{ xs: 12, md: 7 }}>
               <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
                 <CarerSection
                   label="Carer 1"
-                  value="Sarah Thompson"
+                  value={visit.carer1 || "Required"}
                   showRecommend
                 />
                 <RunSection value="Not in run." />
+                <Divider sx={{ borderColor: "#F1F5F9" }} />
                 <CarerSection
                   label="Carer 2"
-                  value="Ruth Omoregie"
+                  value={visit.carer2 || "Not Required"}
                   showRecommend
                 />
                 <RunSection value="Not in run." />
+                <Divider sx={{ borderColor: "#F1F5F9" }} />
                 <CarerSection
                   label="Shadow"
                   value="Not Required"
@@ -248,15 +286,10 @@ export default function VisitDetailModal({ open, onClose, client }) {
         )}
 
         {tab === 1 && (
-          <Box sx={{ py: 10 }}>
-            <Typography fontSize="16px" fontWeight={700} color="text.grey">
-              No Tasks created. To create Tasks go to{" "}
-              <Box component="span" sx={{ color: "primary.main" }}>
-                Admin &gt; Tasks
-              </Box>
-              .
-            </Typography>
-          </Box>
+          <TasksPanel
+            key={client.name}
+            tasks={VISIT_TASKS[client.name] || []}
+          />
         )}
 
         {tab === 2 && (
@@ -268,8 +301,9 @@ export default function VisitDetailModal({ open, onClose, client }) {
 
         {tab === 3 && (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <FinanceSection carerName="Sarah Thompson" />
-            <FinanceSection carerName="Ruth Omoregie" />
+            {carers.map((name) => (
+              <FinanceSection key={name} carerName={name} />
+            ))}
           </Box>
         )}
 
@@ -283,29 +317,26 @@ export default function VisitDetailModal({ open, onClose, client }) {
               label="Finance notes"
               placeholder="Enter finance notes..."
             />
-            <NoteField
-              label="Sarah Thompson"
-              placeholder="Enter notes for Sarah Thompson..."
-            />
-            <NoteField
-              label="Ruth Omoregie"
-              placeholder="Enter notes for Ruth Omoregie..."
-            />
+            {carers.map((name) => (
+              <NoteField
+                key={name}
+                label={name}
+                placeholder={`Enter notes for ${name}...`}
+              />
+            ))}
           </Box>
         )}
 
         {tab === 5 && (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 6, py: 2 }}>
-            <TravelSection
-              carerName="Sarah Thompson"
-              method="public transport"
-              clientName={client.name}
-            />
-            <TravelSection
-              carerName="Ruth Omoregie"
-              method="public transport"
-              clientName={client.name}
-            />
+            {carers.map((name) => (
+              <TravelSection
+                key={name}
+                carerName={name}
+                method="public transport"
+                clientName={client.name}
+              />
+            ))}
           </Box>
         )}
 
@@ -510,19 +541,189 @@ export default function VisitDetailModal({ open, onClose, client }) {
           </Button>
         </Box>
       </Box>
+
+      <CancelAppointmentModal
+        open={cancelOpen}
+        onClose={() => setCancelOpen(false)}
+        onConfirm={handleConfirmCancel}
+        clientName={client.name}
+      />
     </Dialog>
   );
 }
 
-function ActionLink({ icon, label, color }) {
+function TasksPanel({ tasks: initialTasks }) {
+  // Ticking a task marks it Completed; unticking restores its previous status
+  const [tasks, setTasks] = useState(() =>
+    initialTasks.map((t) => ({ ...t, previousStatus: t.status })),
+  );
+
+  if (tasks.length === 0) {
+    return (
+      <Box sx={{ py: 6 }}>
+        <Typography fontSize="15px" color="#475569">
+          No Tasks created. To create Tasks go to{" "}
+          <Box
+            component="span"
+            sx={{
+              color: "primary.main",
+              fontWeight: 700,
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+          >
+            Admin &gt; Tasks
+          </Box>
+          .
+        </Typography>
+      </Box>
+    );
+  }
+
+  const toggle = (id) =>
+    setTasks((prev) =>
+      prev.map((t) => {
+        if (t.id !== id) return t;
+        return t.status === "Completed"
+          ? {
+              ...t,
+              status:
+                t.previousStatus === "Completed" ? "Pending" : t.previousStatus,
+            }
+          : { ...t, previousStatus: t.status, status: "Completed" };
+      }),
+    );
+
+  return (
+    <Box sx={{ pb: 1 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 1.5,
+        }}
+      >
+        <Typography fontSize="15px" fontWeight={700} color="text.primary">
+          Tasks
+        </Typography>
+        <Box
+          sx={{
+            minWidth: 26,
+            height: 26,
+            px: 0.75,
+            borderRadius: "50%",
+            bgcolor: "#F1F5F9",
+            color: "#475569",
+            fontSize: "11px",
+            fontWeight: 700,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {tasks.length}
+        </Box>
+      </Box>
+
+      <Box
+        sx={{
+          border: "1px solid #E2E8F0",
+          borderRadius: "12px",
+          overflow: "hidden",
+        }}
+      >
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "44px 1fr 180px 130px",
+            px: 1.5,
+            py: 1.25,
+            bgcolor: "#F8FAFC",
+            borderBottom: "1px solid #E2E8F0",
+          }}
+        >
+          <span />
+          {["Task", "Carer/Staff", "Status"].map((h) => (
+            <Typography
+              key={h}
+              fontSize="12px"
+              fontWeight={600}
+              color="#475569"
+            >
+              {h}
+            </Typography>
+          ))}
+        </Box>
+        {tasks.map((t, i) => (
+          <Box
+            key={t.id}
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "44px 1fr 180px 130px",
+              alignItems: "center",
+              px: 1.5,
+              py: 0.75,
+              borderBottom: i < tasks.length - 1 ? "1px solid #F1F5F9" : "none",
+            }}
+          >
+            <Checkbox
+              size="small"
+              checked={t.status === "Completed"}
+              onChange={() => toggle(t.id)}
+              inputProps={{ "aria-label": `Mark "${t.task}" complete` }}
+              sx={{
+                p: 0.5,
+                color: "#CBD5E1",
+                "&.Mui-checked": { color: "#0EA5E9" },
+              }}
+            />
+            <Typography fontSize="13px" fontWeight={600} color="text.primary">
+              {t.task}
+            </Typography>
+            <Typography fontSize="13px" color="#475569">
+              {t.carer}
+            </Typography>
+            <Box>
+              <Box
+                component="span"
+                sx={{
+                  ...TASK_STATUS_STYLES[t.status],
+                  display: "inline-block",
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  borderRadius: "999px",
+                  px: 1.25,
+                  py: 0.3,
+                }}
+              >
+                {t.status}
+              </Box>
+            </Box>
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  );
+}
+
+function ActionLink({ icon, label, color, onClick }) {
   return (
     <Box
+      component="button"
+      type="button"
+      onClick={onClick}
       sx={{
         display: "flex",
         alignItems: "center",
         gap: 0.8,
         color,
         cursor: "pointer",
+        border: "none",
+        bgcolor: "transparent",
+        p: 0,
+        fontFamily: "inherit",
+        "&:hover": { opacity: 0.8 },
       }}
     >
       {icon}
@@ -636,9 +837,17 @@ function RequirementItem({ label }) {
 function FinanceSection({ carerName }) {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-      <Typography fontSize="18px" fontWeight={700} color="text.primary" mb={1}>
-        Carer: {carerName}
-      </Typography>
+      <Box>
+        <Typography
+          fontSize="16px"
+          fontWeight={700}
+          color="text.primary"
+          mb={1.5}
+        >
+          Carer: {carerName}
+        </Typography>
+        <Divider sx={{ borderColor: "#F1F5F9" }} />
+      </Box>
 
       <FinanceField
         label="Invoice group"
@@ -669,7 +878,7 @@ function FinanceSection({ carerName }) {
         sx={{
           display: "grid",
           gridTemplateColumns: "180px 1fr",
-          gap: 2,
+          gap: 1,
           alignItems: "center",
           mt: 2,
         }}
@@ -677,37 +886,9 @@ function FinanceSection({ carerName }) {
         <Typography fontSize="14px" fontWeight={700} color="text.grey">
           Actual times
         </Typography>
-        <Box sx={{ display: "flex", gap: 4 }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-            <Typography fontSize="12px" fontWeight={700} color="#94A3B8">
-              Start time
-            </Typography>
-            <TextField
-              size="small"
-              placeholder="--:-- --"
-              InputProps={{
-                endAdornment: (
-                  <AccessTimeIcon sx={{ color: "#94A3B8", fontSize: 18 }} />
-                ),
-              }}
-              sx={financeInputSx}
-            />
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-            <Typography fontSize="12px" fontWeight={700} color="#94A3B8">
-              End time
-            </Typography>
-            <TextField
-              size="small"
-              placeholder="--:-- --"
-              InputProps={{
-                endAdornment: (
-                  <AccessTimeIcon sx={{ color: "#94A3B8", fontSize: 18 }} />
-                ),
-              }}
-              sx={financeInputSx}
-            />
-          </Box>
+        <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
+          <TimeWithLabel label="Start time" />
+          <TimeWithLabel label="End time" />
         </Box>
       </Box>
 
@@ -715,32 +896,41 @@ function FinanceSection({ carerName }) {
         sx={{
           display: "grid",
           gridTemplateColumns: "180px 1fr",
-          gap: 2,
+          gap: 1,
           alignItems: "center",
         }}
       >
-        <Typography fontSize="14px" fontWeight={700} color="text.grey">
+        <Typography fontSize="12px" fontWeight={600} color="#64748B">
           Reason (start time)
         </Typography>
-        <Box sx={{ display: "flex", gap: 4 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
           <TextField
             size="small"
-            value="--"
-            sx={{ ...financeInputSx, width: "100%", maxWidth: 240 }}
+            defaultValue="--"
+            inputProps={{ "aria-label": "Reason (start time)" }}
+            sx={{ ...financeInputSx, width: 160 }}
           />
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2, flex: 1 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
             <Typography
-              fontSize="14px"
-              fontWeight={700}
-              color="text.grey"
-              sx={{ minWidth: 120 }}
+              fontSize="12px"
+              fontWeight={600}
+              color="#64748B"
+              sx={{ whiteSpace: "nowrap" }}
             >
               Reason (end time)
             </Typography>
             <TextField
               size="small"
-              value="--"
-              sx={{ ...financeInputSx, width: "100%", maxWidth: 240 }}
+              defaultValue="--"
+              inputProps={{ "aria-label": "Reason (end time)" }}
+              sx={{ ...financeInputSx, width: 160 }}
             />
           </Box>
         </Box>
@@ -752,6 +942,27 @@ function FinanceSection({ carerName }) {
         label="Chargeable mileage"
         value="0.0"
         hint="Use this location to store any mileage to be charged to the client"
+      />
+    </Box>
+  );
+}
+
+function TimeWithLabel({ label }) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+      <Typography
+        fontSize="12px"
+        fontWeight={600}
+        color="#64748B"
+        sx={{ whiteSpace: "nowrap" }}
+      >
+        {label}
+      </Typography>
+      <TextField
+        size="small"
+        type="time"
+        inputProps={{ "aria-label": `Actual ${label.toLowerCase()}` }}
+        sx={{ ...financeInputSx, width: 150 }}
       />
     </Box>
   );
@@ -869,10 +1080,10 @@ function TravelSection({ carerName, method, clientName }) {
         </Typography>
       </Box>
 
-      <Box sx={{ borderBottom: "1px dashed #E2E8F0", mb: 1 }} />
+      <Divider sx={{ borderColor: "#F1F5F9", mb: 1 }} />
 
       <Grid container spacing={4}>
-        <Grid item xs={6} sx={{ borderRight: "1px dotted #E2E8F0" }}>
+        <Grid size={6} sx={{ borderRight: "1px solid #F1F5F9" }}>
           <RouteInfo
             from="Home"
             to={clientName}
@@ -880,7 +1091,7 @@ function TravelSection({ carerName, method, clientName }) {
             time="3 Hours 6 Minutes"
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <RouteInfo
             from={clientName}
             to="Home"

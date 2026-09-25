@@ -1,0 +1,87 @@
+// Mock data for Care Delivery > Medication.
+export const FREQUENCIES = [
+  "Once Daily",
+  "Twice Daily",
+  "Three Times Daily",
+  "Four Times Daily",
+  "As Needed (PRN)",
+];
+export const ROUTES = [
+  "Oral (Tablet/Capsule)",
+  "Oral (Liquid)",
+  "Topical",
+  "Inhaled",
+  "Injection",
+  "Eye/Ear Drops",
+];
+export const CLIENTS = [
+  "Arthur Morgan",
+  "Sadie Adler",
+  "John Marston",
+  "Charles Smith",
+  "Abigail Roberts",
+];
+export const STATUS_FILTERS = ["All Status", "On Track", "Missed"];
+
+export const INITIAL_MEDICATIONS = [
+  {
+    id: 1,
+    name: "Paracetamol",
+    dose: "500mg",
+    client: "Arthur Morgan",
+    frequency: "Twice Daily",
+    time: "Today, 09:15 AM",
+    status: "ON TRACK",
+    prescribedBy: "Dr. Miller",
+    startDate: "2026-01-01",
+    endDate: "Ongoing",
+    route: "Oral (Tablet/Capsule)",
+    instructions: "",
+  },
+  {
+    id: 2,
+    name: "Amlodipine",
+    dose: "5mg",
+    client: "Sadie Adler",
+    frequency: "Once Daily",
+    time: "Today, 08:30 AM",
+    status: "ON TRACK",
+    prescribedBy: "Dr. Smith",
+    startDate: "2026-01-15",
+    endDate: "Ongoing",
+    route: "Oral (Tablet/Capsule)",
+    instructions: "Take in the morning with water.",
+  },
+  {
+    id: 3,
+    name: "Metformin",
+    dose: "500mg",
+    client: "John Marston",
+    frequency: "Three Times Daily",
+    time: "Yesterday, 06:00 PM",
+    status: "MISSED",
+    prescribedBy: "Dr. Miller",
+    startDate: "2026-01-01",
+    endDate: "Ongoing",
+    route: "Oral (Tablet/Capsule)",
+    instructions: "",
+    reason:
+      "Client was asleep during the scheduled time and carer decided not to wake them as per care plan guidelines for non-critical medication.",
+    reportedBy: "Sarah Thompson",
+    reportedAt: "Today, 07:30 AM",
+  },
+  {
+    id: 4,
+    name: "Warfarin",
+    dose: "3mg",
+    client: "Charles Smith",
+    frequency: "Once Daily",
+    time: "Today, 10:00 AM",
+    status: "ON TRACK",
+    prescribedBy: "Dr. Brown",
+    startDate: "2026-02-10",
+    endDate: "Ongoing",
+    route: "Oral (Tablet/Capsule)",
+    instructions: "Avoid grapefruit juice. INR check every 2 weeks.",
+  },
+];

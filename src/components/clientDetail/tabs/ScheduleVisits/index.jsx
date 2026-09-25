@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, Paper, Popover } from "@mui/material";
+import { Box, Typography, Button, Paper } from "@mui/material";
 import { InsertChartOutlined as InsertChartOutlinedIcon } from "@mui/icons-material";
 
 // --- Sub-components ---
 import VisitDetailModal from "../../../rostering/VisitDetailModal";
+import AppointmentTooltip from "../../../rostering/AppointmentTooltip";
 
 const DAYS = [
   "Monday 16th",
@@ -24,24 +25,60 @@ const TIMES = [
   "13:00",
 ];
 
+// Mock visits: dayIdx/timeIdx place each one in the week grid
+const VISITS = [
+  {
+    id: 1,
+    dayIdx: 0,
+    timeIdx: 1,
+    name: "Sarah Th...",
+    time: "08:00 • 60m",
+    status: "MORNING",
+    color: "#F0FDF4",
+    borderColor: "#86EFAC",
+    dotColor: "#16A34A",
+    titleColor: "#15803D",
+    appointment: {
+      address: "35 Nunhead Lane, London, SE15 3TR",
+      phone: "07465679465",
+      time: "08:00 - 09:00",
+      duration: "1 hour",
+      carer1: "Sarah Thompson",
+      carer2: "Ruth Omoregie",
+    },
+  },
+  {
+    id: 2,
+    dayIdx: 2,
+    timeIdx: 3,
+    name: "James Wilson",
+    time: "10:00 • 90m",
+    status: "MEDICATION",
+    color: "#F8FAFC",
+    borderColor: "#94A3B8",
+    dotColor: "#475569",
+    titleColor: "#334155",
+    appointment: {
+      address: "35 Nunhead Lane, London, SE15 3TR",
+      phone: "07465679465",
+      time: "10:00 - 11:30",
+      duration: "1 hour 30 mins",
+      carer1: "James Wilson",
+      carer2: "Ruth Omoregie",
+    },
+  },
+];
+
 export default function ScheduleVisitsTab({ client }) {
-  const [anchorEl, setAnchorEl] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-
-  const handleVisitClick = (event, visit) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClosePopover = () => {
-    setAnchorEl(null);
-  };
-
-  const handleOpenModal = () => {
+  const [selectedVisit, setSelectedVisit] = useState(null);
+  const openVisit = (visit) => {
+    setSelectedVisit(visit);
     setModalOpen(true);
-    handleClosePopover();
   };
-
-  const isPopoverOpen = Boolean(anchorEl);
+  const [visitStart, visitEnd] = (selectedVisit?.appointment.time || "").split(
+    " - ",
+  );
 
   return (
     <Box>
@@ -61,27 +98,36 @@ export default function ScheduleVisitsTab({ client }) {
             Manage information and care delivery for {client.name}.
           </Typography>
         </Box>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 2,
+        }}
+      >
+        <Typography fontWeight={700} fontSize="18px">
+          Week A
+        </Typography>
         <Button
           variant="contained"
           sx={{
             bgcolor: "#0EA5E9",
-            borderRadius: "12px",
+            borderRadius: "10px",
             textTransform: "none",
             fontWeight: 700,
             px: 3,
-            py: 1.2,
-            boxShadow: "none",
-            fontSize: "14px",
-            "&:hover": { bgcolor: "#0A8DBC", boxShadow: "none" },
+            py: 1,
+            boxShadow: "0 4px 12px rgba(14,165,233,0.25)",
+            fontSize: "13px",
+            "&:hover": { bgcolor: "#0A8DBC" },
           }}
         >
           + New Shift
         </Button>
       </Box>
-
-      <Typography fontWeight={700} fontSize="18px" sx={{ mb: 2 }}>
-        Week A
-      </Typography>
 
       <Paper
         elevation={0}
@@ -175,38 +221,16 @@ export default function ScheduleVisitsTab({ client }) {
                       justifyContent: "center",
                     }}
                   >
-                    {day === "Monday 16th" && timeIdx === 1 && (
+                    {VISITS.filter(
+                      (v) => v.dayIdx === idx && v.timeIdx === timeIdx,
+                    ).map((v) => (
                       <VisitCard
-                        name="Sarah Th..."
-                        time="08:00 - 60m"
-                        status="MORNING"
-                        color="#F0FDF4"
-                        borderColor="#86EFAC"
-                        dotColor="#16A34A"
-                        onClick={(e) =>
-                          handleVisitClick(e, {
-                            name: "Sarah Th...",
-                            time: "08:00 - 60m",
-                          })
-                        }
+                        key={v.id}
+                        visit={v}
+                        clientName={client.name}
+                        onClick={() => openVisit(v)}
                       />
-                    )}
-                    {day === "Wednesday 18th" && timeIdx === 3 && (
-                      <VisitCard
-                        name="James Wilson"
-                        time="10:00 - 90m"
-                        status="MEDICATION"
-                        color="#F1F5F9"
-                        borderColor="#CBD5E1"
-                        dotColor="text.light"
-                        onClick={(e) =>
-                          handleVisitClick(e, {
-                            name: "James Wilson",
-                            time: "10:00 - 90m",
-                          })
-                        }
-                      />
-                    )}
+                    ))}
                   </Box>
                 ))}
               </Box>
@@ -229,119 +253,77 @@ export default function ScheduleVisitsTab({ client }) {
         <StatChip label="Carers working this week: 1" />
       </Box>
 
-      {/* Popover */}
-      <Popover
-        open={isPopoverOpen}
-        anchorEl={anchorEl}
-        onClose={handleClosePopover}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        transformOrigin={{ vertical: "top", horizontal: "center" }}
-        PaperProps={{
-          sx: {
-            p: 0,
-            borderRadius: "20px",
-            boxShadow: "0 10px 40px rgba(0,0,0,0.12)",
-            border: "1px solid #E2E8F0",
-            mt: 1,
-            overflow: "hidden",
-          },
-        }}
-      >
-        <Box sx={{ width: 280 }}>
-          <Box
-            sx={{
-              py: 2,
-              textAlign: "center",
-              borderBottom: "1px solid #F1F5F9",
-            }}
-          >
-            <Typography fontSize="18px" fontWeight={700} color="primary.main">
-              Appointment
-            </Typography>
-          </Box>
-          <Box>
-            <InfoRow label="Client" value={client.name} />
-            <InfoRow
-              label="Address"
-              value="35 Nunhead Lane, London, SE15 3TR"
-            />
-            <InfoRow label="Phone" value="07465679465" />
-            <InfoRow label="Time" value="09:00 - 10:00" />
-            <InfoRow label="Duration" value="1 hour" />
-            <InfoRow label="Carer 1" value="James Wilson" />
-            <InfoRow label="Carer 2" value="Ruth Omoregie" isLast />
-          </Box>
-          <Box sx={{ p: 1.5 }}>
-            <Button
-              fullWidth
-              onClick={handleOpenModal}
-              sx={{
-                textTransform: "none",
-                fontSize: "13px",
-                fontWeight: 700,
-                color: "primary.main",
-              }}
-            >
-              View detail
-            </Button>
-          </Box>
-        </Box>
-      </Popover>
-
       {/* Visit Detail Modal */}
       <VisitDetailModal
+        key={selectedVisit?.id ?? "none"}
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         client={client}
+        visit={
+          selectedVisit
+            ? {
+                start: visitStart,
+                end: visitEnd,
+                carer1: selectedVisit.appointment.carer1,
+                carer2: selectedVisit.appointment.carer2,
+              }
+            : undefined
+        }
       />
     </Box>
   );
 }
 
-function VisitCard({
-  name,
-  time,
-  status,
-  color,
-  borderColor,
-  dotColor,
-  onClick,
-}) {
+function VisitCard({ visit, clientName, onClick }) {
   return (
-    <Box
-      onClick={onClick}
-      sx={{
-        p: 1.5,
-        borderRadius: "12px",
-        border: `1px solid ${borderColor}`,
-        borderLeft: `4px solid ${dotColor}`,
-        bgcolor: color,
-        width: "100%",
-        cursor: "pointer",
-        transition: "all 0.2s",
-        "&:hover": { boxShadow: "0 4px 12px rgba(0,0,0,0.05)" },
-      }}
-    >
-      <Typography fontSize="11px" fontWeight={700} color="text.primary">
-        {name}
-      </Typography>
-      <Typography
-        fontSize="10px"
-        fontWeight={600}
-        color="text.light"
-        sx={{ mb: 1 }}
+    <AppointmentTooltip appointment={{ client: clientName, ...visit.appointment }}>
+      <Box
+        role="button"
+        tabIndex={0}
+        aria-label={`${visit.appointment.carer1}, ${visit.appointment.time}. Open visit details`}
+        onClick={onClick}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onClick();
+          }
+        }}
+        sx={{
+          p: 1.25,
+          borderRadius: "10px",
+          border: `1px solid ${visit.borderColor}`,
+          borderLeft: `4px solid ${visit.dotColor}`,
+          bgcolor: visit.color,
+          width: "100%",
+          cursor: "pointer",
+          transition: "box-shadow 0.2s ease",
+          boxShadow: "0 2px 6px rgba(15,23,42,0.06)",
+          "&:hover, &:focus-visible": {
+            boxShadow: "0 6px 16px rgba(15,23,42,0.12)",
+            outline: "none",
+          },
+        }}
       >
-        {time}
-      </Typography>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-        <Box
-          sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: dotColor }}
-        />
-        <Typography fontSize="9px" fontWeight={700} color="text.secondary">
-          {status}
+        <Typography fontSize="11px" fontWeight={700} color={visit.titleColor} noWrap>
+          {visit.name}
         </Typography>
+        <Typography fontSize="10px" fontWeight={500} color="text.light" sx={{ mb: 1 }}>
+          {visit.time}
+        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+          <Box sx={{ width: 5, height: 5, borderRadius: "50%", bgcolor: visit.dotColor }} />
+          <Typography
+            fontSize="8px"
+            fontWeight={700}
+            color={visit.titleColor}
+            noWrap
+            sx={{ letterSpacing: 0.5 }}
+          >
+            {visit.status}
+          </Typography>
+        </Box>
       </Box>
-    </Box>
+    </AppointmentTooltip>
   );
 }
 
@@ -367,37 +349,5 @@ function StatChip({ label }) {
         </Box>
       </Typography>
     </Paper>
-  );
-}
-
-function InfoRow({ label, value, isLast }) {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        px: 2.5,
-        py: 1.8,
-        borderBottom: isLast ? "none" : "1px solid #F1F5F9",
-        alignItems: "flex-start",
-        gap: 2,
-      }}
-    >
-      <Typography
-        fontSize="12px"
-        fontWeight={600}
-        color="#94A3B8"
-        sx={{ minWidth: 70 }}
-      >
-        {label}:
-      </Typography>
-      <Typography
-        fontSize="12px"
-        fontWeight={700}
-        color="text.primary"
-        sx={{ flex: 1 }}
-      >
-        {value}
-      </Typography>
-    </Box>
   );
 }

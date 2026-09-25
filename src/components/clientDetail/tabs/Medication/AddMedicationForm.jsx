@@ -1,228 +1,268 @@
-import React from "react";
-import { Box, Typography, Button, Paper } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import React, { useState } from "react";
+import { Box, Typography, Button, Paper, Collapse } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MedicationViewHeader from "./MedicationViewHeader";
+import { SCHEDULED_MEDICATION } from "./medicationData";
 
-export default function AddMedicationForm({ onBack }) {
+const cardSx = {
+  borderRadius: "16px",
+  border: "1px solid #E2E8F0",
+  bgcolor: "#fff",
+};
+
+const SUPPORT_OPTIONS = ["Administer", "Assist", "Prompt"];
+
+const FORM_SECTIONS = [
+  { label: "Type", value: "Scheduled", required: true },
+  { label: "Dose", value: "2 oral tablets", required: true },
+  { label: "Route", value: "Oral", required: true },
+  { label: "Frequency", value: "2 times a day", required: true },
+  { label: "When", value: "10am, 8pm", required: true },
+  {
+    label: "From",
+    value: "Wednesday 25th Feb - Wednesday 25th Feb",
+    required: true,
+  },
+  {
+    label: "Past administrations",
+    value: "0 past administrations recorded",
+    required: true,
+  },
+  { label: "Notes (optional)", value: "Additional instructions" },
+  { label: "Are the above details correct?" },
+];
+
+function Required() {
+  return (
+    <Box component="span" sx={{ color: "#EF4444" }}>
+      {" "}
+      *
+    </Box>
+  );
+}
+
+function FormSection({ label, value, required }) {
+  return (
+    <Box
+      sx={{
+        ...cardSx,
+        px: 2.5,
+        py: 2,
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        cursor: "pointer",
+        "&:hover": { borderColor: "#CBD5E1" },
+      }}
+    >
+      <Box>
+        <Typography fontSize="11px" fontWeight={700} color="text.primary">
+          {label}
+          {required && <Required />}
+        </Typography>
+        {value && (
+          <Typography
+            fontSize="12px"
+            fontWeight={500}
+            color="text.secondary"
+            sx={{ mt: 0.4 }}
+          >
+            {value}
+          </Typography>
+        )}
+      </Box>
+      <KeyboardArrowDownIcon sx={{ color: "text.light", fontSize: 20 }} />
+    </Box>
+  );
+}
+
+export default function AddMedicationForm({ client, medication, onBack }) {
+  const [support, setSupport] = useState("Assist");
+  const [supportOpen, setSupportOpen] = useState(true);
+  const [infoOpen, setInfoOpen] = useState(false);
+  const medicationName = medication || SCHEDULED_MEDICATION.name;
+
   return (
     <Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 3,
-        }}
-      >
-        <Box>
-          <Typography variant="h5" fontWeight={700} color="text.primary">
-            Add a medication
-          </Typography>
-          <Typography fontSize="14px" color="text.light" sx={{ mt: 0.3 }}>
-            Create a schedule to match Margaret Hall's prescription.
-          </Typography>
-        </Box>
-        <Box
-          onClick={onBack}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
-            color: "primary.main",
-            cursor: "pointer",
-          }}
-        >
-          <ArrowBackIcon sx={{ fontSize: 16 }} />
-          <Typography fontSize="14px" fontWeight={700}>
-            Back to Medication
-          </Typography>
-        </Box>
-      </Box>
+      <MedicationViewHeader
+        title="Add a medication"
+        subtitle={`Create a schedule to match ${client.name}'s prescription.`}
+        onBack={onBack}
+      />
 
       {/* Medication Selection Card */}
-      <Paper
-        elevation={0}
-        sx={{ p: 3, borderRadius: "20px", border: "1px solid #CBD5E1", mb: 3 }}
-      >
+      <Paper elevation={0} sx={{ ...cardSx, px: 2.5, py: 2, mb: 2 }}>
         <Typography
-          fontSize="10px"
+          fontSize="9px"
           fontWeight={700}
           color="text.secondary"
-          sx={{ mb: 1 }}
+          sx={{ mb: 0.5, letterSpacing: 0.4 }}
         >
           MEDICATION
         </Typography>
-        <Typography fontWeight={700} fontSize="18px" color="text.primary">
-          Paracetamol 400mg tablets
+        <Typography fontWeight={700} fontSize="16px" color="text.primary">
+          {medicationName}
         </Typography>
         <Box
+          component="button"
+          type="button"
+          onClick={() => setInfoOpen((o) => !o)}
+          aria-expanded={infoOpen}
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: 0.5,
-            mt: 1,
+            gap: 0.25,
+            mt: 0.75,
+            p: 0,
+            border: "none",
+            bgcolor: "transparent",
             color: "text.secondary",
             cursor: "pointer",
+            fontFamily: "inherit",
           }}
         >
-          <Typography fontSize="12px" fontWeight={700}>
+          <ChevronRightIcon
+            sx={{
+              fontSize: 16,
+              transition: "transform 0.2s ease",
+              transform: infoOpen ? "rotate(90deg)" : "none",
+            }}
+          />
+          <Typography fontSize="11px" fontWeight={700}>
             Additional information
           </Typography>
-          <KeyboardArrowDownIcon sx={{ fontSize: 16 }} />
         </Box>
+        <Collapse in={infoOpen}>
+          <Typography
+            fontSize="12px"
+            color="text.light"
+            sx={{ mt: 1, pl: 2.5, lineHeight: 1.6 }}
+          >
+            Source: NHS Dictionary of Medicines and Devices (dm+d). Check the
+            prescription label for strength and dosing before scheduling.
+          </Typography>
+        </Collapse>
       </Paper>
 
-      {/* Main Form Container */}
-      <Paper
-        elevation={0}
-        sx={{
-          px: 4,
-          py: 2,
-          borderRadius: "24px",
-          border: "1px solid #CBD5E1",
-          bgcolor: "#fff",
-          mb: 2,
-        }}
-      >
-        {/* Support Question */}
-        <Box sx={{ mb: 4 }}>
-          <Typography fontWeight={700} fontSize="14px" sx={{ mb: 2 }}>
-            What support is required with this medication? *
+      {/* Support Question */}
+      <Paper elevation={0} sx={{ ...cardSx, px: 2.5, py: 2, mb: 2 }}>
+        <Box
+          component="button"
+          type="button"
+          onClick={() => setSupportOpen((o) => !o)}
+          aria-expanded={supportOpen}
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            p: 0,
+            border: "none",
+            bgcolor: "transparent",
+            cursor: "pointer",
+            fontFamily: "inherit",
+            textAlign: "left",
+          }}
+        >
+          <Typography fontWeight={700} fontSize="12px" color="text.primary">
+            What support is required with this medication?
+            <Required />
           </Typography>
-          <Box sx={{ display: "flex", gap: 2 }}>
-            {["Administer", "Assist", "Prompt"].map((label) => (
-              <Button
-                key={label}
-                variant="outlined"
-                sx={{
-                  textTransform: "none",
-                  py: 1,
-                  borderRadius: "12px",
-                  px: 4,
-                  borderColor: label === "Assist" ? "primary.main" : "#CBD5E1",
-                  bgcolor: label === "Assist" ? "#F0F9FF" : "#fff",
-                  color: label === "Assist" ? "primary.main" : "text.primary",
-                  fontWeight: 700,
-                  fontSize: "14px",
-                  "&:hover": {
-                    borderColor: "primary.main",
-                    bgcolor: "rgba(14, 165, 233, 0.05)",
-                  },
-                }}
-              >
-                {label}
-              </Button>
-            ))}
+          {supportOpen ? (
+            <KeyboardArrowUpIcon sx={{ color: "text.light", fontSize: 20 }} />
+          ) : (
+            <KeyboardArrowDownIcon sx={{ color: "text.light", fontSize: 20 }} />
+          )}
+        </Box>
+
+        <Collapse in={supportOpen}>
+          <Box sx={{ display: "flex", gap: 1.25, mt: 1.5 }}>
+            {SUPPORT_OPTIONS.map((label) => {
+              const selected = support === label;
+              return (
+                <Button
+                  key={label}
+                  variant="outlined"
+                  onClick={() => setSupport(label)}
+                  aria-pressed={selected}
+                  sx={{
+                    textTransform: "none",
+                    py: 0.75,
+                    px: 2.5,
+                    borderRadius: "8px",
+                    borderColor: selected ? "primary.main" : "#E2E8F0",
+                    bgcolor: selected ? "#F0F9FF" : "#fff",
+                    color: selected ? "primary.main" : "text.primary",
+                    fontWeight: 600,
+                    fontSize: "12px",
+                    "&:hover": {
+                      borderColor: "primary.main",
+                      bgcolor: "rgba(14, 165, 233, 0.05)",
+                    },
+                  }}
+                >
+                  {label}
+                </Button>
+              );
+            })}
           </Box>
           <Box
             sx={{
-              mt: 2.5,
+              mt: 2,
               bgcolor: "#F8FAFC",
-              borderRadius: "12px",
-              p: 1.8,
+              borderRadius: "10px",
+              px: 1.75,
+              py: 1.25,
               display: "flex",
-              gap: 1.5,
-              border: "1px solid #CBD5E1",
+              alignItems: "center",
+              gap: 1.25,
+              border: "1px solid #E2E8F0",
             }}
           >
-            <InfoOutlinedIcon
-              sx={{ fontSize: 18, color: "text.light", mt: 0.1 }}
-            />
-            <Typography
-              fontSize="11px"
-              color="text.light"
-              sx={{ lineHeight: 1.5 }}
-            >
+            <InfoOutlinedIcon sx={{ fontSize: 16, color: "text.light" }} />
+            <Typography fontSize="11px" color="text.light" sx={{ lineHeight: 1.5 }}>
               If you're unsure, we recommend reading the{" "}
               <Box
                 component="span"
-                sx={{
-                  color: "primary.main",
-                  textDecoration: "underline",
-                  cursor: "pointer",
-                }}
+                sx={{ color: "primary.main", cursor: "pointer" }}
               >
                 CQC's guidance
               </Box>{" "}
               on medicines support.
             </Typography>
           </Box>
-        </Box>
+        </Collapse>
       </Paper>
 
       {/* Accordion Style Sections */}
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <FormSection label="Type" value="Scheduled" />
-        <FormSection label="Dose" value="2 oral tablets" />
-        <FormSection label="Route" value="Oral" />
-        <FormSection label="Frequency" value="2 times a day" />
-        <FormSection label="When" value="10am, 8pm" />
-        <FormSection
-          label="From"
-          value="Wednesday 25th Feb - Wednesday 25th Feb"
-        />
-        <FormSection
-          label="Past administrations"
-          value="0 past administrations recorded"
-        />
-        <FormSection label="Notes (optional)" value="Additional instructions" />
-        <FormSection
-          label="Are the above details correct?"
-          value="Select an option"
-          isLast
-        />
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+        {FORM_SECTIONS.map((s) => (
+          <FormSection key={s.label} {...s} />
+        ))}
       </Box>
 
       <Button
         variant="contained"
+        onClick={onBack}
         sx={{
-          mt: 5,
+          mt: 3,
           py: 1,
-          borderRadius: "14px",
+          px: 3,
+          borderRadius: "10px",
           fontWeight: 700,
-          fontSize: "16px",
-          background: "main.primary",
+          fontSize: "13px",
           textTransform: "none",
+          bgcolor: "#0EA5E9",
           boxShadow: "0 4px 12px rgba(14, 165, 233, 0.25)",
           color: "#ffffff",
+          "&:hover": { bgcolor: "#0284c7" },
         }}
-        onClick={onBack}
       >
         Save changes
       </Button>
-    </Box>
-  );
-}
-
-function FormSection({ label, value, isLast }) {
-  return (
-    <Box
-      sx={{
-        p: 2.5,
-        borderRadius: "16px",
-        border: "1px solid #CBD5E1",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        cursor: "pointer",
-        bgcolor: "#ffffff",
-      }}
-    >
-      <Box>
-        <Typography
-          fontSize="11px"
-          fontWeight={700}
-          color="text.primary"
-          sx={{ mb: 0.5, textTransform: "uppercase" }}
-        >
-          {label} *
-        </Typography>
-        <Typography fontSize="14px" fontWeight={400} color="text.light">
-          {value}
-        </Typography>
-      </Box>
-      <KeyboardArrowDownIcon sx={{ color: "text.light" }} />
     </Box>
   );
 }

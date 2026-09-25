@@ -9,235 +9,211 @@ import {
   MenuItem,
   Grid,
   Divider,
+  Select,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import CheckIcon from "@mui/icons-material/Check";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import StepIndicator from "../shared/StepIndicator";
+import {
+  ASSESSMENT_TYPES,
+  ASSESSORS,
+  CLIENTS,
+  RESPONSES,
+  OUTCOME_STATUSES,
+  formatDate,
+} from "./assessmentData";
 
 const steps = ["DETAILS", "QUESTIONS", "OUTCOME"];
+const RISK_LEVELS = ["Low", "Medium", "High"];
 
-export default function CreateAssessmentModal({ open, onClose }) {
-  const [activeStep, setActiveStep] = useState(0);
+const labelSx = {
+  fontSize: "10px",
+  fontWeight: 700,
+  color: "text.grey",
+  mb: 1,
+  letterSpacing: "0.05em",
+  textTransform: "uppercase",
+};
 
-  const handleNext = () => {
-    if (activeStep < steps.length - 1) setActiveStep((prev) => prev + 1);
-  };
+const fieldSx = {
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "14px",
+    bgcolor: "#F8FAFC",
+    fontSize: "14px",
+    "& fieldset": { borderColor: "#F1F5F9" },
+    "&:hover fieldset": { borderColor: "#E2E8F0" },
+    "&.Mui-focused fieldset": { borderColor: "#0EA5E9", borderWidth: "1px" },
+  },
+  "& input::placeholder, & textarea::placeholder": {
+    color: "#84919A",
+    opacity: 1,
+  },
+};
 
-  const handleBack = () => {
-    if (activeStep > 0) setActiveStep((prev) => prev - 1);
-  };
+const whiteFieldSx = {
+  ...fieldSx,
+  "& .MuiOutlinedInput-root": {
+    ...fieldSx["& .MuiOutlinedInput-root"],
+    bgcolor: "#fff",
+  },
+};
 
-  // Common Stepper Component
-  const renderStepper = () => (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        mb: 6,
-        py: 2.5,
-        px: 4,
-        mx: -4,
-        bgcolor: "#F8FAFC",
-        position: "relative",
-      }}
+const selectSx = (bg = "#F8FAFC") => ({
+  borderRadius: "14px",
+  bgcolor: bg,
+  fontSize: "14px",
+  "& .MuiOutlinedInput-notchedOutline": { borderColor: "#F1F5F9" },
+  "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "#E2E8F0" },
+  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    borderColor: "#0EA5E9",
+    borderWidth: "1px",
+  },
+});
+
+// Starter questions, matching the design
+let nextId = 1;
+const newQuestion = (question = "", answer = "Yes") => ({
+  id: nextId++,
+  question,
+  answer,
+  notes: "",
+});
+
+const initialForm = () => ({
+  client: "",
+  type: "",
+  date: new Date().toISOString().slice(0, 10),
+  assessor: "",
+  questions: [
+    newQuestion("Can the client walk 50m without assistance?", "Yes"),
+    newQuestion("Has the client had a fall in the last 6 months?", "No"),
+  ],
+  risk: "Low",
+  score: "",
+  status: "Completed",
+});
+
+function SimpleSelect({ value, onChange, options, placeholder, label, bg }) {
+  return (
+    <Select
+      fullWidth
+      displayEmpty
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      IconComponent={KeyboardArrowDownIcon}
+      inputProps={{ "aria-label": label }}
+      sx={selectSx(bg)}
+      renderValue={(v) =>
+        v || (
+          <Typography component="span" color="#84919A" fontSize="14px">
+            {placeholder}
+          </Typography>
+        )
+      }
     >
-      {steps.map((label, index) => {
-        const isActive = index === activeStep;
-        const isCompleted = index < activeStep;
-
-        return (
-          <React.Fragment key={label}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 1.5,
-              }}
-            >
-              <Box
-                sx={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  bgcolor: isCompleted
-                    ? "#10B981"
-                    : isActive
-                      ? "#0EA5E9"
-                      : "#E2E8F0",
-                  color: isCompleted || isActive ? "#fff" : "#64748B",
-                  fontSize: "12px",
-                  fontWeight: 700,
-                  boxShadow: isActive
-                    ? "0px 4px 10px rgba(14, 165, 233, 0.3)"
-                    : "none",
-                }}
-              >
-                {isCompleted ? <CheckIcon sx={{ fontSize: 16 }} /> : index + 1}
-              </Box>
-              <Typography
-                fontSize="11px"
-                fontWeight={700}
-                color={isActive ? "text.primary" : "#64748B"}
-                sx={{ letterSpacing: "0.05em" }}
-              >
-                {label}
-              </Typography>
-            </Box>
-            {index < steps.length - 1 && (
-              <Box
-                sx={{
-                  flex: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Box sx={{ width: 40, height: "1px", bgcolor: "#CBD5E1" }} />
-              </Box>
-            )}
-          </React.Fragment>
-        );
-      })}
-    </Box>
+      {options.map((o) => (
+        <MenuItem key={o} value={o} sx={{ fontSize: "14px" }}>
+          {o}
+        </MenuItem>
+      ))}
+    </Select>
   );
+}
+
+export default function CreateAssessmentModal({ open, onClose, onCreate }) {
+  const [activeStep, setActiveStep] = useState(0);
+  const [form, setForm] = useState(initialForm);
+  const set = (key) => (value) => setForm((f) => ({ ...f, [key]: value }));
+  const updateQuestion = (id, patch) =>
+    setForm((f) => ({
+      ...f,
+      questions: f.questions.map((q) => (q.id === id ? { ...q, ...patch } : q)),
+    }));
+
+  const answered = form.questions.filter((q) => q.question.trim());
+  const canContinue = [
+    Boolean(form.client && form.type && form.date && form.assessor),
+    answered.length > 0,
+    true,
+  ][activeStep];
+  const isLast = activeStep === steps.length - 1;
+
+  const reset = () => {
+    setActiveStep(0);
+    setForm(initialForm());
+  };
+  const handleClose = () => {
+    reset();
+    onClose();
+  };
+
+  const handleComplete = () => {
+    onCreate?.({
+      title: form.type,
+      client: form.client,
+      date: formatDate(form.date),
+      score: form.score.trim() || "—",
+      riskLevel: `${form.risk.toUpperCase()} RISK`,
+      status: form.status.toUpperCase(),
+      assessedBy: form.assessor,
+      details: answered.map(({ question, answer, notes }) => ({
+        question: question.trim(),
+        answer,
+        notes: notes.trim(),
+      })),
+    });
+    reset();
+  };
 
   const renderDetails = () => (
-    <Box
-      sx={{
-        "& input::placeholder": { color: "#84919A", opacity: 1 },
-        "& .MuiSelect-select": { color: "#84919A" },
-      }}
-    >
-      <Grid container spacing={4}>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <Typography
-            fontSize="10px"
-            fontWeight={700}
-            color="#64748B"
-            mb={1}
-            sx={{ letterSpacing: "0.05em" }}
-          >
-            SELECT CLIENT
-          </Typography>
-          <TextField
-            select
-            fullWidth
-            defaultValue=""
-            SelectProps={{ displayEmpty: true }}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "16px",
-                bgcolor: "#F8FAFC",
-                "& fieldset": { border: "none" },
-              },
-            }}
-          >
-            <MenuItem value="" disabled>
-              Arthur Morgan
-            </MenuItem>
-            <MenuItem value="1">Arthur Morgan</MenuItem>
-            <MenuItem value="2">Sadie Adler</MenuItem>
-          </TextField>
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <Typography
-            fontSize="10px"
-            fontWeight={700}
-            color="#64748B"
-            mb={1}
-            sx={{ letterSpacing: "0.05em" }}
-          >
-            ASSESSMENT TYPE
-          </Typography>
-          <TextField
-            select
-            fullWidth
-            defaultValue=""
-            SelectProps={{ displayEmpty: true }}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "16px",
-                bgcolor: "#F8FAFC",
-                "& fieldset": { border: "none" },
-              },
-            }}
-          >
-            <MenuItem value="" disabled>
-              Nutrition Assessment
-            </MenuItem>
-            <MenuItem value="1">Mobility Assessment</MenuItem>
-            <MenuItem value="2">Falls Risk Assessment</MenuItem>
-            <MenuItem value="3">Nutrition Assessment</MenuItem>
-          </TextField>
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <Typography
-            fontSize="10px"
-            fontWeight={700}
-            color="#64748B"
-            mb={1}
-            sx={{ letterSpacing: "0.05em" }}
-          >
-            ASSESSMENT DATE
-          </Typography>
-          <TextField
-            fullWidth
-            placeholder="03/26/2026"
-            InputProps={{
-              startAdornment: (
-                <CalendarTodayOutlinedIcon
-                  sx={{ color: "#84919A", fontSize: 18, mr: 1 }}
-                />
-              ),
-            }}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "16px",
-                bgcolor: "#F8FAFC",
-                "& fieldset": { border: "none" },
-              },
-            }}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <Typography
-            fontSize="10px"
-            fontWeight={700}
-            color="#64748B"
-            mb={1}
-            sx={{ letterSpacing: "0.05em" }}
-          >
-            ASSESSOR
-          </Typography>
-          <TextField
-            select
-            fullWidth
-            defaultValue=""
-            SelectProps={{ displayEmpty: true }}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "16px",
-                bgcolor: "#F8FAFC",
-                "& fieldset": { border: "none" },
-              },
-            }}
-          >
-            <MenuItem value="" disabled>
-              Sarah Thompson
-            </MenuItem>
-            <MenuItem value="1">Sarah Thompson</MenuItem>
-            <MenuItem value="2">Emily Davis</MenuItem>
-          </TextField>
-        </Grid>
+    <Grid container spacing={3}>
+      <Grid size={{ xs: 12, sm: 6 }}>
+        <Typography sx={labelSx}>Select client</Typography>
+        <SimpleSelect
+          value={form.client}
+          onChange={set("client")}
+          options={CLIENTS}
+          placeholder="Choose a client..."
+          label="Select client"
+        />
       </Grid>
-    </Box>
+      <Grid size={{ xs: 12, sm: 6 }}>
+        <Typography sx={labelSx}>Assessment type</Typography>
+        <SimpleSelect
+          value={form.type}
+          onChange={set("type")}
+          options={ASSESSMENT_TYPES}
+          placeholder="Choose a type..."
+          label="Assessment type"
+        />
+      </Grid>
+      <Grid size={{ xs: 12, sm: 6 }}>
+        <Typography sx={labelSx}>Assessment date</Typography>
+        <TextField
+          fullWidth
+          type="date"
+          value={form.date}
+          onChange={(e) => set("date")(e.target.value)}
+          inputProps={{ "aria-label": "Assessment date" }}
+          sx={fieldSx}
+        />
+      </Grid>
+      <Grid size={{ xs: 12, sm: 6 }}>
+        <Typography sx={labelSx}>Assessor</Typography>
+        <SimpleSelect
+          value={form.assessor}
+          onChange={set("assessor")}
+          options={ASSESSORS}
+          placeholder="Choose an assessor..."
+          label="Assessor"
+        />
+      </Grid>
+    </Grid>
   );
 
   const renderQuestions = () => (
@@ -247,145 +223,116 @@ export default function CreateAssessmentModal({ open, onClose }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          mb: 3,
+          mb: 2,
         }}
       >
         <Typography
           fontSize="14px"
           fontWeight={700}
-          color="text.primary"
           sx={{ letterSpacing: "0.05em" }}
         >
           ASSESSMENT QUESTIONS
         </Typography>
-        <Typography
-          fontSize="13px"
-          fontWeight={700}
-          color="#0EA5E9"
+        <Button
+          onClick={() => set("questions")([...form.questions, newQuestion()])}
+          startIcon={<AddIcon sx={{ fontSize: 16 }} />}
           sx={{
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: 0.5,
+            p: 0,
+            minWidth: 0,
+            fontSize: "12px",
+            fontWeight: 700,
+            color: "#0EA5E9",
+            textTransform: "none",
+            "& .MuiButton-startIcon": { mr: 0.5 },
+            "&:hover": { bgcolor: "transparent", color: "#0284C7" },
           }}
         >
-          + Add Question
-        </Typography>
+          Add Question
+        </Button>
       </Box>
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-        {[
-          {
-            qNum: 1,
-            qText: "Can the client walk 50m without assistance?",
-            response: "Yes",
-            placeholder: "Add any specific observations...",
-          },
-          {
-            qNum: 2,
-            qText: "Has the client had a fall in the last 6 months?",
-            response: "No",
-            placeholder: "Add any specific observations...",
-          },
-        ].map((item) => (
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        {form.questions.map((q, i) => (
           <Box
-            key={item.qNum}
+            key={q.id}
             sx={{
-              p: 3,
-              borderRadius: "24px",
+              p: 2.25,
+              borderRadius: "20px",
               bgcolor: "#F8FAFC",
+              border: "1px solid #F1F5F9",
             }}
           >
             <Box
-              sx={{ display: "flex", gap: 2, alignItems: "flex-start", mb: 3 }}
+              sx={{ display: "flex", gap: 1.5, alignItems: "flex-end", mb: 2 }}
             >
               <Box sx={{ flex: 1 }}>
-                <Typography
-                  fontSize="10px"
-                  fontWeight={700}
-                  color="#64748B"
-                  sx={{ mb: 1, letterSpacing: "0.05em" }}
-                >
-                  QUESTION {item.qNum}
-                </Typography>
+                <Typography sx={labelSx}>Question {i + 1}</Typography>
                 <TextField
                   fullWidth
-                  placeholder={item.qText}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "16px",
-                      bgcolor: "#fff",
-                      "& fieldset": { border: "none" },
-                    },
-                    "& input::placeholder": {
-                      color: "#94A3B8",
-                      opacity: 1,
-                      fontWeight: 400,
-                    },
-                  }}
+                  size="small"
+                  placeholder="Enter the question..."
+                  value={q.question}
+                  onChange={(e) =>
+                    updateQuestion(q.id, { question: e.target.value })
+                  }
+                  inputProps={{ "aria-label": `Question ${i + 1}` }}
+                  sx={whiteFieldSx}
                 />
               </Box>
-              <Box sx={{ minWidth: 120 }}>
-                <Typography
-                  fontSize="10px"
-                  fontWeight={700}
-                  color="#64748B"
-                  sx={{ mb: 1, letterSpacing: "0.05em" }}
+              <Box sx={{ width: 150 }}>
+                <Typography sx={labelSx}>Response</Typography>
+                <Select
+                  fullWidth
+                  size="small"
+                  value={q.answer}
+                  onChange={(e) =>
+                    updateQuestion(q.id, { answer: e.target.value })
+                  }
+                  IconComponent={KeyboardArrowDownIcon}
+                  inputProps={{ "aria-label": `Response to question ${i + 1}` }}
+                  sx={selectSx("#fff")}
                 >
-                  RESPONSE
-                </Typography>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  <TextField
-                    fullWidth
-                    placeholder={item.response}
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        borderRadius: "16px",
-                        bgcolor: "#fff",
-                        "& fieldset": { border: "none" },
-                      },
-                      "& input::placeholder": {
-                        color: "#94A3B8",
-                        opacity: 1,
-                        fontWeight: 400,
-                      },
-                    }}
-                  />
-                  <IconButton size="small" sx={{ color: "#EF4444" }}>
-                    <DeleteOutlineIcon fontSize="small" />
-                  </IconButton>
-                </Box>
+                  {RESPONSES.map((r) => (
+                    <MenuItem key={r} value={r} sx={{ fontSize: "14px" }}>
+                      {r}
+                    </MenuItem>
+                  ))}
+                </Select>
               </Box>
-            </Box>
-
-            <Box>
-              <Typography
-                fontSize="10px"
-                fontWeight={700}
-                color="#64748B"
-                sx={{ mb: 1, letterSpacing: "0.05em" }}
-              >
-                NOTES / OBSERVATIONS
-              </Typography>
-              <TextField
-                fullWidth
-                multiline
-                rows={3}
-                placeholder={item.placeholder}
+              <IconButton
+                aria-label={`Remove question ${i + 1}`}
+                disabled={form.questions.length === 1}
+                onClick={() =>
+                  set("questions")(
+                    form.questions.filter((item) => item.id !== q.id),
+                  )
+                }
                 sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "16px",
-                    bgcolor: "#fff",
-                    "& fieldset": { border: "none" },
-                  },
-                  "& textarea::placeholder": {
-                    color: "#94A3B8",
-                    opacity: 1,
-                    fontWeight: 400,
-                  },
+                  color: "#EF4444",
+                  mb: 0.25,
+                  "&:hover": { bgcolor: "#FEF2F2" },
                 }}
-              />
+              >
+                <DeleteOutlineIcon sx={{ fontSize: 20 }} />
+              </IconButton>
             </Box>
+            <Typography sx={labelSx}>Notes / Observations</Typography>
+            <TextField
+              fullWidth
+              multiline
+              minRows={2}
+              placeholder="Add any specific observations..."
+              value={q.notes}
+              onChange={(e) => updateQuestion(q.id, { notes: e.target.value })}
+              inputProps={{ "aria-label": `Notes for question ${i + 1}` }}
+              sx={{
+                ...whiteFieldSx,
+                "& .MuiOutlinedInput-root": {
+                  ...whiteFieldSx["& .MuiOutlinedInput-root"],
+                  p: 1.5,
+                },
+              }}
+            />
           </Box>
         ))}
       </Box>
@@ -396,123 +343,85 @@ export default function CreateAssessmentModal({ open, onClose }) {
     <Box>
       <Box
         sx={{
-          p: 4,
-          borderRadius: "24px",
+          p: 2.5,
+          borderRadius: "20px",
           bgcolor: "#F8FAFC",
-          mb: 4,
           border: "1px solid #F1F5F9",
         }}
       >
-        <Typography
-          fontSize="10px"
-          fontWeight={700}
-          color="#64748B"
-          sx={{ mb: 1.5, letterSpacing: "0.05em" }}
-        >
-          RISK LEVEL OUTCOME
-        </Typography>
+        <Typography sx={labelSx}>Risk level outcome</Typography>
         <Box
-          sx={{
-            display: "flex",
-            gap: 2,
-            mb: 4,
-          }}
+          sx={{ display: "flex", gap: 1.25, mb: 2.5 }}
+          role="radiogroup"
+          aria-label="Risk level outcome"
         >
-          {["Low", "Medium", "High"].map((level) => (
-            <Box
-              key={level}
-              sx={{
-                flex: 1,
-                py: 1.5,
-                textAlign: "center",
-                borderRadius: "16px",
-                fontSize: "14px",
-                fontWeight: 700,
-                cursor: "pointer",
-                bgcolor: level === "Low" ? "#0EA5E9" : "#fff",
-                color: level === "Low" ? "#fff" : "text.primary",
-                boxShadow:
-                  level === "Low"
-                    ? "0px 4px 12px rgba(14, 165, 233, 0.2)"
-                    : "0px 2px 4px rgba(0,0,0,0.02)",
-                transition: "all 0.2s",
-              }}
-            >
-              {level}
-            </Box>
-          ))}
+          {RISK_LEVELS.map((level) => {
+            const selected = form.risk === level;
+            return (
+              <Box
+                key={level}
+                component="button"
+                type="button"
+                role="radio"
+                aria-checked={selected}
+                onClick={() => set("risk")(level)}
+                sx={{
+                  flex: 1,
+                  py: 1.25,
+                  border: "none",
+                  borderRadius: "12px",
+                  fontFamily: "inherit",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  bgcolor: selected ? "#0EA5E9" : "#fff",
+                  color: selected ? "#fff" : "text.primary",
+                  boxShadow: selected
+                    ? "0 4px 10px rgba(14,165,233,0.3)"
+                    : "none",
+                  transition: "all 0.15s",
+                }}
+              >
+                {level}
+              </Box>
+            );
+          })}
         </Box>
 
-        <Typography
-          fontSize="10px"
-          fontWeight={700}
-          color="#64748B"
-          sx={{ mb: 1, letterSpacing: "0.05em" }}
-        >
-          OUTCOME SCORE / SUMMARY
-        </Typography>
+        <Typography sx={labelSx}>Outcome score / summary</Typography>
         <TextField
           fullWidth
           placeholder="e.g. 18/30 - Moderate Risk"
-          sx={{
-            mb: 4,
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "16px",
-              bgcolor: "#fff",
-              "& fieldset": { borderColor: "#F1F5F9" },
-            },
-            "& input::placeholder": {
-              color: "#94A3B8",
-              opacity: 1,
-              fontWeight: 400,
-            },
-          }}
+          value={form.score}
+          onChange={(e) => set("score")(e.target.value)}
+          inputProps={{ "aria-label": "Outcome score or summary" }}
+          sx={{ ...whiteFieldSx, mb: 2.5 }}
         />
 
-        <Typography
-          fontSize="10px"
-          fontWeight={700}
-          color="#64748B"
-          sx={{ mb: 1, letterSpacing: "0.05em" }}
-        >
-          STATUS
-        </Typography>
-        <TextField
-          fullWidth
-          placeholder="Completed"
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "16px",
-              bgcolor: "#fff",
-              "& fieldset": { borderColor: "#F1F5F9" },
-            },
-            "& input::placeholder": {
-              color: "#94A3B8",
-              opacity: 1,
-              fontWeight: 400,
-            },
-          }}
+        <Typography sx={labelSx}>Status</Typography>
+        <SimpleSelect
+          value={form.status}
+          onChange={set("status")}
+          options={OUTCOME_STATUSES}
+          label="Status"
+          bg="#fff"
         />
       </Box>
 
       <Box
         sx={{
-          p: 2.5,
-          borderRadius: "16px",
-          bgcolor: "#F0F9FF",
-          border: "1px solid #BAE6FD",
+          mt: 2.5,
+          p: 2,
+          borderRadius: "14px",
+          bgcolor: "#EFF6FF",
+          border: "1px solid #DBEAFE",
           display: "flex",
-          alignItems: "flex-start",
           gap: 1.5,
+          alignItems: "flex-start",
         }}
       >
-        <InfoOutlinedIcon sx={{ color: "#0EA5E9", fontSize: 20, mt: 0.2 }} />
-        <Typography
-          fontSize="13px"
-          color="#0EA5E9"
-          fontWeight={400}
-          sx={{ lineHeight: 1.6 }}
-        >
+        <InfoOutlinedIcon sx={{ color: "#1D4ED8", fontSize: 18, mt: 0.2 }} />
+        <Typography fontSize="12px" color="#1D4ED8" sx={{ lineHeight: 1.5 }}>
           Assessments should be reviewed regularly. A high risk outcome will
           automatically flag this client for immediate care plan review.
         </Typography>
@@ -523,12 +432,13 @@ export default function CreateAssessmentModal({ open, onClose }) {
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       maxWidth="md"
+      aria-labelledby="new-assessment-title"
       PaperProps={{
         sx: {
           width: "100%",
-          maxWidth: 720,
+          maxWidth: 680,
           borderRadius: "32px",
           p: 4,
           boxShadow:
@@ -537,52 +447,46 @@ export default function CreateAssessmentModal({ open, onClose }) {
       }}
     >
       <IconButton
-        onClick={onClose}
+        onClick={handleClose}
+        aria-label="Close"
         sx={{ position: "absolute", right: 24, top: 24, color: "#94A3B8" }}
       >
         <CloseIcon sx={{ fontSize: 20 }} />
       </IconButton>
 
       <Typography
+        id="new-assessment-title"
         fontSize="20px"
         fontWeight={700}
-        color="text.primary"
         mb={0.5}
       >
         New Assessment
       </Typography>
-      <Typography fontSize="12px" color="text.light" mb={4}>
+      <Typography fontSize="12px" color="text.light" mb={3}>
         Complete professional assessment for client care needs.
       </Typography>
-
       <Divider sx={{ borderColor: "#F1F5F9", mx: -4 }} />
-      {renderStepper()}
+      <StepIndicator steps={steps} activeStep={activeStep} />
 
-      <Box
-        sx={{
-          flex: 1,
-          overflowY: "auto",
-          mx: -4,
-          px: 4,
-          pt: 1,
-          pb: 3,
-        }}
-      >
+      <Box sx={{ flex: 1, overflowY: "auto", mx: -4, px: 4, pt: 0.5, pb: 3 }}>
         {activeStep === 0 && renderDetails()}
         {activeStep === 1 && renderQuestions()}
         {activeStep === 2 && renderOutcome()}
       </Box>
+
       <Divider sx={{ borderColor: "#F1F5F9", mx: -4 }} />
-      <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
         <Button
-          onClick={activeStep === 0 ? onClose : handleBack}
-          startIcon={activeStep !== 0 && <ChevronLeftIcon />}
+          onClick={
+            activeStep === 0 ? handleClose : () => setActiveStep((s) => s - 1)
+          }
+          startIcon={activeStep !== 0 ? <ChevronLeftIcon /> : null}
           sx={{
             bgcolor: "#F1F5F9",
             color: "text.primary",
-            borderRadius: "16px",
-            px: 4,
-            py: 1.5,
+            borderRadius: "14px",
+            px: 3.5,
+            py: 1.25,
             textTransform: "none",
             fontWeight: 700,
             "&:hover": { bgcolor: "#E2E8F0" },
@@ -591,20 +495,27 @@ export default function CreateAssessmentModal({ open, onClose }) {
           {activeStep === 0 ? "Cancel" : "Back"}
         </Button>
         <Button
-          onClick={activeStep === steps.length - 1 ? onClose : handleNext}
-          endIcon={activeStep !== steps.length - 1 && <ChevronRightIcon />}
+          onClick={isLast ? handleComplete : () => setActiveStep((s) => s + 1)}
+          disabled={!canContinue}
+          endIcon={!isLast ? <ChevronRightIcon /> : null}
           sx={{
             bgcolor: "#0EA5E9",
             color: "#fff",
-            borderRadius: "16px",
-            px: 4,
-            py: 1.5,
+            borderRadius: "14px",
+            px: 3.5,
+            py: 1.25,
             textTransform: "none",
             fontWeight: 700,
+            boxShadow: "0 6px 16px rgba(14,165,233,0.25)",
             "&:hover": { bgcolor: "#0284C7" },
+            "&.Mui-disabled": {
+              bgcolor: "#F1F5F9",
+              color: "#94A3B8",
+              boxShadow: "none",
+            },
           }}
         >
-          {activeStep === steps.length - 1 ? "Complete Assessment" : "Next"}
+          {isLast ? "Complete Assessment" : "Next"}
         </Button>
       </Box>
     </Dialog>

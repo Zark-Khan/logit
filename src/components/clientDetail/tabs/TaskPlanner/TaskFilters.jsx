@@ -8,7 +8,7 @@ import {
   Checkbox,
   Divider,
 } from "@mui/material";
-import FilterListIcon from "@mui/icons-material/FilterListOutlined";
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { DAYS, TASK_TYPES } from "./taskPlannerData";
 
 const groupLabelSx = {
@@ -42,7 +42,7 @@ export default function TaskFilters({
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
-        <FilterListIcon sx={{ fontSize: 16, color: "#0EA5E9" }} />
+        <FilterAltOutlinedIcon sx={{ fontSize: 16, color: "#0EA5E9" }} />
         <Typography fontSize="14px" fontWeight={700} color="text.primary">
           Filters
         </Typography>
@@ -60,7 +60,16 @@ export default function TaskFilters({
           <FormControlLabel
             key={day}
             value={day}
-            sx={controlLabelSx}
+            sx={{
+              ...controlLabelSx,
+              ...(dayFilter === day && {
+                "& .MuiFormControlLabel-label": {
+                  fontSize: "12px",
+                  color: "#0EA5E9",
+                  fontWeight: 600,
+                },
+              }),
+            }}
             control={
               <Radio
                 size="small"
@@ -72,8 +81,17 @@ export default function TaskFilters({
         ))}
       </RadioGroup>
 
+      <Divider sx={{ borderColor: "#F1F5F9", mb: 2 }} />
+
       <Typography sx={groupLabelSx}>Task type</Typography>
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          maxHeight: 200,
+          overflowY: "auto",
+        }}
+      >
         {TASK_TYPES.map((type) => (
           <FormControlLabel
             key={type}

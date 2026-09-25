@@ -22,7 +22,6 @@ import RisksIncidentsTab from "./tabs/RisksIncidents";
 import FundingFinanceTab from "./tabs/FundingFinance";
 import { ScheduleVisitModal } from "./ScheduleVisitModal";
 import { CONTENT_CARD_SX } from "./clientDetailStyles";
-import { useClientDetailsStore } from "../../store/useClientDetailsStore";
 import { NAVBAR_HEIGHT } from "../dashboard/Navbar";
 
 const CLIENTS_MAP = {
@@ -94,8 +93,7 @@ export default function ClientDetailPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("Overview");
   const [visitModalOpen, setVisitModalOpen] = useState(false);
-  const detailsComplete = useClientDetailsStore((s) => s.isComplete(id));
-  const showsDetailsForm = activeTab === "Client Details" && !detailsComplete;
+  const showsDetailsForm = activeTab === "Client Details";
 
   const client = CLIENTS_MAP[id] ?? {
     id,
@@ -179,11 +177,13 @@ export default function ClientDetailPage() {
           <Box sx={{ display: "flex", alignItems: "center", gap: 2, p: 2 }}>
             <Avatar
               src={`https://ui-avatars.com/api/?name=${client.name}&background=random`}
+              variant="rounded"
               sx={{
-                width: 58,
-                height: 58,
-                borderRadius: "12px",
-                border: "2px solid #8AC642",
+                width: 64,
+                height: 64,
+                borderRadius: "14px",
+                border: "3px solid #fff",
+                boxShadow: "0 2px 8px rgba(15,23,42,0.08)",
               }}
             />
 

@@ -76,13 +76,54 @@ const LOG_DATA = [
   },
 ];
 
+const CSV_COLUMNS = [
+  ["Client", "client"],
+  ["Carer", "carer"],
+  ["Scheduled", "scheduled"],
+  ["Actual", "actual"],
+  ["Status", "status"],
+  ["Tasks", "tasks"],
+];
+
+// Quote every cell so commas/quotes in names can't break the CSV
+const toCsv = (rows) =>
+  [
+    CSV_COLUMNS.map(([h]) => h),
+    ...rows.map((r) => CSV_COLUMNS.map(([, key]) => r[key])),
+  ]
+    .map((cells) =>
+      cells.map((c) => `"${String(c ?? "").replace(/"/g, '""')}"`).join(","),
+    )
+    .join("\n");
+
 export default function VisitsLogsTab() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedLog, setSelectedLog] = useState(null);
+  const [search, setSearch] = useState("");
+
+  const query = search.trim().toLowerCase();
+  const visibleLogs = LOG_DATA.filter(
+    (r) =>
+      !query ||
+      r.client.toLowerCase().includes(query) ||
+      r.carer.toLowerCase().includes(query),
+  );
 
   const handleOpenDrawer = (log) => {
     setSelectedLog(log);
     setDrawerOpen(true);
+  };
+
+  const handleExport = () => {
+    const blob = new Blob([toCsv(visibleLogs)], {
+      type: "text/csv;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "visit-logs-2026-03-01.csv";
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -105,6 +146,8 @@ export default function VisitsLogsTab() {
           fullWidth
           placeholder="Search by client or carer..."
           size="small"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -119,7 +162,8 @@ export default function VisitsLogsTab() {
               bgcolor: "#fff",
               "& fieldset": { border: "none" },
             },
-            "& input": { fontSize: "14px", color: "#9CA3AF" },
+            "& input": { fontSize: "14px", color: "text.primary" },
+            "& input::placeholder": { color: "#9CA3AF", opacity: 1 },
           }}
         />
 
@@ -144,6 +188,8 @@ export default function VisitsLogsTab() {
 
           <Button
             variant="contained"
+            onClick={handleExport}
+            disabled={visibleLogs.length === 0}
             sx={{
               borderRadius: "12px",
               textTransform: "none",
@@ -185,8 +231,26 @@ export default function VisitsLogsTab() {
             </TableRow>
           </TableHead>
           <TableBody sx={{ bgcolor: "#E0F5FF" }}>
-            {LOG_DATA.map((row) => (
-              <TableRow key={row.id}>
+            {visibleLogs.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={7} align="center" sx={{ py: 5, border: "none" }}>
+                  <Typography fontSize="14px" color="text.secondary">
+                    No visits match "{search}".
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            )}
+            {visibleLogs.map((row) => (
+              <TableRow
+                key={row.id}
+                hover
+                onClick={() => handleOpenDrawer(row)}
+                sx={{
+                  cursor: "pointer",
+                  "&.MuiTableRow-hover:hover": { bgcolor: "rgba(255,255,255,0.45)" },
+                  "&:last-child td": { borderBottom: "none" },
+                }}
+              >
                 <TableCell sx={{ py: 2.5, borderBottom: "1px solid #fff" }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                     <Avatar
@@ -230,7 +294,7 @@ export default function VisitsLogsTab() {
                   <Typography
                     fontSize="14px"
                     fontWeight={400}
-                    color="text.light"
+                    color="#334155"
                   >
                     {row.scheduled}
                   </Typography>
@@ -239,7 +303,7 @@ export default function VisitsLogsTab() {
                   <Typography
                     fontSize="14px"
                     fontWeight={400}
-                    color="text.light"
+                    color="#334155"
                   >
                     {row.actual}
                   </Typography>
@@ -256,7 +320,11 @@ export default function VisitsLogsTab() {
                 >
                   <IconButton
                     size="small"
-                    onClick={() => handleOpenDrawer(row)}
+                    aria-label={`Open visit detail for ${row.client}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleOpenDrawer(row);
+                    }}
                   >
                     <KeyboardArrowRightIcon sx={{ color: "#475569" }} />
                   </IconButton>
@@ -268,6 +336,7 @@ export default function VisitsLogsTab() {
       </TableContainer>
 
       <VisitDetailDrawer
+        key={selectedLog?.id ?? "none"}
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         log={selectedLog}

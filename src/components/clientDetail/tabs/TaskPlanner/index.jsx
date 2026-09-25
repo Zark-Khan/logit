@@ -9,9 +9,10 @@ import {
   Grid,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
+import { SquarePenIcon } from "../../../staffOverview/LineIcons";
 import TaskFilters from "./TaskFilters";
 import TasksHistory from "./TasksHistory";
 import AddTaskModal from "./AddTaskModal";
@@ -28,23 +29,29 @@ function TaskCard({ task, onEdit, onRemove }) {
     <Box
       sx={{
         position: "relative",
-        bgcolor: "#fff",
-        border: "1px solid #F1F5F9",
-        borderRadius: "12px",
+        bgcolor: "#F8FAFC",
+        border: "1px solid #EEF2F6",
+        borderRadius: "10px",
+        boxShadow: "0 1px 3px rgba(15,23,42,0.06)",
         p: 2,
-        pr: 8,
+        pr: 12,
+        // Delete isn't in the design, so it only appears on hover/focus
+        "& .task-delete": { opacity: 0, transition: "opacity 0.15s ease" },
+        "&:hover .task-delete, &:focus-within .task-delete": { opacity: 1 },
       }}
     >
-      <Box sx={{ position: "absolute", top: 6, right: 6, display: "flex", gap: 0.25 }}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: 10,
+          right: 10,
+          display: "flex",
+          alignItems: "center",
+          gap: 0.25,
+        }}
+      >
         <IconButton
-          size="small"
-          onClick={onEdit}
-          aria-label={`Edit description for ${task.title}`}
-          sx={{ color: "#94A3B8", "&:hover": { color: "#0EA5E9", bgcolor: "#F0F9FF" } }}
-        >
-          <EditOutlinedIcon sx={{ fontSize: 15 }} />
-        </IconButton>
-        <IconButton
+          className="task-delete"
           size="small"
           onClick={onRemove}
           aria-label={`Delete ${task.title}`}
@@ -52,6 +59,24 @@ function TaskCard({ task, onEdit, onRemove }) {
         >
           <DeleteOutlineIcon sx={{ fontSize: 15 }} />
         </IconButton>
+        <Button
+          size="small"
+          onClick={onEdit}
+          aria-label={`Edit description for ${task.title}`}
+          startIcon={<SquarePenIcon size={14} />}
+          sx={{
+            minWidth: 0,
+            px: 0.75,
+            textTransform: "none",
+            fontSize: "12px",
+            fontWeight: 600,
+            color: "#0EA5E9",
+            "& .MuiButton-startIcon": { mr: 0.5 },
+            "&:hover": { bgcolor: "rgba(14,165,233,0.08)" },
+          }}
+        >
+          Edit
+        </Button>
       </Box>
 
       <Typography fontSize="13px" fontWeight={700} color="text.primary">
@@ -100,7 +125,7 @@ function DaySection({ day, tasks, onEditTask, onRemoveTask }) {
         </Typography>
         <Box
           sx={{
-            bgcolor: "#D5DAF5",
+            bgcolor: "#fff",
             color: "#4A55A8",
             fontSize: "10px",
             fontWeight: 700,
@@ -120,11 +145,11 @@ function DaySection({ day, tasks, onEditTask, onRemoveTask }) {
         return (
           <Box key={group} sx={{ mb: 2.5 }}>
             <Box sx={{ display: "flex", alignItems: "center", gap: 0.6, mb: 1.2 }}>
-              <AccessTimeOutlinedIcon sx={{ fontSize: 13, color: "#8AC642" }} />
+              <AccessTimeOutlinedIcon sx={{ fontSize: 13, color: "#0EA5E9" }} />
               <Typography
                 fontSize="11px"
                 fontWeight={700}
-                sx={{ color: "#8AC642", textTransform: "uppercase", letterSpacing: "0.5px" }}
+                sx={{ color: "#64748B", textTransform: "uppercase", letterSpacing: "0.5px" }}
               >
                 {group}
               </Typography>
@@ -225,7 +250,17 @@ export default function TaskPlannerTab({ client }) {
       </Box>
 
       {/* Search + Add */}
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+          mb: 3,
+          bgcolor: "#fff",
+          borderRadius: "14px",
+          p: 1.5,
+        }}
+      >
         <TextField
           fullWidth
           size="small"
@@ -241,10 +276,10 @@ export default function TaskPlannerTab({ client }) {
           }}
           sx={{
             "& .MuiOutlinedInput-root": {
-              bgcolor: "#fff",
-              borderRadius: "9999px",
+              bgcolor: "#F8FAFC",
+              borderRadius: "10px",
               fontSize: "13px",
-              "& fieldset": { borderColor: "#E2E8F0" },
+              "& fieldset": { borderColor: "#EEF2F6" },
               "&:hover fieldset": { borderColor: "#CBD5E1" },
               "&.Mui-focused fieldset": { borderColor: "#0EA5E9" },
             },
@@ -253,6 +288,7 @@ export default function TaskPlannerTab({ client }) {
         <Button
           variant="contained"
           onClick={() => setAddOpen(true)}
+          startIcon={<AddIcon sx={{ fontSize: 18 }} />}
           sx={{
             flexShrink: 0,
             bgcolor: "#0EA5E9",
@@ -267,13 +303,13 @@ export default function TaskPlannerTab({ client }) {
             "&:hover": { bgcolor: "#0C92CE" },
           }}
         >
-          + Add task
+          Add task
         </Button>
       </Box>
 
       <Grid container spacing={3}>
         {/* Days + tasks */}
-        <Grid size={{ xs: 12, md: 8 }}>
+        <Grid size={{ xs: 12, md: 7 }}>
           {daysWithTasks.length > 0 ? (
             daysWithTasks.map(({ day, tasks: dayTasks }) => (
               <DaySection
@@ -294,7 +330,7 @@ export default function TaskPlannerTab({ client }) {
         </Grid>
 
         {/* Filters + history */}
-        <Grid size={{ xs: 12, md: 4 }}>
+        <Grid size={{ xs: 12, md: 5 }}>
           <TaskFilters
             dayFilter={dayFilter}
             onDayFilterChange={setDayFilter}

@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { Box, Typography, TextField, Button } from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Snackbar,
+  Alert,
+} from "@mui/material";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CheckIcon from "@mui/icons-material/Check";
 import { useClientDetailsStore } from "../../../../store/useClientDetailsStore";
 import { CONTENT_CARD_SX } from "../../clientDetailStyles";
@@ -42,10 +49,18 @@ const textareaSx = {
   "& .MuiOutlinedInput-root": {
     ...fieldSx["& .MuiOutlinedInput-root"],
     alignItems: "flex-start",
+    // MUI pads the multiline root too; drop it so text lines up with single-line fields
+    padding: 0,
   },
 };
 
-function FormField({ label, value, onChange, multiline }) {
+function FormField({
+  label,
+  value,
+  onChange,
+  multiline,
+  placeholder = "Type your answer...",
+}) {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "100%" }}>
       <Typography fontSize="14px" fontWeight={700} color="#101828">
@@ -55,7 +70,7 @@ function FormField({ label, value, onChange, multiline }) {
         fullWidth
         multiline={multiline}
         minRows={multiline ? 4 : 1}
-        placeholder="Type your answer..."
+        placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         sx={multiline ? textareaSx : fieldSx}
@@ -97,9 +112,14 @@ function ContactCard({ index, contact, onChange, onRemove }) {
     <Box
       sx={{
         position: "relative",
-        bgcolor: "rgba(249, 250, 251, 0.5)",
-        border: "1px solid #F3F4F6",
+        bgcolor: "rgba(255, 255, 255, 0.35)",
+        border: "1px solid transparent",
         borderRadius: "16px",
+        // Remove pill stays hidden (as in the design) until the card is hovered/focused
+        "& .contact-remove": { opacity: 0, transition: "opacity 0.15s ease" },
+        "&:hover .contact-remove, &:focus-within .contact-remove": {
+          opacity: 1,
+        },
         p: 3,
         pt: 4,
         display: "flex",
@@ -132,7 +152,17 @@ function ContactCard({ index, contact, onChange, onRemove }) {
 
       {onRemove && (
         <Box
+          className="contact-remove"
+          role="button"
+          tabIndex={0}
+          aria-label={`Remove contact ${index + 1}`}
           onClick={onRemove}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              onRemove();
+            }
+          }}
           sx={{
             position: "absolute",
             top: -13,
@@ -276,8 +306,13 @@ function FormStepper({ activeStep, maxStepReached, onStepClick }) {
 }
 
 export default function ClientDetailsForm({ client, onComplete }) {
+  const isComplete = useClientDetailsStore((s) => s.isComplete(client.id));
   const [activeStep, setActiveStep] = useState(1);
-  const [maxStepReached, setMaxStepReached] = useState(1);
+  // Existing profiles can jump to any step; new ones unlock steps in order
+  const [maxStepReached, setMaxStepReached] = useState(
+    isComplete ? STEPS.length : 1,
+  );
+  const [savedOpen, setSavedOpen] = useState(false);
 
   const getForm = useClientDetailsStore((s) => s.getForm);
   const updateField = useClientDetailsStore((s) => s.updateField);
@@ -323,6 +358,7 @@ export default function ClientDetailsForm({ client, onComplete }) {
       setMaxStepReached((m) => Math.max(m, next));
     } else {
       markComplete(client.id);
+      setSavedOpen(true);
       onComplete?.();
     }
   };
@@ -361,17 +397,17 @@ export default function ClientDetailsForm({ client, onComplete }) {
             <>
               <FormSection title="Culture and religion">
                 <FormField
-                  label={`What is ${client.name}'s ethnicity?`}
+                  label={`What is ${firstName}'s ethnicity?`}
                   value={personal.ethnicity || ""}
                   onChange={setPersonal("ethnicity")}
                 />
                 <FormField
-                  label={`What is ${client.name}'s religion?`}
+                  label={`What is ${firstName}'s religion?`}
                   value={personal.religion || ""}
                   onChange={setPersonal("religion")}
                 />
                 <FormField
-                  label={`How do culture and/or religion(s) impact ${client.name}'s care needs?`}
+                  label={`How do culture and/or religion(s) impact ${firstName}'s care needs?`}
                   value={personal.cultureReligionImpact || ""}
                   onChange={setPersonal("cultureReligionImpact")}
                   multiline
@@ -381,23 +417,23 @@ export default function ClientDetailsForm({ client, onComplete }) {
               <FormSection title="Sexuality">
                 <Box sx={{ display: "flex", gap: 3, width: "100%" }}>
                   <FormField
-                    label={`What is ${client.name}'s sex?`}
+                    label={`What is ${firstName}'s sex?`}
                     value={personal.sex || ""}
                     onChange={setPersonal("sex")}
                   />
                   <FormField
-                    label={`What is ${client.name}'s gender?`}
+                    label={`What is ${firstName}'s gender?`}
                     value={personal.gender || ""}
                     onChange={setPersonal("gender")}
                   />
                 </Box>
                 <FormField
-                  label={`What is ${client.name}'s sexual orientation?`}
+                  label={`What is ${firstName}'s sexual orientation?`}
                   value={personal.sexualOrientation || ""}
                   onChange={setPersonal("sexualOrientation")}
                 />
                 <FormField
-                  label={`How does sex, gender, or sexual orientation impact ${client.name}'s care needs?`}
+                  label={`How does sex, gender, or sexual orientation impact ${firstName}'s care needs?`}
                   value={personal.sexGenderImpact || ""}
                   onChange={setPersonal("sexGenderImpact")}
                   multiline
@@ -406,19 +442,19 @@ export default function ClientDetailsForm({ client, onComplete }) {
 
               <FormSection title="Life History">
                 <FormField
-                  label={`What are ${client.name}'s previous jobs and occupations?`}
+                  label={`What are ${firstName}'s previous jobs and occupations?`}
                   value={personal.jobsOccupations || ""}
                   onChange={setPersonal("jobsOccupations")}
                   multiline
                 />
                 <FormField
-                  label={`Who are the important people in ${client.name}'s life?`}
+                  label={`Who are the important people in ${firstName}'s life?`}
                   value={personal.importantPeople || ""}
                   onChange={setPersonal("importantPeople")}
                   multiline
                 />
                 <FormField
-                  label={`Are there any significant places for ${client.name}?`}
+                  label={`Are there any significant places for ${firstName}?`}
                   value={personal.significantPlaces || ""}
                   onChange={setPersonal("significantPlaces")}
                   multiline
@@ -433,7 +469,7 @@ export default function ClientDetailsForm({ client, onComplete }) {
 
               <FormSection title="Preferences">
                 <FormField
-                  label={`What are ${client.name}'s daily routines and preferences?`}
+                  label={`What are ${firstName}'s daily routines and preferences?`}
                   value={personal.dailyRoutines || ""}
                   onChange={setPersonal("dailyRoutines")}
                   multiline
@@ -445,7 +481,7 @@ export default function ClientDetailsForm({ client, onComplete }) {
                   multiline
                 />
                 <FormField
-                  label={`What are ${client.name}'s hobbies and interests?`}
+                  label={`What are ${firstName}'s hobbies and interests?`}
                   value={personal.hobbiesInterests || ""}
                   onChange={setPersonal("hobbiesInterests")}
                   multiline
@@ -456,7 +492,7 @@ export default function ClientDetailsForm({ client, onComplete }) {
             <>
               <FormSection title="Health details">
                 <FormField
-                  label={`What is ${client.name}'s NHS number?`}
+                  label={`What is ${firstName}'s NHS number?`}
                   value={medical.nhsNumber || ""}
                   onChange={setMedical("nhsNumber")}
                 />
@@ -491,7 +527,7 @@ export default function ClientDetailsForm({ client, onComplete }) {
                     onChange={setMedical("gpPracticeName")}
                   />
                   <FormField
-                    label="GP practice location?"
+                    label="GP practice identifier?"
                     value={medical.gpPracticeLocation || ""}
                     onChange={setMedical("gpPracticeLocation")}
                   />
@@ -513,6 +549,7 @@ export default function ClientDetailsForm({ client, onComplete }) {
               <FormSection title="Pharmacist">
                 <FormField
                   label="Pharmacist details (Name, Address, Phone)?"
+                  placeholder="Enter details here..."
                   value={medical.pharmacistDetails || ""}
                   onChange={setMedical("pharmacistDetails")}
                   multiline
@@ -565,6 +602,7 @@ export default function ClientDetailsForm({ client, onComplete }) {
               <FormSection title="Other professionals">
                 <FormField
                   label="Details of other professionals involved in care?"
+                  placeholder="Enter details here..."
                   value={primary.otherProfessionals || ""}
                   onChange={setPrimaryField("otherProfessionals")}
                   multiline
@@ -574,7 +612,7 @@ export default function ClientDetailsForm({ client, onComplete }) {
           ) : activeStep === 4 ? (
             <FormSection title="Capacity and documentation">
               <FormField
-                label={`Does the ${firstName} have capacity to make decisions related to their health and wellbeing?`}
+                label={`Does ${firstName} have capacity to make decisions related to their health and wellbeing?`}
                 value={advance.hasCapacity || ""}
                 onChange={setAdvance("hasCapacity")}
               />
@@ -723,34 +761,34 @@ export default function ClientDetailsForm({ client, onComplete }) {
       <Box
         sx={{
           display: "flex",
-          justifyContent: activeStep === 1 ? "flex-end" : "space-between",
+          justifyContent: "space-between",
           mt: 3,
         }}
       >
-        {activeStep > 1 && (
-          <Button
-            variant="outlined"
-            onClick={handlePrevious}
-            sx={{
-              bgcolor: "#fff",
-              borderColor: "#E2E8F0",
-              color: "#475569",
-              fontWeight: 700,
-              fontSize: "14px",
-              textTransform: "none",
-              borderRadius: "12px",
-              px: 4,
-              py: 1.8,
-              "&:hover": { borderColor: "#E2E8F0", bgcolor: "#F8FAFC" },
-            }}
-          >
-            Previous
-          </Button>
-        )}
+        <Button
+          variant="outlined"
+          onClick={handlePrevious}
+          disabled={activeStep === 1}
+          sx={{
+            bgcolor: "#fff",
+            borderColor: "#E2E8F0",
+            color: "#475569",
+            fontWeight: 700,
+            fontSize: "14px",
+            textTransform: "none",
+            borderRadius: "12px",
+            px: 4,
+            py: 1.8,
+            "&:hover": { borderColor: "#E2E8F0", bgcolor: "#F8FAFC" },
+            "&.Mui-disabled": { bgcolor: "#fff", borderColor: "#E2E8F0" },
+          }}
+        >
+          Previous
+        </Button>
         <Button
           variant="contained"
           onClick={handleSaveContinue}
-          endIcon={<ArrowForwardIcon sx={{ fontSize: 18 }} />}
+          endIcon={<ChevronRightIcon sx={{ fontSize: 18 }} />}
           sx={{
             bgcolor: "#0EA5E9",
             color: "#fff",
@@ -768,6 +806,22 @@ export default function ClientDetailsForm({ client, onComplete }) {
           {activeStep === STEPS.length ? "Save Client Details" : "Save & Continue"}
         </Button>
       </Box>
+
+      <Snackbar
+        open={savedOpen}
+        autoHideDuration={3000}
+        onClose={() => setSavedOpen(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          severity="success"
+          variant="filled"
+          onClose={() => setSavedOpen(false)}
+          sx={{ fontSize: "13px" }}
+        >
+          {firstName}'s client details saved.
+        </Alert>
+      </Snackbar>
     </>
   );
 }

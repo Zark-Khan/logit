@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Typography, IconButton } from "@mui/material";
-import DescriptionIcon from "@mui/icons-material/Description";
-import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import { FileIcon, DownloadIcon } from "../../../staffOverview/LineIcons";
 
 const DOCUMENTS = [
   {
@@ -30,8 +29,10 @@ const DocumentCard = ({ doc }) => (
   <Box
     sx={{
       bgcolor: "#fff",
-      borderRadius: "16px",
-      p: 2,
+      borderRadius: "12px",
+      border: "1px solid #F1F5F9",
+      px: 2,
+      py: 2.25,
       mb: 2,
       display: "flex",
       alignItems: "center",
@@ -42,15 +43,18 @@ const DocumentCard = ({ doc }) => (
     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
       <Box
         sx={{
+          width: 36,
+          height: 36,
+          flexShrink: 0,
           bgcolor: "#F0F9FF",
-          p: 1,
+          color: "#0EA5E9",
           borderRadius: "8px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <DescriptionIcon sx={{ color: "#0EA5E9" }} />
+        <FileIcon size={18} />
       </Box>
       <Box>
         <Typography fontWeight={700} fontSize="14px" color="text.primary">
@@ -66,8 +70,12 @@ const DocumentCard = ({ doc }) => (
         </Typography>
       </Box>
     </Box>
-    <IconButton size="small" sx={{ color: "text.light" }}>
-      <FileDownloadOutlinedIcon />
+    <IconButton
+      size="small"
+      aria-label={`Download ${doc.name}`}
+      sx={{ color: "#64748B", mr: 1, "&:hover": { color: "#0EA5E9" } }}
+    >
+      <DownloadIcon size={18} />
     </IconButton>
   </Box>
 );

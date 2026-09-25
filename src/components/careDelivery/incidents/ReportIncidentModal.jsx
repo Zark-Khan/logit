@@ -11,7 +11,16 @@ import {
   Divider,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import GppMaybeOutlinedIcon from "@mui/icons-material/GppMaybeOutlined";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { ShieldAlertIcon } from "../../staffOverview/LineIcons";
+import {
+  INCIDENT_TYPES,
+  STATUS_OPTIONS,
+  CURRENT_USER,
+  typeLabel,
+  formatDateTime,
+} from "./incidentData";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -62,14 +71,36 @@ const STEP_SUBTITLES = [
 
 const FOLLOW_UP_OPTIONS = ["Yes", "No"];
 
-export default function ReportIncidentModal({ open, onClose }) {
+const initialForm = () => ({
+  type: "",
+  client: "",
+  dateTime: "",
+  location: "",
+  description: "",
+  immediateActions: "",
+  status: "Open",
+});
+
+export default function ReportIncidentModal({ open, onClose, onSubmit }) {
   const [step, setStep] = useState(0);
+  const [form, setForm] = useState(initialForm);
   const [severity, setSeverity] = useState("Medium");
   const [witnesses, setWitnesses] = useState([]);
   const [followUp, setFollowUp] = useState("No");
+  const field = (key) => ({
+    value: form[key],
+    onChange: (e) => setForm((f) => ({ ...f, [key]: e.target.value })),
+  });
 
-  const handleClose = () => {
+  const reset = () => {
     setStep(0);
+    setForm(initialForm());
+    setSeverity("Medium");
+    setWitnesses([]);
+    setFollowUp("No");
+  };
+  const handleClose = () => {
+    reset();
     onClose();
   };
   const handleNext = () => setStep((s) => Math.min(s + 1, 2));
@@ -77,6 +108,34 @@ export default function ReportIncidentModal({ open, onClose }) {
   const addWitness = () => setWitnesses((w) => [...w, ""]);
   const updateWitness = (i, val) =>
     setWitnesses((w) => w.map((x, idx) => (idx === i ? val : x)));
+  const removeWitness = (i) =>
+    setWitnesses((w) => w.filter((_, idx) => idx !== i));
+
+  // Each step needs its essentials before continuing
+  const canContinue = [
+    Boolean(form.type && form.client.trim() && form.dateTime),
+    Boolean(form.description.trim()),
+    true,
+  ][step];
+
+  const handleSubmit = () => {
+    const when = formatDateTime(form.dateTime);
+    onSubmit?.({
+      title: `${typeLabel(form.type)}: ${form.client.trim()}`,
+      reportedBy: CURRENT_USER,
+      time: when,
+      status: form.status.toUpperCase(),
+      type: form.type,
+      severity: severity.toUpperCase(),
+      followUp: followUp === "Yes" ? "REQUIRED" : "NONE",
+      description: form.description.trim(),
+      location: form.location.trim(),
+      witnesses: witnesses.map((w) => w.trim()).filter(Boolean),
+      immediateActions: form.immediateActions.trim(),
+      logs: [{ time: when, text: `Incident reported by ${CURRENT_USER}` }],
+    });
+    reset();
+  };
 
   return (
     <Dialog
@@ -114,7 +173,9 @@ export default function ReportIncidentModal({ open, onClose }) {
                 justifyContent: "center",
               }}
             >
-              <GppMaybeOutlinedIcon sx={{ color: "#D97706", fontSize: 22 }} />
+              <Box sx={{ color: "#D97706", display: "flex" }}>
+                <ShieldAlertIcon size={22} />
+              </Box>
             </Box>
             <Box>
               <Typography fontSize="20px" fontWeight={700} color="text.primary">
@@ -128,6 +189,7 @@ export default function ReportIncidentModal({ open, onClose }) {
           <IconButton
             size="small"
             onClick={handleClose}
+            aria-label="Close"
             sx={{ color: "#94A3B8" }}
           >
             <CloseIcon sx={{ fontSize: 20 }} />
@@ -154,18 +216,19 @@ export default function ReportIncidentModal({ open, onClose }) {
               <TextField
                 select
                 fullWidth
-                defaultValue=""
+                {...field("type")}
                 SelectProps={{ displayEmpty: true }}
+                inputProps={{ "aria-label": "Incident type" }}
                 sx={inputSx}
               >
                 <MenuItem value="" disabled>
                   Select Type
                 </MenuItem>
-                <MenuItem value="fall">Fall</MenuItem>
-                <MenuItem value="injury">Injury</MenuItem>
-                <MenuItem value="safeguarding">Safeguarding</MenuItem>
-                <MenuItem value="health">Health Deterioration</MenuItem>
-                <MenuItem value="other">Other</MenuItem>
+                {INCIDENT_TYPES.map((t) => (
+                  <MenuItem key={t.key} value={t.key}>
+                    {t.label}
+                  </MenuItem>
+                ))}
               </TextField>
             </Grid>
 
@@ -182,6 +245,8 @@ export default function ReportIncidentModal({ open, onClose }) {
               <TextField
                 fullWidth
                 placeholder="e.g. Arthur Morgan"
+                {...field("client")}
+                inputProps={{ "aria-label": "Client name" }}
                 sx={inputSx}
               />
             </Grid>
@@ -199,6 +264,8 @@ export default function ReportIncidentModal({ open, onClose }) {
               <TextField
                 fullWidth
                 type="datetime-local"
+                {...field("dateTime")}
+                inputProps={{ "aria-label": "Date and time" }}
                 InputProps={{
                   startAdornment: (
                     <CalendarTodayOutlinedIcon
@@ -227,6 +294,8 @@ export default function ReportIncidentModal({ open, onClose }) {
               <TextField
                 fullWidth
                 placeholder="e.g. Living Room"
+                {...field("location")}
+                inputProps={{ "aria-label": "Location" }}
                 InputProps={{
                   startAdornment: (
                     <LocationOnOutlinedIcon
@@ -257,8 +326,12 @@ export default function ReportIncidentModal({ open, onClose }) {
                   return (
                     <Box
                       key={level}
+                      component="button"
+                      type="button"
+                      aria-pressed={isActive}
                       onClick={() => setSeverity(level)}
                       sx={{
+                        fontFamily: "inherit",
                         flex: 1,
                         py: 1,
                         borderRadius: "10px",
@@ -302,6 +375,8 @@ export default function ReportIncidentModal({ open, onClose }) {
                 multiline
                 minRows={4}
                 placeholder="Provide a detailed account of what happened..."
+                {...field("description")}
+                inputProps={{ "aria-label": "Incident description" }}
                 sx={{
                   ...inputSx,
                   "& .MuiOutlinedInput-root": {
@@ -369,14 +444,30 @@ export default function ReportIncidentModal({ open, onClose }) {
                   sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}
                 >
                   {witnesses.map((w, i) => (
-                    <TextField
+                    <Box
                       key={i}
-                      fullWidth
-                      value={w}
-                      onChange={(e) => updateWitness(i, e.target.value)}
-                      placeholder={`Witness ${i + 1} name`}
-                      sx={inputSx}
-                    />
+                      sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                    >
+                      <TextField
+                        fullWidth
+                        autoFocus={i === witnesses.length - 1 && !w}
+                        value={w}
+                        onChange={(e) => updateWitness(i, e.target.value)}
+                        placeholder={`Witness ${i + 1} name`}
+                        inputProps={{ "aria-label": `Witness ${i + 1} name` }}
+                        sx={inputSx}
+                      />
+                      <IconButton
+                        aria-label={`Remove witness ${i + 1}`}
+                        onClick={() => removeWitness(i)}
+                        sx={{
+                          color: "#CBD5E1",
+                          "&:hover": { color: "#EF4444", bgcolor: "#FEF2F2" },
+                        }}
+                      >
+                        <DeleteOutlineIcon sx={{ fontSize: 18 }} />
+                      </IconButton>
+                    </Box>
                   ))}
                 </Box>
               )}
@@ -390,14 +481,14 @@ export default function ReportIncidentModal({ open, onClose }) {
         <Box sx={{ p: 3, backgroundColor: "#ffffff" }}>
           <Grid container spacing={2.5}>
             <Grid size={{ xs: 12 }}>
-              <Typography fontSize={"10px"} fontWeight={700} color="text.grey">
-                Immediate Actions Taken
-              </Typography>
+              <Typography sx={labelSx}>Immediate Actions Taken</Typography>
               <TextField
                 fullWidth
                 multiline
                 minRows={3}
                 placeholder="What was done immediately following the incident?"
+                {...field("immediateActions")}
+                inputProps={{ "aria-label": "Immediate actions taken" }}
                 sx={{
                   ...inputSx,
                   "& .MuiOutlinedInput-root": {
@@ -423,11 +514,18 @@ export default function ReportIncidentModal({ open, onClose }) {
               >
                 Current Status
               </Typography>
-              <TextField select fullWidth defaultValue="Open" sx={inputSx}>
-                <MenuItem value="Open">Open</MenuItem>
-                <MenuItem value="Investigating">Investigating</MenuItem>
-                <MenuItem value="Closed">Closed</MenuItem>
-                <MenuItem value="Resolved">Resolved</MenuItem>
+              <TextField
+                select
+                fullWidth
+                {...field("status")}
+                inputProps={{ "aria-label": "Current status" }}
+                sx={inputSx}
+              >
+                {STATUS_OPTIONS.map((o) => (
+                  <MenuItem key={o} value={o}>
+                    {o}
+                  </MenuItem>
+                ))}
               </TextField>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
@@ -443,8 +541,12 @@ export default function ReportIncidentModal({ open, onClose }) {
                 {FOLLOW_UP_OPTIONS.map((opt) => (
                   <Box
                     key={opt}
+                    component="button"
+                    type="button"
+                    aria-pressed={followUp === opt}
                     onClick={() => setFollowUp(opt)}
                     sx={{
+                      fontFamily: "inherit",
                       flex: 1,
                       height: "56px",
                       display: "flex",
@@ -515,6 +617,7 @@ export default function ReportIncidentModal({ open, onClose }) {
       >
         <Button
           onClick={step === 0 ? handleClose : handleBack}
+          startIcon={step === 0 ? null : <ChevronLeftIcon />}
           sx={{
             bgcolor: "#F1F5F9",
             color: "text.primary",
@@ -530,8 +633,11 @@ export default function ReportIncidentModal({ open, onClose }) {
           {step === 0 ? "Cancel" : "Back"}
         </Button>
         <Button
-          onClick={step < 2 ? handleNext : handleClose}
+          onClick={step < 2 ? handleNext : handleSubmit}
+          disabled={!canContinue}
           sx={{
+            "&.Mui-disabled": { bgcolor: "#BAE6FD", color: "#fff" },
+            "&:hover": { bgcolor: "#0284C7" },
             bgcolor: "#0EA5E9",
             color: "#fff",
             borderRadius: "16px",

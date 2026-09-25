@@ -11,15 +11,64 @@ import {
   Stack,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
-import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
-import GppMaybeOutlinedIcon from "@mui/icons-material/GppMaybeOutlined";
-import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
-import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
+import {
+  TargetIcon,
+  ClipboardListIcon,
+  ShieldAlertIcon,
+  RefreshIcon,
+  PencilIcon,
+  DownloadIcon,
+} from "../../staffOverview/LineIcons";
+import { PLAN_STATUS_DISPLAY, RISK_COLORS, TIMES_OF_DAY } from "./carePlanData";
+
+const PRIORITY_STYLES = {
+  Low: { bgcolor: "#ECFDF5", color: "#059669" },
+  Medium: { bgcolor: "#EFF6FF", color: "#2563EB" },
+  High: { bgcolor: "#FFF1F2", color: "#E11D48" },
+};
+
+const cardSx = {
+  p: 2.25,
+  borderRadius: "16px",
+  border: "1px solid #F1F5F9",
+  bgcolor: "#fff",
+  boxShadow: "0 1px 3px rgba(15,23,42,0.04)",
+};
+
+function SectionTitle({ icon, color, children }) {
+  return (
+    <Box
+      sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.75, color }}
+    >
+      {icon}
+      <Typography fontSize="14px" fontWeight={700} color="text.primary">
+        {children}
+      </Typography>
+    </Box>
+  );
+}
+
+function SmallLabel({ children }) {
+  return (
+    <Typography
+      fontSize="9px"
+      fontWeight={700}
+      color="text.grey"
+      sx={{ mb: 0.75, letterSpacing: "0.06em" }}
+    >
+      {children}
+    </Typography>
+  );
+}
 
 export default function CarePlanDetailDrawer({ open, onClose, plan }) {
   if (!plan) return null;
+
+  const status = PLAN_STATUS_DISPLAY[plan.status] || PLAN_STATUS_DISPLAY.DRAFT;
+  const routineByTime = TIMES_OF_DAY.map((time) => ({
+    time,
+    tasks: plan.routine.filter((t) => t.time === time),
+  })).filter((g) => g.tasks.length > 0);
 
   return (
     <Drawer
@@ -28,11 +77,10 @@ export default function CarePlanDetailDrawer({ open, onClose, plan }) {
       onClose={onClose}
       PaperProps={{
         sx: {
-          width: { xs: "100%", sm: 672 },
+          width: { xs: "100%", sm: 440 },
           p: 0,
-          backgroundColor: "#f8fafc",
+          backgroundColor: "#F8FAFC",
           overflow: "hidden",
-          zIndex: 1301,
         },
       }}
       sx={{ zIndex: 1301 }}
@@ -41,43 +89,49 @@ export default function CarePlanDetailDrawer({ open, onClose, plan }) {
         {/* Header */}
         <Box
           sx={{
-            p: 3,
+            px: 2.5,
+            py: 2,
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
             bgcolor: "#fff",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
             <Avatar
               sx={{
-                width: 48,
-                height: 48,
+                width: 40,
+                height: 40,
                 bgcolor: "#F1F5F9",
                 color: "text.grey",
-                fontSize: "14px",
+                fontSize: "13px",
                 fontWeight: 700,
-                borderRadius: "16px",
+                borderRadius: "12px",
               }}
             >
               {plan.initials}
             </Avatar>
             <Box>
-              <Typography fontSize="20px" fontWeight={700} color="text.primary">
+              <Typography fontSize="18px" fontWeight={700} color="text.primary">
                 {plan.name}
               </Typography>
-              <Typography fontSize="12px" color="text.grey" fontWeight={400}>
-                Care Plan Ref: CP-001
+              <Typography fontSize="11px" color="text.grey">
+                Care Plan Ref: CP-{String(plan.id).padStart(3, "0")}
               </Typography>
             </Box>
           </Box>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <IconButton size="small" sx={{ color: "text.grey" }}>
-              <EditOutlinedIcon fontSize="small" />
+          <Box sx={{ display: "flex", gap: 0.5 }}>
+            <IconButton
+              size="small"
+              aria-label="Edit care plan"
+              sx={{ color: "text.grey" }}
+            >
+              <PencilIcon size={16} />
             </IconButton>
             <IconButton
               onClick={onClose}
               size="small"
+              aria-label="Close"
               sx={{ color: "text.grey" }}
             >
               <CloseIcon fontSize="small" />
@@ -87,170 +141,124 @@ export default function CarePlanDetailDrawer({ open, onClose, plan }) {
 
         <Divider sx={{ borderColor: "#F1F5F9" }} />
 
-        {/* Content Area */}
+        {/* Content */}
         <Box
           sx={{
             flex: 1,
             overflowY: "auto",
-            p: 3,
+            p: 2,
             display: "flex",
             flexDirection: "column",
-            gap: 3,
+            gap: 2,
           }}
         >
-          {/* Status and Risk Cards */}
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <Paper
-              elevation={0}
-              sx={{
-                flex: 1,
-                p: 2,
-                borderRadius: "24px",
-                border: "1px solid #F1F5F9",
-                bgcolor: "#fff",
-              }}
-            >
-              <Typography
-                fontSize="10px"
-                fontWeight={700}
-                color="text.grey"
-                mb={1}
-              >
-                PLAN STATUS
-              </Typography>
+          <Box
+            sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}
+          >
+            <Paper elevation={0} sx={{ ...cardSx, p: 1.75 }}>
+              <SmallLabel>PLAN STATUS</SmallLabel>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <Box
                   sx={{
-                    width: 8,
-                    height: 8,
+                    width: 7,
+                    height: 7,
                     borderRadius: "50%",
-                    bgcolor: "#10B981",
+                    bgcolor: status.color,
                   }}
                 />
                 <Typography
-                  fontSize="14px"
+                  fontSize="13px"
                   fontWeight={700}
                   color="text.primary"
                 >
-                  Active
+                  {status.label}
                 </Typography>
               </Box>
             </Paper>
-            <Paper
-              elevation={0}
-              sx={{
-                flex: 1,
-                p: 2,
-                borderRadius: "24px",
-                border: "1px solid #F1F5F9",
-                bgcolor: "#fff",
-              }}
-            >
-              <Typography
-                fontSize="10px"
-                fontWeight={700}
-                color="text.grey"
-                mb={1}
+            <Paper elevation={0} sx={{ ...cardSx, p: 1.75 }}>
+              <SmallLabel>RISK LEVEL</SmallLabel>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 0.75,
+                  color: RISK_COLORS[plan.risk],
+                }}
               >
-                RISK LEVEL
-              </Typography>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <GppMaybeOutlinedIcon sx={{ color: "#D97706", fontSize: 18 }} />
+                <ShieldAlertIcon size={15} />
                 <Typography
-                  fontSize="14px"
+                  fontSize="13px"
                   fontWeight={700}
                   color="text.primary"
                 >
-                  Medium Risk
+                  {plan.risk} Risk
                 </Typography>
               </Box>
             </Paper>
           </Box>
 
-          {/* Section: Care Goals */}
-          <Paper
-            elevation={0}
-            sx={{
-              p: 2,
-              borderRadius: "24px",
-              border: "1px solid #F1F5F9",
-              bgcolor: "#fff",
-            }}
-          >
-            <Box
-              sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}
-            >
-              <FlagOutlinedIcon sx={{ color: "#2563EB", fontSize: 20 }} />
-              <Typography fontSize="16px" fontWeight={700} color="text.primary">
-                Care Goals (4)
-              </Typography>
-            </Box>
-            <Stack spacing={1.5}>
-              {[1, 2, 3, 4].map((i) => (
-                <Box key={i}>
+          <Paper elevation={0} sx={cardSx}>
+            <SectionTitle icon={<TargetIcon size={16} />} color="#2563EB">
+              Care Goals ({plan.goalsList.length})
+            </SectionTitle>
+            <Stack spacing={1}>
+              {plan.goalsList.map((goal, i) => (
+                <Box
+                  key={goal.id}
+                  sx={{
+                    display: "flex",
+                    gap: 1.25,
+                    borderRadius: "10px",
+                    border: "1px solid #F1F5F9",
+                    bgcolor: "#FCFDFE",
+                    p: 1.5,
+                  }}
+                >
                   <Box
                     sx={{
+                      width: 20,
+                      height: 20,
+                      flexShrink: 0,
+                      borderRadius: "6px",
+                      bgcolor: "#fff",
+                      border: "1px solid #F1F5F9",
+                      fontSize: "9px",
+                      fontWeight: 700,
+                      color: "#94A3B8",
                       display: "flex",
-                      gap: 2,
-                      borderRadius: "12px",
-                      border: "1px solid #F8FAFC",
-                      bgcolor: "#F8FAFC4D",
-                      p: 2,
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
+                    {i + 1}
+                  </Box>
+                  <Box>
                     <Typography
-                      fontSize="10px"
-                      fontWeight={700}
-                      color="#94A3B8"
-                      width={24}
-                      height={24}
-                      textAlign="center"
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      sx={{
-                        borderRadius: "8px",
-                        border: "1px solid #F8FAFC",
-                        bgcolor: "#FFFFFF",
-                        boxShadow:
-                          "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06)",
-                      }}
+                      fontSize="12px"
+                      color="text.primary"
+                      sx={{ mb: 0.75, lineHeight: 1.55 }}
                     >
-                      {i}
+                      {goal.text}
                     </Typography>
-                    <Box>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                       <Typography
-                        fontSize="14px"
-                        fontWeight={400}
-                        color="text.primary"
-                        sx={{ mb: 1, lineHeight: 1.5 }}
+                        fontSize="9px"
+                        fontWeight={700}
+                        color="#94A3B8"
                       >
-                        Improve mobility and independence in daily activities
-                        through consistent support and encouragement.
+                        PRIORITY:
                       </Typography>
                       <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                        sx={{
+                          ...PRIORITY_STYLES[goal.priority],
+                          px: 0.75,
+                          py: 0.1,
+                          borderRadius: "4px",
+                          fontSize: "9px",
+                          fontWeight: 700,
+                        }}
                       >
-                        <Typography
-                          fontSize="10px"
-                          fontWeight={700}
-                          color="#94A3B8"
-                        >
-                          PRIORITY:
-                        </Typography>
-                        <Box
-                          sx={{
-                            px: 1,
-                            py: 0.2,
-                            bgcolor: "#EFF6FF",
-                            color: "#2563EB",
-                            borderRadius: "4px",
-                            fontSize: "10px",
-                            fontWeight: 700,
-                          }}
-                        >
-                          Medium
-                        </Box>
+                        {goal.priority}
                       </Box>
                     </Box>
                   </Box>
@@ -259,208 +267,147 @@ export default function CarePlanDetailDrawer({ open, onClose, plan }) {
             </Stack>
           </Paper>
 
-          {/* Section: Daily Routine & Tasks */}
-          <Paper
-            elevation={0}
-            sx={{
-              p: 2.5,
-              borderRadius: "24px",
-              border: "1px solid #F1F5F9",
-              bgcolor: "#fff",
-            }}
-          >
-            <Box
-              sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}
+          <Paper elevation={0} sx={cardSx}>
+            <SectionTitle
+              icon={<ClipboardListIcon size={16} />}
+              color="#10B981"
             >
-              <ListAltOutlinedIcon sx={{ color: "#10B981", fontSize: 20 }} />
-              <Typography fontSize="16px" fontWeight={700} color="text.primary">
-                Daily Routine & Tasks (12)
-              </Typography>
-            </Box>
-            <Box>
-              {["MORNING", "LUNCH", "BEDTIME"].map((time, idx) => (
-                <Box key={time} sx={{ mt: idx === 0 ? 0 : 3 }}>
-                  <Typography
-                    fontSize="10px"
-                    fontWeight={700}
-                    color="text.grey"
-                    mb={2}
-                    sx={{ letterSpacing: "0.05em" }}
-                  >
-                    {time}
-                  </Typography>
-                  <Stack spacing={3}>
-                    {[1, 2, 3, 4].map((t) => (
+              Daily Routine & Tasks ({plan.routine.length})
+            </SectionTitle>
+            {routineByTime.map((group, idx) => (
+              <Box key={group.time} sx={{ mt: idx === 0 ? 0 : 1.75 }}>
+                <SmallLabel>{group.time.toUpperCase()}</SmallLabel>
+                <Stack spacing={0.75}>
+                  {group.tasks.map((task) => (
+                    <Box
+                      key={task.id}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        px: 1.25,
+                        py: 0.9,
+                        borderRadius: "8px",
+                        bgcolor: "#FCFDFE",
+                        border: "1px solid #F8FAFC",
+                      }}
+                    >
                       <Box
-                        key={t}
                         sx={{
                           display: "flex",
-                          justifyContent: "space-between",
                           alignItems: "center",
+                          gap: 1.25,
                         }}
                       >
                         <Box
                           sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1.5,
+                            width: 6,
+                            height: 6,
+                            borderRadius: "50%",
+                            bgcolor: "#10B981",
+                            flexShrink: 0,
                           }}
-                        >
-                          <Box
-                            sx={{
-                              width: 8,
-                              height: 8,
-                              borderRadius: "50%",
-                              bgcolor: "#10B981",
-                            }}
-                          />
-                          <Typography
-                            fontSize="14px"
-                            fontWeight={400}
-                            color="text.primary"
-                          >
-                            Personal care and grooming support
-                          </Typography>
-                        </Box>
-                        <Typography fontSize="10px" color="text.grey">
-                          Daily
+                        />
+                        <Typography fontSize="12px" color="text.primary">
+                          {task.title}
                         </Typography>
                       </Box>
-                    ))}
-                  </Stack>
-                </Box>
-              ))}
-            </Box>
+                      <Typography
+                        fontSize="9px"
+                        fontWeight={600}
+                        color="text.grey"
+                      >
+                        Daily
+                      </Typography>
+                    </Box>
+                  ))}
+                </Stack>
+              </Box>
+            ))}
           </Paper>
 
-          {/* Section: Risk Mitigation */}
-          <Paper
-            elevation={0}
-            sx={{
-              p: 2.5,
-              borderRadius: "24px",
-              border: "1px solid #F1F5F9",
-              bgcolor: "#fff",
-            }}
-          >
+          <Paper elevation={0} sx={cardSx}>
+            <SectionTitle icon={<ShieldAlertIcon size={16} />} color="#E11D48">
+              Risk Mitigation Strategies
+            </SectionTitle>
             <Box
-              sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}
-            >
-              <GppMaybeOutlinedIcon sx={{ color: "#E11D48", fontSize: 20 }} />
-              <Typography fontSize="16px" fontWeight={700} color="text.primary">
-                Risk Mitigation Strategies
-              </Typography>
-            </Box>
-            <Box
-              p={2}
-              borderRadius={"24px"}
-              border={"1px solid #FFE4E6"}
-              bgcolor={"#FFF1F24D"}
+              sx={{
+                p: 1.75,
+                borderRadius: "10px",
+                border: "1px solid #FFE4E6",
+                bgcolor: "#FFF8F8",
+              }}
             >
               <Typography
-                fontSize="14px"
+                fontSize="12px"
                 color="#475569"
                 sx={{ lineHeight: 1.7 }}
               >
-                Client has a history of falls. Ensure all walking aids are
-                within reach and the environment is clear of hazards. Carer to
-                provide standby assistance during transfers.
+                {plan.riskNotes || "No risk notes recorded."}
               </Typography>
             </Box>
           </Paper>
 
-          {/* Section: Review History */}
-          <Paper
-            elevation={0}
-            sx={{
-              p: 2,
-              borderRadius: "24px",
-              border: "1px solid #F1F5F9",
-              bgcolor: "#fff",
-            }}
-          >
-            <Box
-              sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}
-            >
-              <HistoryOutlinedIcon sx={{ color: "#8B5CF6", fontSize: 20 }} />
-              <Typography fontSize="16px" fontWeight={700} color="text.primary">
-                Review History
-              </Typography>
-            </Box>
-            <Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  mb: 1.5,
-                }}
-              >
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <Box
-                    sx={{
-                      width: 6,
-                      height: 6,
-                      borderRadius: "50%",
-                      bgcolor: "#94A3B8",
-                    }}
-                  />
-                  <Typography
-                    fontSize="12px"
-                    fontWeight={400}
-                    color="text.grey"
-                  >
-                    Last Review
-                  </Typography>
-                </Box>
-                <Typography
-                  fontSize="12px"
-                  fontWeight={700}
-                  color="text.primary"
+          <Paper elevation={0} sx={cardSx}>
+            <SectionTitle icon={<RefreshIcon size={16} />} color="#475569">
+              Review History
+            </SectionTitle>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1.25 }}>
+              {[
+                {
+                  label: "Last Review",
+                  value: plan.lastReview,
+                  dot: "#CBD5E1",
+                  color: "text.primary",
+                },
+                {
+                  label: "Next Review Due",
+                  value: plan.nextReview,
+                  dot: "#2563EB",
+                  color: "#2563EB",
+                },
+              ].map((r) => (
+                <Box
+                  key={r.label}
+                  sx={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  01 Sep 2025
-                </Typography>
-              </Box>
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <Box
-                    sx={{
-                      width: 6,
-                      height: 6,
-                      borderRadius: "50%",
-                      bgcolor: "#2563EB",
-                    }}
-                  />
-                  <Typography
-                    fontSize="12px"
-                    fontWeight={400}
-                    color="text.grey"
-                  >
-                    Next Review Due
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Box
+                      sx={{
+                        width: 5,
+                        height: 5,
+                        borderRadius: "50%",
+                        bgcolor: r.dot,
+                      }}
+                    />
+                    <Typography fontSize="11px" color="text.grey">
+                      {r.label}
+                    </Typography>
+                  </Box>
+                  <Typography fontSize="11px" fontWeight={700} color={r.color}>
+                    {r.value}
                   </Typography>
                 </Box>
-                <Typography fontSize="12px" fontWeight={700} color="#2563EB">
-                  15 Mar 2026
-                </Typography>
-              </Box>
+              ))}
             </Box>
           </Paper>
         </Box>
 
         {/* Footer */}
-        <Box sx={{ p: 3, borderTop: "1px solid #F1F5F9", bgcolor: "#fff" }}>
+        <Box sx={{ p: 2, borderTop: "1px solid #F1F5F9", bgcolor: "#fff" }}>
           <Button
             fullWidth
             variant="contained"
-            startIcon={<PictureAsPdfOutlinedIcon />}
+            startIcon={<DownloadIcon size={16} />}
             sx={{
               borderRadius: "12px",
               textTransform: "none",
               bgcolor: "#0EA5E9",
               color: "#fff",
               fontWeight: 700,
-              fontSize: "16px",
-              py: 1.5,
-              boxShadow: "none",
+              fontSize: "14px",
+              py: 1.3,
+              boxShadow: "0 8px 20px rgba(14,165,233,0.2)",
               "&:hover": { bgcolor: "#0284C7" },
             }}
           >

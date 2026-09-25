@@ -1,34 +1,84 @@
 import React from "react";
 import { Box, Typography, Grid, Paper, Button } from "@mui/material";
-import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
-import LocalCafeIcon from "@mui/icons-material/LocalCafe";
-import FastfoodIcon from "@mui/icons-material/Fastfood";
+import BreakfastDiningOutlinedIcon from "@mui/icons-material/BreakfastDiningOutlined";
+import RiceBowlOutlinedIcon from "@mui/icons-material/RiceBowlOutlined";
+import EmojiFoodBeverageOutlinedIcon from "@mui/icons-material/EmojiFoodBeverageOutlined";
+import DinnerDiningOutlinedIcon from "@mui/icons-material/DinnerDiningOutlined";
 import {
   LineChart,
   Line,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
 
 const bpData = [
-  { date: "06 Mar", sys: 110, dia: 70 },
-  { date: "07 Mar", sys: 115, dia: 75 },
-  { date: "08 Mar", sys: 122, dia: 82 },
-  { date: "09 Mar", sys: 125, dia: 80 },
-  { date: "10 Mar", sys: 118, dia: 76 },
+  { date: "06 Mar", time: "09:05 AM", sys: 118, dia: 76 },
+  { date: "07 Mar", time: "09:15 AM", sys: 122, dia: 82 },
+  { date: "08 Mar", time: "09:10 AM", sys: 120, dia: 80 },
+  { date: "09 Mar", time: "09:20 AM", sys: 124, dia: 84 },
+  { date: "10 Mar", time: "09:00 AM", sys: 121, dia: 79 },
 ];
+
+const SYS_COLOR = "#0EA5E9";
+const DIA_COLOR = "#8AC642";
+
+function BpTooltip({ active, payload }) {
+  if (!active || !payload?.length) return null;
+  const { date, time, sys, dia } = payload[0].payload;
+  return (
+    <Box
+      sx={{
+        bgcolor: "#fff",
+        borderRadius: "8px",
+        boxShadow: "0 4px 16px rgba(15,23,42,0.12)",
+        px: 1.5,
+        py: 1.25,
+      }}
+    >
+      <Typography fontSize="9px" fontWeight={600} color="text.light">
+        {date.toUpperCase()} • {time}
+      </Typography>
+      <Typography
+        fontSize="12px"
+        fontWeight={700}
+        color="text.primary"
+        my={0.5}
+      >
+        BP: {sys} / {dia}
+      </Typography>
+      <Box sx={{ display: "flex", gap: 1.5 }}>
+        {[
+          { label: "SYS", color: SYS_COLOR },
+          { label: "DIA", color: DIA_COLOR },
+        ].map((l) => (
+          <Box
+            key={l.label}
+            sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+          >
+            <Box
+              sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: l.color }}
+            />
+            <Typography fontSize="9px" fontWeight={600} color="text.secondary">
+              {l.label}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  );
+}
 
 function StatCard({ title, value, sub }) {
   return (
     <Paper
       elevation={0}
       sx={{
-        p: 2.5,
-        borderRadius: "12px",
-        border: "1px solid #47556980",
+        px: 1.5,
+        py: 1.5,
+        borderRadius: "8px",
+        border: "1px solid #0EA5E9",
         bgcolor: "#fff",
         display: "flex",
         flexDirection: "column",
@@ -37,27 +87,27 @@ function StatCard({ title, value, sub }) {
     >
       <Typography
         sx={{
-          fontSize: "10px",
+          fontSize: "9px",
           fontWeight: 700,
           textTransform: "uppercase",
-          color: "text.secondary",
+          color: "text.primary",
           letterSpacing: 0.5,
-          mb: 1,
+          mb: 0.75,
         }}
       >
         {title}
       </Typography>
       <Typography
         sx={{
-          fontSize: "24px",
+          fontSize: "14px",
           fontWeight: 700,
-          color: "text.primary",
-          lineHeight: 1.1,
+          color: "#0EA5E9",
+          lineHeight: 1.2,
         }}
       >
         {value}
       </Typography>
-      <Typography sx={{ fontSize: "12px", color: "text.secondary", mt: 0.5 }}>
+      <Typography sx={{ fontSize: "10px", color: "text.secondary", mt: 0.5 }}>
         {sub}
       </Typography>
     </Paper>
@@ -128,35 +178,36 @@ export default function ClientOverviewTab({ client }) {
                   time: "08:30 AM",
                   title: "Breakfast",
                   desc: "Oatmeal with banana and tea",
-                  icon: <LocalCafeIcon sx={{ fontSize: 16 }} />,
+                  icon: <BreakfastDiningOutlinedIcon sx={{ fontSize: 18 }} />,
                 },
                 {
                   time: "01:00 PM",
                   title: "Lunch",
                   desc: "Grilled chicken, rice, and vegetables",
-                  icon: <RestaurantMenuIcon sx={{ fontSize: 16 }} />,
+                  icon: <RiceBowlOutlinedIcon sx={{ fontSize: 18 }} />,
                 },
                 {
                   time: "04:30 PM",
                   title: "Tea Time",
                   desc: "Tea with digestive biscuits and fruit",
-                  icon: <LocalCafeIcon sx={{ fontSize: 16 }} />,
+                  icon: <EmojiFoodBeverageOutlinedIcon sx={{ fontSize: 18 }} />,
                 },
                 {
                   time: "07:30 PM",
                   title: "Dinner",
                   desc: "Vegetable soup and whole grain bread",
-                  icon: <FastfoodIcon sx={{ fontSize: 16 }} />,
+                  icon: <DinnerDiningOutlinedIcon sx={{ fontSize: 18 }} />,
                 },
               ].map((item, i) => (
                 <Box
                   key={i}
-                  sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}
+                  sx={{ display: "flex", alignItems: "center", gap: 2 }}
                 >
                   <Box
                     sx={{
                       width: 36,
                       height: 36,
+                      flexShrink: 0,
                       bgcolor: "rgba(249, 115, 22, 0.1)",
                       color: "#F97316",
                       borderRadius: "8px",
@@ -189,9 +240,11 @@ export default function ClientOverviewTab({ client }) {
                   </Box>
                   <Typography
                     sx={{
-                      fontSize: "11px",
+                      fontSize: "10px",
                       fontWeight: 700,
                       color: "text.primary",
+                      alignSelf: "flex-start",
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {item.time}
@@ -229,11 +282,6 @@ export default function ClientOverviewTab({ client }) {
                   data={bpData}
                   margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
                 >
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    vertical={false}
-                    stroke="#E2E8F0"
-                  />
                   <XAxis
                     dataKey="date"
                     axisLine={false}
@@ -245,36 +293,30 @@ export default function ClientOverviewTab({ client }) {
                     axisLine={false}
                     tickLine={false}
                     tick={{ fontSize: 10, fill: "#94A3B8", fontWeight: 600 }}
-                    domain={["dataMin - 10", "dataMax + 10"]}
+                    domain={[60, 150]}
+                    ticks={[65, 85, 105, 125, 145]}
                   />
                   <Tooltip
-                    contentStyle={{
-                      borderRadius: "8px",
-                      border: "none",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                    }}
-                    labelStyle={{
-                      fontWeight: 700,
-                      fontSize: "12px",
-                      color: "text.primary",
-                      marginBottom: "4px",
-                    }}
+                    content={<BpTooltip />}
+                    cursor={{ stroke: "#CBD5E1", strokeWidth: 1 }}
+                    defaultIndex={1}
                   />
                   <Line
                     type="monotone"
                     dataKey="sys"
-                    stroke="#0EA5E9"
-                    strokeWidth={3}
-                    dot={{ r: 4, strokeWidth: 2, fill: "#fff" }}
-                    activeDot={{ r: 6 }}
+                    stroke={SYS_COLOR}
+                    strokeWidth={2}
+                    dot={{ r: 3.5, strokeWidth: 0, fill: SYS_COLOR }}
+                    activeDot={{ r: 5, strokeWidth: 0 }}
                     name="SYS"
                   />
                   <Line
                     type="monotone"
                     dataKey="dia"
-                    stroke="#8AC642"
-                    strokeWidth={3}
-                    dot={{ r: 4, strokeWidth: 2, fill: "#fff" }}
+                    stroke={DIA_COLOR}
+                    strokeWidth={2}
+                    dot={{ r: 3.5, strokeWidth: 0, fill: DIA_COLOR }}
+                    activeDot={{ r: 5, strokeWidth: 0 }}
                     name="DIA"
                   />
                 </LineChart>
@@ -316,7 +358,7 @@ export default function ClientOverviewTab({ client }) {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "14px",
+                  fontSize: "12px",
                   color: "text.secondary",
                   lineHeight: 1.6,
                 }}
@@ -360,7 +402,7 @@ export default function ClientOverviewTab({ client }) {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: "14px",
+                  fontSize: "12px",
                   color: "text.secondary",
                   lineHeight: 1.6,
                 }}
@@ -416,7 +458,7 @@ export default function ClientOverviewTab({ client }) {
               >
                 Today, 14:00
               </Typography>
-              <Typography sx={{ fontSize: "14px", color: "text.secondary" }}>
+              <Typography sx={{ fontSize: "12px", color: "text.secondary" }}>
                 Morning Routine + Medication
               </Typography>
             </Box>

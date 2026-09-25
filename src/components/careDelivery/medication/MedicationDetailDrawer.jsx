@@ -7,9 +7,9 @@ import {
   Avatar,
   Button,
   Grid,
-  SvgIcon,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { PillIcon } from "../../staffOverview/LineIcons";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
@@ -17,23 +17,6 @@ import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import StethoscopeOutlinedIcon from "@mui/icons-material/MedicalServicesOutlined"; // Assuming MedicalServicesOutlined for Prescribed By
-
-function PillIcon(props) {
-  return (
-    <SvgIcon
-      {...props}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M10.5 20.5l-6-6a4.95 4.95 0 1 1 7-7l6 6a4.95 4.95 0 1 1-7 7z" />
-      <line x1="8.5" y1="8.5" x2="15.5" y2="15.5" />
-    </SvgIcon>
-  );
-}
 
 export default function MedicationDetailDrawer({ open, onClose, medication }) {
   if (!medication) return null;
@@ -45,7 +28,7 @@ export default function MedicationDetailDrawer({ open, onClose, medication }) {
       onClose={onClose}
       PaperProps={{
         sx: {
-          width: { xs: "100%", sm: 672 },
+          width: { xs: "100%", sm: 540 },
           bgcolor: "#F8FAFC",
           p: 0,
           zIndex: 1301,
@@ -84,7 +67,9 @@ export default function MedicationDetailDrawer({ open, onClose, medication }) {
                   boxShadow: "0px 8px 16px -4px rgba(225, 29, 72, 0.25)",
                 }}
               >
-                <PillIcon sx={{ color: "#fff", fontSize: 28 }} />
+                <Box sx={{ color: "#fff", display: "flex" }}>
+                  <PillIcon size={26} />
+                </Box>
               </Box>
               <Box>
                 <Box
@@ -128,7 +113,7 @@ export default function MedicationDetailDrawer({ open, onClose, medication }) {
                   color="#475569"
                   mb={0.5}
                 >
-                  400mg
+                  {medication.dose}
                 </Typography>
                 <Box
                   sx={{
@@ -469,7 +454,10 @@ export default function MedicationDetailDrawer({ open, onClose, medication }) {
             </Box>
             <Box sx={{ bgcolor: "#F8FAFC", borderRadius: "16px", p: 3 }}>
               <Typography fontSize="13px" color="text.light" fontStyle="italic">
-                "No special instructions provided for this medication."
+                "
+                {medication.instructions ||
+                  "No special instructions provided for this medication."}
+                "
               </Typography>
             </Box>
           </Box>

@@ -12,6 +12,7 @@ export default function StatusBadge({ status, label }) {
     ACTIVE: { bg: "#ECFDF5", color: "#059669" },
     "REVIEW REQUIRED": { bg: "#FFF1F2", color: "#E11D48" },
     DRAFT: { bg: "#F1F5F9", color: "#475569" },
+    "IN PROGRESS": { bg: "#EFF6FF", color: "#2563EB" },
     "HIGH RISK": { bg: "#FFF1F2", color: "#E11D48" },
     "MEDIUM RISK": { bg: "#FFFBEB", color: "#D97706" },
     "LOW RISK": { bg: "#ECFDF5", color: "#059669" },
@@ -22,9 +23,10 @@ export default function StatusBadge({ status, label }) {
   return (
     <Box
       sx={{
-        px: 1.5,
-        py: 0.5,
-        borderRadius: "24px",
+        px: 1,
+        py: 0.4,
+        borderRadius: "4px",
+        letterSpacing: "0.04em",
         bgcolor: config.bg,
         color: config.color,
         fontSize: "10px",

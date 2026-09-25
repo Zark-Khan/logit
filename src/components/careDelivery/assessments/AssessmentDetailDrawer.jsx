@@ -8,27 +8,73 @@ import {
   Button,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
-import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import StatusBadge from "../shared/StatusBadge";
+import {
+  FileIcon,
+  PencilIcon,
+  DownloadIcon,
+} from "../../staffOverview/LineIcons";
+import { initialsOf, refOf } from "./assessmentData";
+
+const cardSx = {
+  bgcolor: "#fff",
+  borderRadius: "16px",
+  border: "1px solid #F1F5F9",
+  boxShadow: "0 1px 3px rgba(15,23,42,0.04)",
+};
+
+const labelSx = {
+  fontSize: "9px",
+  fontWeight: 700,
+  color: "text.grey",
+  letterSpacing: "0.06em",
+};
+
+// Plain-text report so "Download Report" produces a real file without a backend
+const buildReport = (a) =>
+  [
+    `${a.title}`,
+    `Client: ${a.client}`,
+    `Ref: ${refOf(a.id)}`,
+    `Date: ${a.date}`,
+    `Assessed by: ${a.assessedBy}`,
+    `Risk level: ${a.riskLevel}`,
+    `Status: ${a.status}`,
+    `Outcome score: ${a.score}`,
+    "",
+    "Assessment details",
+    "------------------",
+    ...(a.details.length
+      ? a.details.flatMap((d, i) => [
+          `${i + 1}. ${d.question}`,
+          `   Response: ${d.answer}`,
+          ...(d.notes ? [`   Notes: ${d.notes}`] : []),
+        ])
+      : ["No details recorded."]),
+  ].join("\n");
 
 export default function AssessmentDetailDrawer({ open, onClose, assessment }) {
   if (!assessment) return null;
+
+  const handleDownload = () => {
+    const blob = new Blob([buildReport(assessment)], {
+      type: "text/plain;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${refOf(assessment.id)}-${assessment.title.replace(/\s+/g, "-")}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <Drawer
       anchor="right"
       open={open}
       onClose={onClose}
-      PaperProps={{
-        sx: {
-          width: { xs: "100%", sm: 672 },
-          bgcolor: "#fff",
-          p: 0,
-          zIndex: 1301,
-        },
-      }}
+      PaperProps={{ sx: { width: { xs: "100%", sm: 520 }, p: 0 } }}
       sx={{ zIndex: 1301 }}
     >
       <Box
@@ -42,185 +88,126 @@ export default function AssessmentDetailDrawer({ open, onClose, assessment }) {
         {/* Header */}
         <Box
           sx={{
-            p: 4,
-            pb: 3,
+            px: 2.5,
+            py: 2,
             bgcolor: "#fff",
             borderBottom: "1px solid #F1F5F9",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+            <Box
+              sx={{
+                width: 44,
+                height: 44,
+                borderRadius: "12px",
+                bgcolor: "#FAF5FF",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <AssignmentOutlinedIcon sx={{ color: "#9333EA", fontSize: 22 }} />
+            </Box>
+            <Box>
+              <Typography fontSize="18px" fontWeight={700} color="text.primary">
+                {assessment.title}
+              </Typography>
+              <Typography fontSize="11px" color="text.light">
+                {assessment.client} &bull; Ref: {refOf(assessment.id)}
+              </Typography>
+            </Box>
+          </Box>
+          <Box sx={{ display: "flex", gap: 0.5 }}>
+            <IconButton
+              size="small"
+              aria-label="Edit assessment"
+              sx={{
+                bgcolor: "#F8FAFC",
+                color: "text.grey",
+                "&:hover": { bgcolor: "#E2E8F0" },
+              }}
+            >
+              <PencilIcon size={15} />
+            </IconButton>
+            <IconButton
+              size="small"
+              onClick={onClose}
+              aria-label="Close"
+              sx={{ color: "text.grey" }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </Box>
+        </Box>
+
+        {/* Content */}
+        <Box
+          sx={{
+            flex: 1,
+            overflowY: "auto",
+            p: 2,
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
           }}
         >
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 1.5,
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <Box
-                sx={{
-                  width: 56,
-                  height: 56,
-                  borderRadius: "16px",
-                  bgcolor: "#FAF5FF", // Light purple
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <AssignmentOutlinedIcon
-                  sx={{ color: "#9333EA", fontSize: 28 }}
-                />
-              </Box>
-              <Box>
-                <Typography
-                  fontSize="20px"
-                  fontWeight={700}
-                  color="text.primary"
-                >
-                  {assessment.title}
-                </Typography>
-                <Typography fontSize="12px" color="text.light" fontWeight={400}>
-                  {assessment.client} &bull; Ref: {assessment.ref}
-                </Typography>
-              </Box>
-            </Box>
-            <Box sx={{ display: "flex", gap: 1 }}>
-              <IconButton
-                size="small"
-                sx={{
-                  bgcolor: "#F8FAFC",
-                  "&:hover": { bgcolor: "#E2E8F0" },
-                  width: 40,
-                  height: 40,
-                }}
-              >
-                <EditOutlinedIcon
-                  sx={{ fontSize: 20, color: "text.primary" }}
-                />
-              </IconButton>
-              <IconButton
-                size="small"
-                onClick={onClose}
-                sx={{ width: 40, height: 40 }}
-              >
-                <CloseIcon sx={{ fontSize: 24, color: "text.primary" }} />
-              </IconButton>
-            </Box>
-          </Box>
-        </Box>
-
-        {/* Content Area */}
-        <Box sx={{ flex: 1, overflowY: "auto", p: 4 }}>
-          {/* Stats Row */}
-          <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
-            <Box
-              sx={{
-                flex: 1,
-                bgcolor: "#fff",
-                p: 2.5,
-                borderRadius: "24px",
-                display: "flex",
-                flexDirection: "column",
-                gap: 1,
-                border: "1px solid #F1F5F9",
-              }}
-            >
-              <Typography
-                fontSize="10px"
-                fontWeight={700}
-                color="text.grey"
-                sx={{ letterSpacing: "0.05em" }}
-              >
-                DATE
-              </Typography>
-              <Typography fontSize="14px" fontWeight={700} color="text.primary">
+            <Box sx={{ ...cardSx, p: 1.75 }}>
+              <Typography sx={{ ...labelSx, mb: 0.75 }}>DATE</Typography>
+              <Typography fontSize="13px" fontWeight={700} color="text.primary">
                 {assessment.date}
               </Typography>
             </Box>
-            <Box
-              sx={{
-                flex: 1,
-                bgcolor: "#fff",
-                p: 2.5,
-                borderRadius: "24px",
-                display: "flex",
-                flexDirection: "column",
-                gap: 1,
-                alignItems: "flex-start",
-                border: "1px solid #F1F5F9",
-              }}
-            >
-              <Typography
-                fontSize="10px"
-                fontWeight={700}
-                color="text.grey"
-                sx={{ letterSpacing: "0.05em" }}
-              >
-                RISK LEVEL
-              </Typography>
-              <StatusBadge status={assessment.riskLevel} />
+            <Box sx={{ ...cardSx, p: 1.75 }}>
+              <Typography sx={{ ...labelSx, mb: 0.75 }}>RISK LEVEL</Typography>
+              <StatusBadge
+                status={assessment.riskLevel}
+                label={assessment.riskLevel.replace(" RISK", "")}
+              />
             </Box>
-            <Box
-              sx={{
-                flex: 1,
-                bgcolor: "#fff",
-                p: 2.5,
-                borderRadius: "24px",
-                display: "flex",
-                flexDirection: "column",
-                gap: 1,
-                alignItems: "flex-start",
-                border: "1px solid #F1F5F9",
-              }}
-            >
-              <Typography
-                fontSize="10px"
-                fontWeight={700}
-                color="text.grey"
-                sx={{ letterSpacing: "0.05em" }}
-              >
-                STATUS
-              </Typography>
+            <Box sx={{ ...cardSx, p: 1.75 }}>
+              <Typography sx={{ ...labelSx, mb: 0.75 }}>STATUS</Typography>
               <StatusBadge status={assessment.status} />
             </Box>
           </Box>
 
-          {/* Assessed By Row */}
           <Box
             sx={{
-              bgcolor: "#fff",
-              p: 3,
-              borderRadius: "24px",
+              ...cardSx,
+              p: 2,
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              mb: 4,
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
               <Avatar
                 sx={{
-                  width: 40,
-                  height: 40,
-                  fontSize: "14px",
+                  width: 34,
+                  height: 34,
+                  fontSize: "12px",
                   fontWeight: 700,
                   bgcolor: "#F1F5F9",
                   color: "text.primary",
                 }}
               >
-                {assessment.initials}
+                {initialsOf(assessment.assessedBy)}
               </Avatar>
               <Box>
-                <Typography
-                  fontSize="10px"
-                  fontWeight={700}
-                  color="text.grey"
-                  sx={{ letterSpacing: "0.05em", mb: 0.5 }}
-                >
+                <Typography sx={{ ...labelSx, mb: 0.25 }}>
                   ASSESSED BY
                 </Typography>
                 <Typography
-                  fontSize="14px"
+                  fontSize="13px"
                   fontWeight={700}
                   color="text.primary"
                 >
@@ -229,92 +216,88 @@ export default function AssessmentDetailDrawer({ open, onClose, assessment }) {
               </Box>
             </Box>
             <Box sx={{ textAlign: "right" }}>
-              <Typography
-                fontSize="10px"
-                fontWeight={700}
-                color="text.grey"
-                sx={{ letterSpacing: "0.05em", mb: 0.5 }}
-              >
+              <Typography sx={{ ...labelSx, mb: 0.25 }}>
                 OUTCOME SCORE
               </Typography>
-              <Typography fontSize="24px" fontWeight={700} color="#2563EB">
+              <Typography fontSize="20px" fontWeight={700} color="#2563EB">
                 {assessment.score}
               </Typography>
             </Box>
           </Box>
 
-          <Box sx={{ bgcolor: "#fff", borderRadius: "24px", p: 3, mb: 4 }}>
+          <Box sx={{ ...cardSx, p: 2.25 }}>
             <Box
-              sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 3 }}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                mb: 2,
+                color: "#A855F7",
+              }}
             >
-              <Box
-                sx={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: "12px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <AssignmentOutlinedIcon
-                  sx={{ color: "#A855F7", fontSize: 18 }}
-                />
-              </Box>
-              <Typography fontSize="16px" fontWeight={700} color="text.primary">
+              <FileIcon size={16} />
+              <Typography fontSize="14px" fontWeight={700} color="text.primary">
                 Assessment Details
               </Typography>
             </Box>
 
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-              {assessment.details && assessment.details.length > 0 ? (
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1.25 }}>
+              {assessment.details.length > 0 ? (
                 assessment.details.map((detail, index) => (
-                  <Box key={index}>
+                  <Box
+                    key={index}
+                    sx={{
+                      p: 1.75,
+                      borderRadius: "12px",
+                      bgcolor: "#FCFDFE",
+                      border: "1px solid #F1F5F9",
+                    }}
+                  >
                     <Box
                       sx={{
                         display: "flex",
                         justifyContent: "space-between",
-                        mb: 1,
+                        alignItems: "flex-start",
                         gap: 2,
+                        mb: detail.notes ? 0.75 : 0,
                       }}
                     >
                       <Typography
-                        fontSize="14px"
+                        fontSize="13px"
                         fontWeight={700}
                         color="text.primary"
                       >
                         {detail.question}
                       </Typography>
-                      <Typography
-                        fontSize="12px"
-                        fontWeight={700}
-                        color="#0EA5E9"
+                      <Box
                         sx={{
+                          fontSize: "10px",
+                          fontWeight: 700,
+                          color: "#2563EB",
                           bgcolor: "#EFF6FF",
-                          px: 2,
-                          py: 1,
-                          borderRadius: "12px",
+                          px: 1,
+                          py: 0.3,
+                          borderRadius: "6px",
                           flexShrink: 0,
                         }}
                       >
                         {detail.answer}
-                      </Typography>
+                      </Box>
                     </Box>
-                    <Typography
-                      fontSize="12px"
-                      color="text.light"
-                      fontStyle="italic"
-                    >
-                      {detail.notes}
-                    </Typography>
-                    {index < assessment.details.length - 1 && (
-                      <Box sx={{ mt: 3, height: "1px", bgcolor: "#F1F5F9" }} />
+                    {detail.notes && (
+                      <Typography
+                        fontSize="11px"
+                        color="text.light"
+                        fontStyle="italic"
+                      >
+                        "{detail.notes}"
+                      </Typography>
                     )}
                   </Box>
                 ))
               ) : (
                 <Typography fontSize="13px" color="text.light">
-                  No details available for this assessment.
+                  No details recorded for this assessment.
                 </Typography>
               )}
             </Box>
@@ -322,21 +305,22 @@ export default function AssessmentDetailDrawer({ open, onClose, assessment }) {
         </Box>
 
         {/* Footer */}
-        <Box sx={{ p: 3, borderTop: "1px solid #F1F5F9", bgcolor: "#fff" }}>
+        <Box sx={{ p: 2, borderTop: "1px solid #F1F5F9", bgcolor: "#fff" }}>
           <Button
             fullWidth
             variant="contained"
-            startIcon={<FileDownloadOutlinedIcon />}
+            onClick={handleDownload}
+            startIcon={<DownloadIcon size={16} />}
             sx={{
               borderRadius: "12px",
               bgcolor: "#0EA5E9",
               color: "#fff",
-              py: 1.5,
+              py: 1.3,
               fontWeight: 700,
               textTransform: "none",
               fontSize: "14px",
+              boxShadow: "0 8px 20px rgba(14,165,233,0.2)",
               "&:hover": { bgcolor: "#0284C7" },
-              boxShadow: "none",
             }}
           >
             Download Report
